@@ -5,7 +5,7 @@
 * Hetali
 * Nikkie
 * Satwik Gardas
-* Saurabh
+* Saurabh Verma
 
 ## What is EventHawk:
 

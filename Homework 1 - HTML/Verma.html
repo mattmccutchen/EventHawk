@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Assignment 1</title>
+    <style>
+      * { font-family: 'Open Sans', sans-serif; }
+      
+      body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+      }
+      
+      nav.header {
+        border-bottom: 1px solid #ccc;
+      }
+      
+      nav.header div.container {
+        color: #333333;
+        display: table;
+        height: 65px;
+        padding: 0 30px;
+      }
+      
+      nav.header > div.container > .header-logo {
+        color: #333333;
+        display: table-cell;
+        font-size: 27px;
+        font-weight: bold;
+        min-width: 120px;
+        text-decoration: none;
+        vertical-align: middle;
+      }
+      
+      nav.header > div.container > .options-container {
+        display: table-cell;
+        font-size: 20px;
+        line-height: 50px;
+        text-align: right;
+        vertical-align: middle;
+        width: 100%;
+      }
+      
+      nav.header > div.container > .options-container > .option {
+        display: table-cell;
+        float: right;
+        padding: 0 10px;
+        width: auto;
+      }
+      
+      div.section {
+        min-height: calc(100% - 120px);
+        margin-top: 25px;
+        width: 100%;
+      }
+      
+      div.container {
+        display: block;
+        margin: 0 auto;
+        width: 1020px;
+      }
+      
+      div.container > div.content {
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="header">
+      <div class="container">
+        <a class="header-logo" href="/">Introduction</a>
+        <div class="options-container">
+            <span class="option" href="">Assignment 1</span>
+        </div>
+      </div>
+    </nav>
+    <div ui-view="container" class="section">
+      <div class="container">
+        <div class="content">
+          <h1>Header</h1>
+          <p>Lorem ipsum dolor sit amet, et semper diceret graecis has, has accumsan delectus cu, qui iudico consequat et. Ne pri unum meliore nostrum, odio accusam corrumpit sit at. No odio elit illud est, ut nonumy expetendis mei. Nullam moderatius vel et, cu odio debitis vivendum qui, cibo epicuri perpetua cum et. Ut adolescens elaboraret sea.</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
