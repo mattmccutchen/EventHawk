@@ -4,7 +4,7 @@
 * Josh Smolinski
 * Hetali
 * Nikkie
-* Satwik
+* Satwik Gardas
 * Saurabh
 
 ## What is EventHawk:
