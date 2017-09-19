@@ -2,7 +2,7 @@
 
 ## The EventHawk Team:
 * Josh Smolinski
-* Hetali
+* Hetali shahGala
 * Nikkie
 * Satwik Gardas
 * Saurabh Verma
