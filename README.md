@@ -19,9 +19,13 @@ DEMO: https://eventhawk.herokuapp.com
 
 EventHawk will be developed using the Agile Development methodology. Information on User Stories, Tasks, Milestones, etc will be maintained on Trello and can be viewed [here](https://trello.com/b/2QY2nsVj/eventhawk). 
 
-### Frameworks
+The following technologies are used to build EventHawk:
 
-The frameworks used in the project have yet to be determined.
+| | Backend | Frontend |
+| --- | --- | --- |
+| **Languages** | Java | JavaScript, HTML, CSS |
+| **Frameworks / Libraries** |  | ReactJS, Bootstrap, Font Awesome |
+| **Other** | Tomcat |  |
 
 ## Design:
 
