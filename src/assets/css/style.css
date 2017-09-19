@@ -1,0 +1,242 @@
+html, body {
+	background-color: #ffffff;
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	width: 100%;
+}
+
+nav.header {
+    -webkit-box-shadow: 0px 3px 5px 0px rgba(170, 170, 170, 0.3);
+    -moz-box-shadow: 0px 3px 5px 0px rgba(170, 170, 170, 0.3);
+    box-shadow: 0px 3px 5px 0px rgba(170, 170, 170, 0.3);
+    background: #ffffff;
+    border-bottom: 1px solid rgba(170, 170, 170, 0.3);
+    color: #292929;
+    display: table;
+    height: 50px;
+    padding: 0 30px;
+}
+
+nav.header > .header-logo {
+	color: #333333;
+	display: table-cell;
+    min-width: 120px;
+}
+
+nav.header > .options-container {
+	display: table-cell;
+	width: 100%;
+	line-height: 50px;
+	text-align: right;
+}
+
+nav.header > .options-container > a.option {
+	color: inherit;
+	display: table-cell;
+	float: right;
+	padding: 0 10px;
+	width: auto;
+}
+
+nav.header > .options-container > a.option:hover {
+	background-color: #f5f5f5;
+	text-decoration: none;
+}
+
+body > div.global-container {
+	height: 100%;
+	width: 100%;
+}
+
+.login-container {
+	display: flex;
+	justify-content: center;
+	height: 100%;
+}
+
+.login-box {
+	align-self: center;
+	background: white;
+    padding: 10px;
+    border: 1px solid #999;
+    border-radius: 4px;
+    margin: 0 auto;
+    margin-top: -102px;
+    width: 400px;
+}
+
+body > div.global-container > .home-container {
+	display: table;
+	background-color: #ffffff;
+    border-top: 1px solid #aaa;
+    border-bottom: 1px solid #aaa;
+    margin-top: 20px;
+    padding: 20px 30px;
+    width: 100%;
+}
+
+body > div.global-container > .home-container > .search-activity {
+	display: table-cell;
+	width: 100%;
+}
+
+body > div.global-container > .home-container > .search-activity .control-box {
+	display: table;
+	width: 100%;
+}
+
+.control-box > form {
+	display: table-cell;
+	vertical-align: top;
+	width: 100%;
+}
+
+.control-box > form > input[type="text"].search {
+	border: 1px solid black;
+	border-top-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+	padding: 7px;
+	width: 100%;
+}
+
+.control-box > form > button[type="submit"] {
+	width: 100%;
+}
+
+.control-box > button.add {
+	display: table-cell;
+	min-width: 52px;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+	margin-top: 0;
+	padding: 7px;
+	border-left: 0;
+	border-color: #000
+}
+
+body > div.global-container > .home-container > .search-activity > .query-form {
+	margin-top: 30px;
+}
+
+body > div.global-container > .home-container > .search-activity > .query-form textarea {
+	min-height: 70px;
+	resize: none;
+	width: 100%;
+}
+
+body > div.global-container > .home-container > .search-activity > .posts-container-heading {
+	display: table;
+	margin: 10px auto;
+	width: 100%;
+}
+
+body > div.global-container > .home-container > .search-activity > .posts-container-heading span:nth-of-type(1) {
+	display: table-cell;
+	font-size: 18px;
+	font-weight: bold;
+	min-width: 100px;
+}
+
+body > div.global-container > .home-container > .search-activity > .posts-container-heading span:nth-of-type(2) {
+	color: #ccc;
+	display: table-cell;
+	text-align: right;
+	width: 100%;
+}
+
+.posts-container {
+	display: block;
+	width: 100%;
+}
+
+.posts-container > .post-entry {
+	border-top: 1px solid #ccc;
+	display: block;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	width: 100%;
+}
+
+.posts-container > .post-entry > .post-intro {
+	display: table;
+	width: 100%;
+}
+
+.posts-container > .post-entry > .post-intro > .post-comment-user {
+	display: table-cell;
+	width: 100%;
+}
+
+.posts-container > .post-entry > .post-intro > .post-show {
+	display: table-cell;
+	width: 20px;
+}
+
+.posts-container > .post-entry > .post-details {
+	display: block;
+	width: 100%;
+}
+
+.posts-container > .post-entry > .post-details > .comments-remarks {
+	display: block;
+	padding: 5px 0;
+	width: 100%;
+}
+
+.posts-container > .post-entry > .post-details > pre {
+	position: relative;
+}
+
+.posts-container > .post-entry > .post-details > pre > span.lang {
+	background-color: rgba(223, 223, 223, 0.5);
+	border-left: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	border-bottom-left-radius: 3px;
+	display: block;
+	font-size: 10px;
+	position: absolute;
+	right: 0;
+	top: 0;
+	padding: 3px;
+}
+
+body > div.global-container > .home-container > .activity-sidebar {
+	display: table-cell;
+	padding-left: 20px;
+	min-width: 380px;
+}
+
+body > div.global-container > .home-container > .activity-sidebar > .header-options {
+	
+	display: block;
+	font-size: 18px;
+	font-weight: bold;
+	padding-left: 5px;
+	width: 100%;
+}
+
+body > div.global-container > .home-container > .activity-sidebar > ul.list-options {
+	list-style: none;
+	padding: 5px;
+	padding-left: 0;
+}
+
+body > div.global-container > .home-container > .activity-sidebar > ul.list-options > li {
+	display: table;
+	font-size: 15px;
+	padding: 5px;
+}
+
+body > div.global-container > .home-container > .activity-sidebar > ul.list-options > li:hover {
+	background-color: #eee;
+}
+
+body > div.global-container > .home-container > .activity-sidebar > ul.list-options > li a {
+	display: table-cell;
+	width: 100%;
+}
+
+body > div.global-container > .home-container > .activity-sidebar > ul.list-options > li i {
+	font-size: 15px;
+}
