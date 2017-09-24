@@ -31,3 +31,5 @@ The following technologies are used to build EventHawk:
 ## Design:
 
 While the design has yet to be formalized, we will seek to separate the UI, Event Ranking Algorithm, and Database to make more complete use of reactive programming and testing tools.
+
+Possible D3 visualizations: [Zoomable Map](https://bl.ocks.org/mbostock/2206590), [Day/Hour heatmap](http://bl.ocks.org/tjdecke/5558084), [Collapsible Indented Tree](https://bl.ocks.org/mbostock/1093025).
