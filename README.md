@@ -6,6 +6,7 @@
 * Nikkie
 * Satwik Gardas
 * Saurabh Verma
+* Isaac Pittman
 
 ## What is EventHawk:
 
