@@ -25,7 +25,7 @@ The following technologies are used to build EventHawk:
 | | Backend | Frontend |
 | --- | --- | --- |
 | **Languages** | Java | JavaScript, HTML, CSS |
-| **Frameworks / Libraries** |  | ReactJS, Bootstrap, Font Awesome |
+| **Frameworks / Libraries** |  | ReactJS, Bootstrap, Font Awesome, Design Driven Documents (D3) |
 | **Other** | Tomcat |  |
 
 ## Design:
