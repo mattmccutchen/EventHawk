@@ -3,7 +3,6 @@
 ## The EventHawk Team:
 * Josh Smolinski
 * Hetali Shah Gala
-* Nikkie
 * Satwik Gardas
 * Saurabh Verma
 * Isaac Pittman
@@ -24,8 +23,9 @@ The following technologies are used to build EventHawk:
 
 | | Backend | Frontend |
 | --- | --- | --- |
-| **Languages** | Java | JavaScript, HTML, CSS |
-| **Frameworks / Libraries** |  | ReactJS, Bootstrap, Font Awesome, Design Driven Documents (D3) |
+| **Languages** | Ruby | JavaScript, HTML, CSS |
+| **Frameworks / Libraries** | Rails | ReactJS, Bootstrap, Font Awesome, Design Driven Documents (D3) |
+| **Database** | Mongo DB | |
 | **Other** | Tomcat |  |
 
 ## Design:
