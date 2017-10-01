@@ -28,6 +28,16 @@ The following technologies are used to build EventHawk:
 | **Database** | Mongo DB ||
 | **Other** | | NodeJS |
 
+### Local Build
+
+#### Building the Front End
+
+The frontend requires NodeJS and NPM to perform a build. To start the build, run the following in a terminal/command prompt window:
+
+ 1. Run `npm install` to install application dependencies.
+ 2. Start the server by running `npm start`.
+ 3. In a web browser, navigate to `http://localhost:3003/`.
+
 ## Design:
 
 While the design has yet to be formalized, we will seek to separate the UI, Event Ranking Algorithm, and Database to make more complete use of reactive programming and testing tools.
