@@ -10,7 +10,9 @@
 
 EventHawk is a web application that helps students promote pick-up activities that are too informal to be organized as events. Pick-up sports, video game nights, and movie marathons are great examples of things that slip through the cracks of the UML event calendar and Facebook. Using design components such as upvoting, filters, and ratings, EventHawk provides a familiar and lightweight way to showcase the dozens of small meetups already happening on campus.
 
-DEMO: https://eventhawk.herokuapp.com
+APP DEMO: https://eventhawk.herokuapp.com
+
+API DEMO: https://eventhawkapi.herokuapp.com
 
 ## Development:
 
