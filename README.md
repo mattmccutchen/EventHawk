@@ -2,7 +2,6 @@
 
 ## The EventHawk Team:
 * Josh Smolinski
-* Hetali Shah Gala
 * Satwik Gardas
 * Saurabh Verma
 * Isaac Pittman
@@ -18,6 +17,8 @@ DEMO: https://eventhawk.herokuapp.com
 ### Project Management
 
 EventHawk will be developed using the Agile Development methodology. Information on User Stories, Tasks, Milestones, etc will be maintained on Trello and can be viewed [here](https://trello.com/b/2QY2nsVj/eventhawk). 
+
+The EventHawkAPI will be tracked in a seperate repository due to Heroku constraints. All work on the API can be found [here](https://github.com/jsmo93/EventHawkAPI).
 
 The following technologies are used to build EventHawk:
 
