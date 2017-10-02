@@ -1,7 +1,11 @@
 import * as React from "react"
+import { EventList } from "../components/event-list/EventList"
 
 export const HomeView = () => (
-  <div>
-    <h1>Welcome!</h1>
-  </div>
+    <div>
+        <div>
+            <h1>Upcoming Events</h1>
+        </div>
+        <EventList />
+    </div>
 )
