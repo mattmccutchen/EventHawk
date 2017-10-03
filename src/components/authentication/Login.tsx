@@ -11,10 +11,15 @@ export class Login extends React.Component {
     }
 
     render() {
-        return <div>
+        return <div className="auth-form">
+            <h2>Sign In</h2>
             <form onSubmit={e => this.onSubmit(e)}>
-                <input type="text" placeholder="email" />
-                <input type="password" placeholder="Password" />
+                <label> Email: 
+                    <input type="text" placeholder="email" />
+                </label>
+                <label> Password:
+                    <input type="password" placeholder="Password" />
+                </label>
                 <input type="submit" value="Submit" />
             </form>
         </div>

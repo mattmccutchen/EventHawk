@@ -6,6 +6,15 @@ html, body {
 	width: 100%;
 }
 
+h2 {
+	margin: 0;
+}
+
+p {
+	line-height: normal;
+	margin: auto;
+}
+
 nav.header {
     -webkit-box-shadow: 0px 3px 5px 0px rgba(170, 170, 170, 0.3);
     -moz-box-shadow: 0px 3px 5px 0px rgba(170, 170, 170, 0.3);
@@ -31,7 +40,8 @@ nav.header > .options-container {
 	text-align: right;
 }
 
-nav.header > .options-container > a.option {
+nav.header > .options-container > a.option,
+nav.header > .options-container > div.dropdown {
 	color: inherit;
 	display: table-cell;
 	float: right;
@@ -39,9 +49,28 @@ nav.header > .options-container > a.option {
 	width: auto;
 }
 
-nav.header > .options-container > a.option:hover {
+nav.header > .options-container > div.dropdown { padding: 0; }
+
+nav.header > .options-container > div.dropdown a {
+	color: inherit;
+	display: block;
+	padding: 0 10px;
+	text-decoration: none;
+}
+
+nav.header > .options-container > a.option:hover,
+nav.header > .options-container > div.dropdown a:hover {
 	background-color: #f5f5f5;
 	text-decoration: none;
+}
+
+nav.header > .options-container > div.dropdown div.dropdown-menu {
+	color: #ccc;
+	left: auto;
+	margin-top: 3px;
+	padding: 10px;
+	right: 0;
+	width: 250px;
 }
 
 body > div.global-container {
@@ -64,6 +93,88 @@ body > div.global-container {
     margin: 0 auto;
     margin-top: -102px;
     width: 400px;
+}
+
+.auth-form h2 {
+	font-weight: 300;
+	margin-bottom: 10px;
+}
+
+.auth-form form label {
+	display: block;
+	font-weight: 400;
+	line-height: normal;
+}
+
+.auth-form form input {
+	border: 1px solid #aaa;
+	border-radius: 3px;
+	display: block;
+	line-height: normal;
+	margin: 5px 0;
+	margin-bottom: 10px;
+	outline: none;
+	padding: 10px;
+	width: 100%;
+}
+
+.auth-form form input[type="text"]:focus,
+.auth-form form input[type="password"]:focus {
+	border-color: #1D77F5;
+}
+
+.auth-form form input[type="submit"] {
+	background-color: #1279E6;
+	border-color: #1D77F5;
+    color: #FFFFFF;
+}
+
+.auth-form form input[type="submit"]:hover {
+	background-color: #0A53A0;
+}
+
+.dropdown-caret, .caret-outer, .caret-inner {
+	line-height: 20px;
+	position: absolute;
+}
+
+.dropdown-caret {
+	height: 10px;
+	left: auto;	
+	overflow-x: hidden;
+	overflow-y: hidden;
+	right: 10px;
+	top: -10px;
+	width: 18px;
+}
+
+.caret-outer, .caret-inner {
+	border-bottom-style: solid;
+	border-left-color: rgba(0, 0, 0, 0);
+	border-left-style: solid;
+	border-right-color: rgba(0, 0, 0, 0);
+	border-right-style: solid;
+	height: 0px;
+	margin-left: -1px;
+}
+
+.caret-outer {
+	border-bottom-color: #cccccc;
+	border-bottom-width: 10px;
+	border-left-width: 10px;
+	border-right-width: 10px;
+	left: 0px;
+	top: 0px;
+	width: 0px;
+}
+
+.caret-inner {
+	border-bottom-color: #ffffff;
+	border-bottom-width: 9px;
+	border-left-width: 9px;
+	border-right-width: 9px;
+	left: 1px;	
+	top: 1px;
 }
 
 body > div.global-container > .home-container {
