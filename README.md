@@ -27,7 +27,7 @@ The following technologies are used to build EventHawk:
 | | Backend | Frontend |
 | --- | --- | --- |
 | **Languages** | Ruby | TypeScript, HTML, CSS |
-| **Frameworks / Libraries** | Rails | ReactJS, Bootstrap, Font Awesome, Design Driven Documents (D3) |
+| **Frameworks / Libraries** | Rails | ReactJS, jQuery, Bootstrap, Font Awesome, Design Driven Documents (D3) |
 | **Database** | Mongo DB ||
 | **Other** | | NodeJS, webpack |
 
