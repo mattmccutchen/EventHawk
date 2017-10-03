@@ -8,17 +8,21 @@ export class Header extends React.Component {
         return <nav className="header">
             <Link to="/" className="navbar-brand header-logo">EventHawk</Link>
             <div className="options-container">
-                <div className="dropdown">
-                    <Link to="" data-toggle="dropdown" className="option" id="auth-login-dropdown">Sign In</Link>
-                    <div className="dropdown-menu" aria-labelledby="auth-login-dropdown">
-                        <div className="dropdown-caret right">
-                            <span className="caret-outer"></span>
-                            <span className="caret-inner"></span>
+                <div className="links">
+                    <input type="text" className="header-input search" placeholder="Search for events" />
+                    <input type="submit" value="" />
+                    <div className="dropdown">
+                        <Link to="" data-toggle="dropdown" className="option" id="auth-login-dropdown">Sign In</Link>
+                        <div className="dropdown-menu" aria-labelledby="auth-login-dropdown">
+                            <div className="dropdown-caret right">
+                                <span className="caret-outer"></span>
+                                <span className="caret-inner"></span>
+                            </div>
+                            <Login />
                         </div>
-                        <Login />
                     </div>
+                    <Link to="register" className="option">Sign Up</Link>
                 </div>
-                <Link to="register" className="option">Sign Up</Link>
             </div>
         </nav>
     }

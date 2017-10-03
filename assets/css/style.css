@@ -37,40 +37,68 @@ nav.header > .options-container {
 	display: table-cell;
 	width: 100%;
 	line-height: 50px;
-	text-align: right;
+	vertical-align: middle;
 }
 
-nav.header > .options-container > a.option,
-nav.header > .options-container > div.dropdown {
+nav.header > .options-container > .links {
+	align-items: center;
+	display: flex;
+	flex-flow: row;
+	justify-content: flex-end;
+}
+
+nav.header > .options-container > .links a.option,
+nav.header > .options-container > .links div.dropdown {
 	color: inherit;
 	display: table-cell;
-	float: right;
 	padding: 0 10px;
 	width: auto;
 }
 
-nav.header > .options-container > div.dropdown { padding: 0; }
+nav.header > .options-container > .links div.dropdown { padding: 0; }
 
-nav.header > .options-container > div.dropdown a {
+nav.header > .options-container > .links div.dropdown a {
 	color: inherit;
 	display: block;
 	padding: 0 10px;
 	text-decoration: none;
 }
 
-nav.header > .options-container > a.option:hover,
-nav.header > .options-container > div.dropdown a:hover {
+nav.header > .options-container > .links a.option:hover,
+nav.header > .options-container > .links div.dropdown a:hover {
 	background-color: #f5f5f5;
 	text-decoration: none;
 }
 
-nav.header > .options-container > div.dropdown div.dropdown-menu {
+nav.header > .options-container > .links div.dropdown div.dropdown-menu {
 	color: #333333;
 	left: auto;
 	margin-top: 3px;
 	padding: 10px;
 	right: 0;
 	width: 250px;
+}
+
+nav.header > .options-container > .links input[type="text"].header-input {
+	background-color: rgb(245, 245, 245);
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	height: 40px;
+	line-height: normal;
+	outline: none;
+	padding: 0 10px;
+	vertical-align: middle;
+	width: 250px;
+}
+
+nav.header > .options-container > .links input[type="submit"] {
+	background: url('/assets/images/search.png') no-repeat;
+	background-size: 20px;
+	background-position: center;
+	border: 0;
+	height: 40px;
+	margin-left: -30px;
+	width: 30px;
 }
 
 body > div.global-container {
