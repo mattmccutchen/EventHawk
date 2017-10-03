@@ -10,7 +10,7 @@ export class Header extends React.Component {
             <div className="options-container">
                 <div className="links">
                     <input type="text" className="header-input search" placeholder="Search for events" />
-                    <input type="submit" value="" />
+                    <input type="submit" className="header-search-submit" value="" />
                     <div className="dropdown">
                         <Link to="" data-toggle="dropdown" className="option" id="auth-login-dropdown">Sign In</Link>
                         <div className="dropdown-menu" aria-labelledby="auth-login-dropdown">

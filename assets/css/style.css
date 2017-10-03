@@ -81,7 +81,7 @@ nav.header > .options-container > .links div.dropdown div.dropdown-menu {
 
 nav.header > .options-container > .links input[type="text"].header-input {
 	background-color: rgb(245, 245, 245);
-	border: 1px solid #ccc;
+	border: 1px solid #cccccc;
 	border-radius: 3px;
 	height: 40px;
 	line-height: normal;
@@ -91,7 +91,11 @@ nav.header > .options-container > .links input[type="text"].header-input {
 	width: 250px;
 }
 
-nav.header > .options-container > .links input[type="submit"] {
+nav.header > .options-container > .links input[type="text"].header-input:focus {
+	border-color: #999999;
+}
+
+nav.header > .options-container > .links input[type="submit"].header-search-submit {
 	background: url('/assets/images/search.png') no-repeat;
 	background-size: 20px;
 	background-position: center;
