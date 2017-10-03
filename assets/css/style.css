@@ -65,7 +65,7 @@ nav.header > .options-container > div.dropdown a:hover {
 }
 
 nav.header > .options-container > div.dropdown div.dropdown-menu {
-	color: #ccc;
+	color: #333333;
 	left: auto;
 	margin-top: 3px;
 	padding: 10px;
