@@ -1,0 +1,39 @@
+User:
+
+signup : POST /user ->{email, name}
+login:  POST /login -> {email,password}
+return user info: GET /user/123<- {email,name,rating}
+edit user : PUT /user/123 -> {password}
+update intrest: POST/event123/vote  {user_id, up vote/down vote}
+
+
+Events: 
+
+
+create event:
+POST {user_id,date,time,capacity,category,description,location}
+
+edit event:
+PUT {user_id,date,time,capacity,category,description,location}
+
+list events:
+GET /events[?user_id | category | location|
+	<- {event_id}
+
+Single event:
+GET/events/123 <- {user_id,date,time,capacity,intrest-rating,description,location,current-capacity}
+
+user vote:
+POST/events/123/ -> {host-preparedness,matched-description, would_return}
+
+
+
+
+
+
+
+
+
+			
+
+

@@ -1,5 +1,7 @@
 import * as React from "react";
 import { Button, ListGroup, ListGroupItem, Well, Panel, Badge, Glyphicon, Grid, Row, Col } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap"
+import { Link } from "react-router-dom";
 
 
 interface State {
@@ -38,7 +40,7 @@ export class EventList extends React.Component<any, State> {
                     </ListGroupItem>
                     <Panel collapsible expanded={this.state.isEventExpanded}>
                         <Well>
-                            <div>Host: John A. Student</div>
+                            <div>Host: <Link to="/users/profile">John A. Student</Link></div>
                             <div>Description: Leeeetttttssss play ball!</div>
                         </Well>
                     </Panel>
@@ -48,6 +50,10 @@ export class EventList extends React.Component<any, State> {
                     <ListGroupItem>
                         Event 3
                     </ListGroupItem>
+
+                    <LinkContainer to="/events/create">
+                        <ListGroupItem>Create Event</ListGroupItem>
+                    </LinkContainer>
                 </ListGroup>
             </div>
         );

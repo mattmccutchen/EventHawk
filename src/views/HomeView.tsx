@@ -1,5 +1,6 @@
 import * as React from "react"
-import { EventList } from "../components/event-list/EventList"
+import { EventList } from "../components/events/EventList"
+import { Button } from "react-bootstrap"
 
 export const HomeView = () => (
     <div>
