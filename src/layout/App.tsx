@@ -1,15 +1,16 @@
-import * as React from "react"
-import { Header } from "../components/navigation/Header"
-import { Container } from "../components/Container"
-import { Switch, Route } from "react-router-dom"
+import * as React from "react";
+import { Header } from "../components/navigation/Header";
+import { Sidebar } from "../components/navigation/Sidebar";
+import { Container } from "../components/Container";
+import { Switch, Route } from "react-router-dom";
 
-import { HomeView } from "../views/HomeView"
-import { LoginView } from "../views/LoginView"
-import { CreateEventView } from "../views/CreateEventView"
-import { UserProfileView } from "../views/UserProfileView"
+import { HomeView } from "../views/HomeView";
+import { LoginView } from "../views/LoginView";
+import { CreateEventView } from "../views/CreateEventView";
+import { UserProfileView } from "../views/UserProfileView";
 
 export const Content = () => (
-    <div className="global-container">
+    <div>
         <Switch>
             <Route exact path="/" component={HomeView}/>
             <Route path="/login" component={LoginView}/>
@@ -22,6 +23,13 @@ export const Content = () => (
 export const App = () => (
     <div className="root">
         <Header />
-        <Content />
+        <div className="global-container">
+            <Sidebar type="left" />
+            <div className="content">
+                <div className="area">
+                    <Content />
+                </div>
+            </div>
+        </div>
     </div>
 );
