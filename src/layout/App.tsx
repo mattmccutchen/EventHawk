@@ -24,7 +24,7 @@ export const App = () => (
     <div className="root">
         <Header />
         <div className="global-container">
-            <Sidebar type="left" />
+            <Sidebar />
             <div className="content">
                 <div className="area">
                     <Content />
