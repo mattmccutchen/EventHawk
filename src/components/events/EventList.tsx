@@ -23,7 +23,7 @@ export class EventList extends React.Component<Props, State> {
 
     constructor(props: Props) {
         super(props);
-        
+
         this.state = { expandedEventId: null, loggedInUserId: "userA" }
     }
 
@@ -44,13 +44,21 @@ export class EventList extends React.Component<Props, State> {
         let filters = this.props.filters;
 
         return (
-                (!filters.hostUserId || filters.hostUserId === eventItem.userId) &&
-                (!filters.attendeeUserId || eventItem.attendeeIds.indexOf(filters.attendeeUserId) != -1)
-            );
+            (!filters.hostUserId || filters.hostUserId === eventItem.userId) &&
+            (!filters.attendeeUserId || eventItem.attendeeIds.indexOf(filters.attendeeUserId) != -1)
+        );
     }
 
     getListGroupItem(key: string, eventItem: EventItem) {
         if (this.applyFilter(eventItem)) {
+            let isHostedByCurrentUser = eventItem.userId === this.state.loggedInUserId;
+            let isAttendedByCurrentUser = eventItem.attendeeIds.indexOf(this.state.loggedInUserId) != -1;
+
+            // Manually calculate column width, because react-bootstrap requires width to be specified
+            let descriptionWidth = 9
+            if (isHostedByCurrentUser) descriptionWidth--;
+            if (isAttendedByCurrentUser) descriptionWidth--;
+            
             return (
                 <div>
                     <ListGroupItem key={key} onClick={() => this.handleListGroupItemClick(key)}>
@@ -59,9 +67,6 @@ export class EventList extends React.Component<Props, State> {
                                 <Col xs={1}>
                                     <Badge>13</Badge>
                                 </Col>
-                                <Col xs={8}>
-                                    My Baseball Event
-                            </Col>
                                 <Col xs={1}>
                                     <Glyphicon glyph="arrow-up" />
                                     <Glyphicon glyph="arrow-down" />
@@ -69,8 +74,14 @@ export class EventList extends React.Component<Props, State> {
                                 <Col xs={1}>
                                     <Glyphicon glyph="ok-circle" />
                                 </Col>
-                                <Col xs={1} hidden={!(eventItem.userId === this.state.loggedInUserId)}>
+                                <Col xs={descriptionWidth}>
+                                    My Baseball Event
+                                </Col>
+                                <Col xs={1} hidden={!isHostedByCurrentUser}>
                                     <Link to="/events/edit">Edit</Link>
+                                </Col>
+                                <Col xs={1} hidden={!isAttendedByCurrentUser}>
+                                    <Link to="/events/rate">Rate</Link>
                                 </Col>
                             </Row>
                         </Grid>
