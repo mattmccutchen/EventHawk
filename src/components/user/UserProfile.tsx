@@ -16,17 +16,17 @@ export class UserProfile extends React.Component {
 
                 <FormGroup>
                     <ControlLabel>Planned Events</ControlLabel>
-                    <EventList/>
+                    <EventList filters={{hostUserId: "userA"}}/>
                 </FormGroup>
                 
                 <FormGroup>
-                    <ControlLabel>Past Hosted</ControlLabel>
-                    <EventList/>
+                    <ControlLabel >Past Hosted</ControlLabel>
+                    <EventList filters={{hostUserId: "userA"}}/>
                 </FormGroup>
                 
                 <FormGroup>
                     <ControlLabel>Past Attended</ControlLabel>
-                    <EventList/>
+                    <EventList filters={{attendeeUserId: "userA"}}/>
                 </FormGroup>
             </div>
         )
