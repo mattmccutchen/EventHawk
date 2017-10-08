@@ -70,7 +70,7 @@ export class EventList extends React.Component<Props, State> {
                                     <Glyphicon glyph="ok-circle" />
                                 </Col>
                                 <Col xs={1} hidden={!(eventItem.userId === this.state.loggedInUserId)}>
-                                    <Button>Edit</Button>
+                                    <Link to="/events/edit">Edit</Link>
                                 </Col>
                             </Row>
                         </Grid>

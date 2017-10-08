@@ -15,6 +15,7 @@ export const Content = () => (
             <Route exact path="/" component={HomeView}/>
             <Route path="/login" component={LoginView}/>
             <Route path="/events/create" component={CreateEventView}/>
+            <Route path="/events/edit" component={CreateEventView}/>
             <Route path="/users/profile" component={UserProfileView}/>
         </Switch>
     </div>
