@@ -4,6 +4,7 @@ import { LinkContainer } from "react-router-bootstrap"
 import { Link } from "react-router-dom";
 import { EventItem } from "./EventItem";
 import { RateEvent } from "./RateEvent";
+import axios from "axios";
 
 
 interface State {
@@ -24,12 +25,8 @@ interface EventListFilters {
 export class EventList extends React.Component<Props, State> {
 
     componentDidMount() {
-        fetch('http://eventhawkapi.herokuapp.com/api/v1/events',{
-            method: "GET",
-            mode: "no-cors"})
-        .then(response => {
-            return response.json();
-        }).then(responseJson => {
+        axios.get('http://eventhawkapi.herokuapp.com/api/v1/events')
+        .then(responseJson => {
             console.log(responseJson);
         }).catch((error) => {
             console.error(error);
