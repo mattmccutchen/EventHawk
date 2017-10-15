@@ -9,6 +9,7 @@ import { RateEvent } from "./RateEvent";
 interface State {
     expandedEventId: string;
     loggedInUserId: string;
+    eventItems: EventItem[];
 }
 
 interface Props {
@@ -22,10 +23,22 @@ interface EventListFilters {
 
 export class EventList extends React.Component<Props, State> {
 
+    componentDidMount() {
+        fetch('http://eventhawkapi.herokuapp.com/api/v1/events',{
+            method: "GET",
+            mode: "no-cors"})
+        .then(response => {
+            return response.json();
+        }).then(responseJson => {
+            console.log(responseJson);
+        }).catch((error) => {
+            console.error(error);
+        });
+    }
     constructor(props: Props) {
         super(props);
 
-        this.state = { expandedEventId: null, loggedInUserId: "userA" }
+        this.state = { expandedEventId: null, loggedInUserId: "userA" , eventItems: [] }
     }
 
     handleListGroupItemClick(key: string) {
@@ -45,14 +58,14 @@ export class EventList extends React.Component<Props, State> {
         let filters = this.props.filters;
 
         return (
-            (!filters.hostUserId || filters.hostUserId === eventItem.userId) &&
+            (!filters.hostUserId || filters.hostUserId === eventItem.hostId) &&
             (!filters.attendeeUserId || eventItem.attendeeIds.indexOf(filters.attendeeUserId) != -1)
         );
     }
 
     getListGroupItem(key: string, eventItem: EventItem) {
         if (this.applyFilter(eventItem)) {
-            let isHostedByCurrentUser = eventItem.userId === this.state.loggedInUserId;
+            let isHostedByCurrentUser = eventItem.hostId === this.state.loggedInUserId;
             let isAttendedByCurrentUser = eventItem.attendeeIds.indexOf(this.state.loggedInUserId) != -1;
 
             // Manually calculate column width, because react-bootstrap requires width to be specified
@@ -76,7 +89,7 @@ export class EventList extends React.Component<Props, State> {
                                     <Glyphicon glyph="ok-circle" />
                                 </Col>
                                 <Col xs={descriptionWidth}>
-                                    My Baseball Event
+                                    {eventItem.name}
                                 </Col>
                                 <Col xs={1} hidden={!isHostedByCurrentUser}>
                                     <Link to="/events/edit">Edit</Link>
@@ -91,7 +104,7 @@ export class EventList extends React.Component<Props, State> {
                     <Panel collapsible expanded={this.state.expandedEventId === key}>
                         <Well>
                             <div>Host: <Link to="/users/profile">John A. Student</Link></div>
-                            <div>Description: Leeeetttttssss play ball!</div>
+                            <div>Description: {eventItem.description}</div>
                         </Well>
                     </Panel>
                 </div>
@@ -105,11 +118,12 @@ export class EventList extends React.Component<Props, State> {
         return (
             <div>
                 <ListGroup>
-                    {this.getListGroupItem("a", new EventItem("userA", ["userA"]))}
-                    {this.getListGroupItem("b", new EventItem("userB", ["userA"]))}
-                    {this.getListGroupItem("c", new EventItem("userC", ["userA"]))}
-                    {this.getListGroupItem("d", new EventItem("userD", null))}
-                    {this.getListGroupItem("e", new EventItem("userE", null))}
+                    {this.getListGroupItem("a", new EventItem("userA", ["userA"], "name", "description"))}
+                    {this.getListGroupItem("b", new EventItem("userB", ["userA"], "name", "description"))}
+                    {this.getListGroupItem("c", new EventItem("userC", ["userA"], "name", "description"))}
+                    {this.getListGroupItem("d", new EventItem("userD", null, "name", "description"))}
+                    {this.getListGroupItem("e", new EventItem("userE", null, "name", "description"))}
+                    {this.getListGroupItem("e", new EventItem("userE", null, "name", "description"))}
                 </ListGroup>
             </div>
         );

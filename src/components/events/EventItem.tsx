@@ -1,10 +1,14 @@
 export class EventItem {
-    
-    userId: string
-    attendeeIds: string[]
 
-    constructor(userId: string, attendeeIds: string[]) {
-        this.userId=userId;
+    hostId: string
+    attendeeIds: string[]
+    name: string
+    description: string
+
+    constructor(hostId: string, attendeeIds: string[], name: string, description: string) {
+        this.hostId = hostId;
         this.attendeeIds = attendeeIds ? attendeeIds : [];
+        this.name = name;
+        this.description = description;
     }
 }
