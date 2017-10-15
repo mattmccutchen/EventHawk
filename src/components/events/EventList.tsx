@@ -1,13 +1,14 @@
 import * as React from "react";
-import { Button, ListGroup, ListGroupItem, Well, Panel, Badge, Glyphicon, Grid, Row, Col } from "react-bootstrap";
+import { Popover, OverlayTrigger, Button, ListGroup, ListGroupItem, Well, Panel, Badge, Glyphicon, Grid, Row, Col } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap"
 import { Link } from "react-router-dom";
 import { EventItem } from "./EventItem";
+import { RateEvent } from "./RateEvent";
 
 
 interface State {
     expandedEventId: string;
-    loggedInUserId: string
+    loggedInUserId: string;
 }
 
 interface Props {
@@ -58,7 +59,7 @@ export class EventList extends React.Component<Props, State> {
             let descriptionWidth = 9
             if (isHostedByCurrentUser) descriptionWidth--;
             if (isAttendedByCurrentUser) descriptionWidth--;
-            
+
             return (
                 <div>
                     <ListGroupItem key={key} onClick={() => this.handleListGroupItemClick(key)}>
