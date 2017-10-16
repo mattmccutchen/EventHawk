@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import { LoginService } from "../../services/login";
+import { UserService } from "../../services/user";
 
 const mapStateToProps = (state: React.ComponentState) => ({
     state: state
@@ -17,7 +17,7 @@ export class Login extends React.Component<{}, loginState> {
 
     onSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        LoginService.performLogin(this.state.email, this.state.password);
+        UserService.performLogin(this.state.email, this.state.password);
     }
 
     render() {
