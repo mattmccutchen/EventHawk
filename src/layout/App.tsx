@@ -6,6 +6,7 @@ import { Switch, Route } from "react-router-dom";
 
 import { HomeView } from "../views/HomeView";
 import { LoginView } from "../views/LoginView";
+import { MyEventsView } from "../views/MyEventsView";
 import { CreateEventView } from "../views/CreateEventView";
 import { UserProfileView } from "../views/UserProfileView";
 import { RateEventView } from "../views/RateEventView";
@@ -15,6 +16,7 @@ export const Content = () => (
         <Switch>
             <Route exact path="/" component={HomeView} />
             <Route path="/login" component={LoginView} />
+            <Route path="/myevents" component={MyEventsView} />
             <Route path="/events/create" component={CreateEventView} />
             <Route path="/events/edit" component={CreateEventView} />
             <Route path="/events/rate" component={RateEventView} />
