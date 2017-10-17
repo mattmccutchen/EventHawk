@@ -4,7 +4,7 @@ import {configVals} from "./config";
 import axios from "axios";
 
 export class UserService {
-    static performLogin(email: String, password: String) {
+    static performLogin(email: string, password: string) {
         axios.post(configVals.apiRoot + configVals.login, {
             auth: {
                 "user_id": email,
@@ -17,7 +17,7 @@ export class UserService {
         });
     }
 
-    static getUser(id: String) {
+    static getUser(id: string) {
         axios.get(configVals.apiRoot + configVals.users + "/" + id).then(function (response) {
             return response;
         }).catch(function (error) {
