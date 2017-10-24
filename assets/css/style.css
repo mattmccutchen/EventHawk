@@ -494,7 +494,7 @@ body > div.global-container > .home-container > .activity-sidebar > ul.list-opti
 
 #side_nav_dropin {
 	background: #eeeeee;
-	height: 100%;
+	height: calc(100% + 61px);
 	list-style-type: none;
 	margin: -100px 0 0 -100px;
 	padding: 50px;

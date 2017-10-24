@@ -1,13 +1,15 @@
 import * as React from "react";
-import { Button, ListGroup, ListGroupItem, Well, Panel, Badge, Glyphicon, Grid, Row, Col } from "react-bootstrap";
+import { Popover, OverlayTrigger, Button, ListGroup, ListGroupItem, Well, Panel, Badge, Glyphicon, Grid, Row, Col } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap"
 import { Link } from "react-router-dom";
 import { EventItem } from "./EventItem";
-
+import { RateEvent } from "./RateEvent";
+import { EventService } from "../../services/events";
 
 interface State {
     expandedEventId: string;
-    loggedInUserId: string
+    loggedInUserId: string;
+    eventList: EventItem[];
 }
 
 interface Props {
@@ -24,7 +26,17 @@ export class EventList extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
-        this.state = { expandedEventId: null, loggedInUserId: "userA" }
+        this.state = { expandedEventId: null, loggedInUserId: "userA", eventList: [] }
+    }
+
+    componentWillMount() {
+        var list: EventItem[] = [];
+        EventService.getAll().then((res) => {
+            for (let event of res.data) {
+                list.push(new EventItem(event.name, event.description, "Jack", "userA", [this.state.loggedInUserId]));
+            }
+            this.setState({ eventList: list });
+        });
     }
 
     handleListGroupItemClick(key: string) {
@@ -58,7 +70,7 @@ export class EventList extends React.Component<Props, State> {
             let descriptionWidth = 9
             if (isHostedByCurrentUser) descriptionWidth--;
             if (isAttendedByCurrentUser) descriptionWidth--;
-            
+
             return (
                 <div>
                     <ListGroupItem key={key} onClick={() => this.handleListGroupItemClick(key)}>
@@ -74,9 +86,7 @@ export class EventList extends React.Component<Props, State> {
                                 <Col xs={1}>
                                     <Glyphicon glyph="ok-circle" />
                                 </Col>
-                                <Col xs={descriptionWidth}>
-                                    My Baseball Event
-                                </Col>
+                                <Col xs={descriptionWidth}>{eventItem.title}</Col>
                                 <Col xs={1} hidden={!isHostedByCurrentUser}>
                                     <Link to="/events/edit">Edit</Link>
                                 </Col>
@@ -90,7 +100,7 @@ export class EventList extends React.Component<Props, State> {
                     <Panel collapsible expanded={this.state.expandedEventId === key}>
                         <Well>
                             <div>Host: <Link to="/users/profile">John A. Student</Link></div>
-                            <div>Description: Leeeetttttssss play ball!</div>
+                            <div>{eventItem.description}</div>
                         </Well>
                     </Panel>
                 </div>
@@ -101,14 +111,11 @@ export class EventList extends React.Component<Props, State> {
     }
 
     render() {
+        var i: number = 0;
         return (
             <div>
                 <ListGroup>
-                    {this.getListGroupItem("a", new EventItem("userA", ["userA"]))}
-                    {this.getListGroupItem("b", new EventItem("userB", ["userA"]))}
-                    {this.getListGroupItem("c", new EventItem("userC", ["userA"]))}
-                    {this.getListGroupItem("d", new EventItem("userD", null))}
-                    {this.getListGroupItem("e", new EventItem("userE", null))}
+                    {this.state.eventList.map((event) => (<div>{this.getListGroupItem((i++).toString(), event)}</div>))}
                 </ListGroup>
             </div>
         );
