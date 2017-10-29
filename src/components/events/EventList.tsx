@@ -5,6 +5,9 @@ import { Link } from "react-router-dom";
 import { EventItem } from "./EventItem";
 import { RateEvent } from "./RateEvent";
 import { EventService } from "../../services/events";
+import { EventListFilterSetting } from "./EventListFilterSetting";
+import axios from "axios";
+
 
 interface State {
     expandedEventId: string;
@@ -13,12 +16,7 @@ interface State {
 }
 
 interface Props {
-    filters?: EventListFilters
-}
-
-interface EventListFilters {
-    hostUserId?: string; // Only include items hosted by this user
-    attendeeUserId?: string; // Only include items attended by this user
+    filters?: EventListFilterSetting
 }
 
 export class EventList extends React.Component<Props, State> {
@@ -33,7 +31,7 @@ export class EventList extends React.Component<Props, State> {
         var list: EventItem[] = [];
         EventService.getAll().then((res) => {
             for (let event of res.data) {
-                list.push(new EventItem(event.name, event.description, "Jack", "userA", [this.state.loggedInUserId]));
+                list.push(new EventItem(event.name, event.description, "Jack", "userA", [this.state.loggedInUserId],event.category));
             }
             this.setState({ eventList: list });
         });
@@ -56,14 +54,14 @@ export class EventList extends React.Component<Props, State> {
         let filters = this.props.filters;
 
         return (
-            (!filters.hostUserId || filters.hostUserId === eventItem.userId) &&
+            (!filters.hostUserId || filters.hostUserId === eventItem.hostId) &&
             (!filters.attendeeUserId || eventItem.attendeeIds.indexOf(filters.attendeeUserId) != -1)
         );
     }
 
     getListGroupItem(key: string, eventItem: EventItem) {
         if (this.applyFilter(eventItem)) {
-            let isHostedByCurrentUser = eventItem.userId === this.state.loggedInUserId;
+            let isHostedByCurrentUser = eventItem.hostId === this.state.loggedInUserId;
             let isAttendedByCurrentUser = eventItem.attendeeIds.indexOf(this.state.loggedInUserId) != -1;
 
             // Manually calculate column width, because react-bootstrap requires width to be specified
@@ -101,6 +99,7 @@ export class EventList extends React.Component<Props, State> {
                         <Well>
                             <div>Host: <Link to="/users/profile">John A. Student</Link></div>
                             <div>{eventItem.description}</div>
+                            <div>Category: {eventItem.category}</div>
                         </Well>
                     </Panel>
                 </div>
@@ -114,6 +113,7 @@ export class EventList extends React.Component<Props, State> {
         var i: number = 0;
         return (
             <div>
+                <Link to="/events/filter">Filter</Link>
                 <ListGroup>
                     {this.state.eventList.map((event) => (<div>{this.getListGroupItem((i++).toString(), event)}</div>))}
                 </ListGroup>
