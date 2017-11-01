@@ -7,6 +7,8 @@ import { RateEvent } from "./RateEvent";
 import { EventService } from "../../services/events";
 import { EventListFilterSetting } from "./EventListFilterSetting";
 import axios from "axios";
+import { connect } from 'react-redux';
+import { EventHawkAppState } from '../../reducers/EventHawkAppReducer'
 
 
 interface State {
@@ -19,7 +21,13 @@ interface Props {
     filters?: EventListFilterSetting
 }
 
-export class EventList extends React.Component<Props, State> {
+const mapStateToProps = (state: EventHawkAppState) => {
+    return {
+        filters: state.eventListFilterSettingState
+    }
+}
+
+class EventListPresentation extends React.Component<Props, State> {
 
     constructor(props: Props) {
         super(props);
@@ -121,3 +129,5 @@ export class EventList extends React.Component<Props, State> {
         );
     }
 }
+
+export const EventList = connect(mapStateToProps, null)(EventListPresentation);

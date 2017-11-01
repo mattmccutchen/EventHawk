@@ -52,7 +52,7 @@ export class EventListFilter extends React.Component<Props, State> {
                 <form>
                     <FormGroup>
                         <ControlLabel>Hosted by:</ControlLabel>
-                        <FormControl onChange={this.handleInputChange} type="text" />
+                        <FormControl name="hostUserId" onChange={this.handleInputChange} type="text" />
                     </FormGroup>
                     <Button onClick={this.handleFilterApplied}>Apply</Button>
                 </form>
