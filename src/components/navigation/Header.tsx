@@ -18,17 +18,8 @@ export class Header extends React.Component {
                 <div className="links">
                     <input type="text" className="header-input search" placeholder="Search for events" />
                     <input type="submit" className="header-search-submit" value="" />
-                    <div className="dropdown">
-                        <Link to="" data-toggle="dropdown" className="option" id="auth-login-dropdown">Sign In</Link>
-                        <div className="dropdown-menu" aria-labelledby="auth-login-dropdown">
-                            <div className="dropdown-caret right">
-                                <span className="caret-outer"></span>
-                                <span className="caret-inner"></span>
-                            </div>
-                            <Login />
-                        </div>
-                    </div>
-                    <Link to="register" className="option">Sign Up</Link>
+                    <Link to="login" className="option">Sign In</Link>
+                    <Link to="signup" className="option">Sign Up</Link>
                 </div>
             </div>
         </nav>

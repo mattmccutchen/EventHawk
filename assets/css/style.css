@@ -85,7 +85,7 @@ nav.header > .options-container > .links div.dropdown div.dropdown-menu {
 
 nav.header > .options-container > .links input[type="text"].header-input {
 	background-color: rgb(245, 245, 245);
-	border: 1px solid #cccccc;
+	border: 1px solid #5457b7;
 	border-radius: 3px;
 	color: #666666;
 	height: 40px;
@@ -205,6 +205,15 @@ body > div.global-container {
     margin: 0 auto;
     margin-top: -102px;
     width: 400px;
+}
+
+.auth-form {
+	background-color: #EFEFF1;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	margin: 40px auto;
+	padding: 20px;
+	width: 450px;
 }
 
 .auth-form h2 {
@@ -514,6 +523,11 @@ body > div.global-container > .home-container > .activity-sidebar > ul.list-opti
 
 #side_navbar input:checked ~ ul {
 	transform: none;
+}
+
+footer {
+	color: #aaa;
+	text-align: center;
 }
 
 @media only screen and (max-width: 768px) {
