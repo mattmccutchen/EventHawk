@@ -13,7 +13,7 @@
 * **Success Response:**
 
   * **Code:** 200 OK <br />
-    **Content:** `{ "event_id" : [integer], "event_id" : [integer], ... }`
+    **Content:** `{ [ { "event_id" : [integer] }, { "event_id" : [integer] }, ... ] }`
  
 * **Error Response:**
 
