@@ -4,7 +4,7 @@
 
 * **URL**
 
-  /events/:event_id/votes/:vote_id
+  /votes/:vote_id
 
 * **Method:**
   
@@ -13,9 +13,7 @@
 *  **URL Params**
 
    **Required:**
- 
-   `event_id=[string]`
-   
+    
    `vote_id=[string]`
  
 * **Data Params**
@@ -27,7 +25,7 @@
 * **Success Response:**
 
   * **Code:** 202 ACCEPTED <br />
-    **Content:** `{ "vote" : { "value" : [integer], "voter_id" : "[string]" } }`
+    **Content:** `{ "vote" : { "value" : [integer], "voter_id" : "[string]", "event_id" : [string] } }`
  
 * **Error Response:**
 
