@@ -14,7 +14,7 @@
 
    **Required:**
  
-   `{ "auth" : { "user_id" : "[string]", "password" : "[string]" } }`
+   `{ "auth" : { "email" : "[string]", "password" : "[string]" } }`
 
 * **Success Response:**
 
@@ -23,5 +23,5 @@
  
 * **Error Response:**
 
-  * **Code:** 401 UNAUTHORIZED <br />
+  * **Code:** 404 NOT FOUND <br />
     **Content:** `{ "error" : ["string"] }`
