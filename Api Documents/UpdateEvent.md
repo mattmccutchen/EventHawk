@@ -35,7 +35,7 @@
 * **Success Response:**
 
   * **Code:** 202 ACCEPTED <br />
-    **Content:** `{ "event" : { "name" : "[string]", "description" : "[string]", "time" : "[string]", "location" : "[string]", "current_capacity" : [integer], "total_capacity" : [integer], "interest_rating" : [integer], "category" : "[string]", "host_id" : "[string]" } }`
+    **Content:** `{ "event" : { "name" : "[string]", "description" : "[string]", "time" : "[string]", "location" : "[string]", "current_capacity" : [integer], "total_capacity" : [integer], "interest_rating" : [integer], "host_prep" : [integer], "matched_desc" : [integer], "would_ret" : [integer], "category" : "[string]", "host_id" : "[string]" } }`
  
 * **Error Response:**
 
