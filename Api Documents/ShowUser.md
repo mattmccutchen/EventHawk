@@ -19,7 +19,7 @@
 * **Success Response:**
 
   * **Code:** 200 OK <br />
-    **Content:** `{ "user" : { "first_name" : "[string]", "last_name" : "[string]", "rating" : [float], "events" : { "event_id" : "[string]", "event_id" : "[string]" } }`
+    **Content:** `{ "user" : { "first_name" : "[string]", "last_name" : "[string]", "host_prep" : [integer], "matched_desc" : [integer], "would_ret" : [integer] }`
  
 * **Error Response:**
 
