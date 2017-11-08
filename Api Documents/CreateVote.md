@@ -4,7 +4,7 @@
 
 * **URL**
 
-  /events/:id/votes
+  /votes
 
 * **Method:**
   
@@ -14,12 +14,12 @@
 
    **Required:**
  
-   `{ "vote" : { "value" : [integer] } }`
+   `{ "vote" : { "value" : [integer], "event_id" : [string] } }`
 
 * **Success Response:**
 
   * **Code:** 201 CREATED <br />
-    **Content:** `{ "vote" : { "value" : [integer], "voter_id" : "[string]" } }`
+    **Content:** `{ "vote" : { "value" : [integer], "voter_id" : "[string]", "event_id" : [string] } }`
  
 * **Error Response:**
 
