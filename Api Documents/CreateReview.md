@@ -4,7 +4,7 @@
 
 * **URL**
 
-  /events/:id/reviews
+  /reviews
 
 * **Method:**
   
@@ -14,12 +14,12 @@
 
    **Required:**
  
-   `{ "review" : { "host_prep" : [integer], "matched_desc" : [integer], "would_ret" : [integer] } }`
+   `{ "review" : { "event_id" : [string], "host_prep" : [integer], "matched_desc" : [integer], "would_ret" : [integer], "reviewer_id" : [string] } }`
 
 * **Success Response:**
 
   * **Code:** 201 CREATED <br />
-    **Content:** `{ "review" : { "reviewer_id" : "[string]", "host_prep" : [integer], "matched_desc" : [integer], "would_ret" : [integer], "review_id" : "[string]" } }`
+    **Content:** `{ "review" : { "reviewer_id" : "[string]", "host_prep" : [integer], "matched_desc" : [integer], "would_ret" : [integer], "review_id" : "[string]", "event_id" : [string] } }`
  
 * **Error Response:**
 
