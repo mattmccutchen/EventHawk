@@ -1,19 +1,17 @@
 import * as React from "react";
-import axios from "axios";
 import * as JwtDecode from "jwt-decode";
-import {configVals} from "./config";
+import axios from "axios";
+import { AxiosResponse } from "axios";
+import { configVals } from "./config";
 
 export class UserService {
-    public static performLogin(email: string, password: string): void {
-        axios.post(configVals.apiRoot + configVals.login, {
+    
+    public static async performLogin(email: string, password: string): Promise<AxiosResponse> {
+        return axios.post(configVals.apiRoot + configVals.login, {
             auth: {
                 "email": email,
                 "password": password
             }
-        }).then(response => {
-            this.saveToken(response.data.jwt);
-        }).catch(function (error) {
-            console.log(error);
         });
     }
 
@@ -31,11 +29,11 @@ export class UserService {
         return this.getUserId() != null;
     }
 
-    private static getToken(): string {
+    public static getToken(): string {
         return window.localStorage.getItem("token");
     }
 
-    private static saveToken(token: string): void {
+    public static saveToken(token: string): void {
         window.localStorage.setItem("token", token);
         this.setUserId();
     }

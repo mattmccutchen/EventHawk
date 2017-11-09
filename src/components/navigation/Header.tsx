@@ -1,7 +1,5 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import { Navbar, Nav, NavItem, MenuItem, NavDropdown } from "react-bootstrap";
-import { Login } from "../authentication/Login";
 import { DropSidebar } from "./DropSidebar"
 
 export class Header extends React.Component {
