@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 
@@ -8,6 +8,7 @@ import { Sidebar } from "../components/navigation/Sidebar";
 import { Container } from "../components/Container";
 import { Login } from "../components/authentication/Login"
 import { Register } from "../components/authentication/Register"
+
 import { Maintenance } from "../components/maintenance/Maintenance";
 
 import { HomeView } from "../views/HomeView";

@@ -9,6 +9,8 @@ import { EventListFilterSetting } from "./EventListFilterSetting";
 import axios from "axios";
 import { connect } from 'react-redux';
 import { EventHawkAppState } from '../../reducers/EventHawkAppReducer'
+import { withRouter } from 'react-router-dom'
+
 
 
 interface State {
@@ -19,6 +21,7 @@ interface State {
 
 interface Props {
     filters?: EventListFilterSetting
+    history?: { push(path: string): any }
 }
 
 const mapStateToProps = (state: EventHawkAppState) => {
@@ -36,12 +39,33 @@ class EventListPresentation extends React.Component<Props, State> {
     }
 
     componentWillMount() {
-        var list: EventItem[] = [];
-        EventService.getAll().then((res) => {
-            for (let event of res.data) {
-                list.push(new EventItem(event.name, event.description, "Jack", "userA", [this.state.loggedInUserId],event.category));
+        EventService.indexEvents().then((res) => {
+            // We're reloading the event list, so initialize it to an empty list
+            this.setState({ eventList: [] })
+            for (let eventId of res.data) {
+                EventService.showEvent(eventId).then((res) => {
+                    let list = this.state.eventList
+                    // Assume showEvent returns an array of events with exactly 0 or 1 item
+                    if (res.data.length == 1) {
+                        let event = res.data[0]
+                        let newEventItem: EventItem = {
+                            name: event.name,
+                            description: event.description,
+                            time: event.time,
+                            location: event.location,
+                            currentCapacity: event.current_capacity,
+                            totalCapacity: event.total_capacity,
+                            interestRating: event.interest_rating,
+                            category: event.category,
+                            hostId: event.host_id
+                        }
+                        list.push(newEventItem);
+                        // TODO: Currently, we re-render the entire list for each event item. Could optimize
+                        //  to only re-render the single event item.
+                        this.setState({ eventList: list });
+                    }
+                })
             }
-            this.setState({ eventList: list });
         });
     }
 
@@ -62,15 +86,16 @@ class EventListPresentation extends React.Component<Props, State> {
         let filters = this.props.filters;
 
         return (
-            (!filters.hostUserId || filters.hostUserId === eventItem.hostId) &&
-            (!filters.attendeeUserId || eventItem.attendeeIds.indexOf(filters.attendeeUserId) != -1)
+            (!filters.hostUserId || filters.hostUserId === eventItem.hostId)
         );
     }
 
     getListGroupItem(key: string, eventItem: EventItem) {
         if (this.applyFilter(eventItem)) {
             let isHostedByCurrentUser = eventItem.hostId === this.state.loggedInUserId;
-            let isAttendedByCurrentUser = eventItem.attendeeIds.indexOf(this.state.loggedInUserId) != -1;
+            // TODO: Assume the logged in user can rate every event, until API filters let us find
+            // the actual events the user attended
+            let isAttendedByCurrentUser = true
 
             // Manually calculate column width, because react-bootstrap requires width to be specified
             let descriptionWidth = 9
@@ -92,7 +117,7 @@ class EventListPresentation extends React.Component<Props, State> {
                                 <Col xs={1}>
                                     <Glyphicon glyph="ok-circle" />
                                 </Col>
-                                <Col xs={descriptionWidth}>{eventItem.title}</Col>
+                                <Col xs={descriptionWidth}>{eventItem.name}</Col>
                                 <Col xs={1} hidden={!isHostedByCurrentUser}>
                                     <Link to="/events/edit">Edit</Link>
                                 </Col>
@@ -130,4 +155,4 @@ class EventListPresentation extends React.Component<Props, State> {
     }
 }
 
-export const EventList = connect(mapStateToProps, null)(EventListPresentation);
+export const EventList = withRouter(connect(mapStateToProps, null)(EventListPresentation));

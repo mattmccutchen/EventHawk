@@ -1,7 +1,7 @@
 import * as React from "react";
 import axios from "axios";
 import * as JwtDecode from "jwt-decode";
-import {configVals} from "./config";
+import { configVals } from "./config";
 
 export class UserService {
     public static performLogin(email: string, password: string): void {
@@ -38,5 +38,12 @@ export class UserService {
     private static saveToken(token: string): void {
         window.localStorage.setItem("token", token);
         this.setUserId();
+    }
+
+    public static getAuthenticationHeader(): { headers: { Authorization: string } } {
+        return {
+            headers: { 
+                Authorization: `Bearer ${UserService.getToken()}` }
+        }
     }
 }
