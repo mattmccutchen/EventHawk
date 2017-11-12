@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 import { DropSidebar } from "./DropSidebar"
 
 export class Header extends React.Component {
@@ -23,3 +24,5 @@ export class Header extends React.Component {
         </nav>
     }
 }
+
+export default Header;

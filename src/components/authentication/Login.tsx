@@ -1,11 +1,9 @@
 import * as React from "react";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 import { Redirect } from "react-router";
 import { Link } from "react-router-dom";
 import { UserService } from "../../services/user";
-
-const mapStateToProps = (state: React.ComponentState) => ({
-    state: state
-});
 
 export interface loginState { email: string, password: string, reroute: boolean };
 

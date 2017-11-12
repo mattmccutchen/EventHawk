@@ -1,7 +1,5 @@
 import * as React from "react";
 import { Switch, Route } from "react-router-dom";
-import { Provider } from "react-redux";
-import { createStore } from "redux";
 
 import { Header } from "../components/navigation/Header";
 import { Sidebar } from "../components/navigation/Sidebar";
@@ -9,17 +7,13 @@ import { Container } from "../components/Container";
 import { Login } from "../components/authentication/Login"
 import { Register } from "../components/authentication/Register"
 import { Maintenance } from "../components/maintenance/Maintenance";
+import { EventListFilterContainer } from "../components/events/EventListFilterContainer"
 
 import { HomeView } from "../views/HomeView";
 import { MyEventsView } from "../views/MyEventsView";
 import { CreateEventView } from "../views/CreateEventView";
 import { UserProfileView } from "../views/UserProfileView";
 import { RateEventView } from "../views/RateEventView";
-import { EventListFilterContainer } from "../components/events/EventListFilterContainer"
-
-import EventHawkAppReducer from '../reducers/EventHawkAppReducer'
-
-let store = createStore(EventHawkAppReducer)
 
 const router = [
     {
@@ -95,10 +89,8 @@ export const Content = () => (
 );
 
 export const App = () => (
-    <Provider store={store}>
-        <div className="root">
-            <Header />
-            <Content />
-        </div>
-    </Provider>
+    <div className="root">
+        <Header />
+        <Content />
+    </div>
 );
