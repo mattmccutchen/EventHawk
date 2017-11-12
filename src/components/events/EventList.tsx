@@ -11,8 +11,6 @@ import { connect } from 'react-redux';
 import { EventHawkAppState } from '../../reducers/EventHawkAppReducer'
 import { withRouter } from 'react-router-dom'
 
-
-
 interface State {
     expandedEventId: string;
     loggedInUserId: string;
@@ -39,34 +37,11 @@ class EventListPresentation extends React.Component<Props, State> {
     }
 
     componentWillMount() {
-        EventService.indexEvents().then((res) => {
-            // We're reloading the event list, so initialize it to an empty list
-            this.setState({ eventList: [] })
-            for (let eventId of res.data) {
-                EventService.showEvent(eventId).then((res) => {
-                    let list = this.state.eventList
-                    // Assume showEvent returns an array of events with exactly 0 or 1 item
-                    if (res.data.length == 1) {
-                        let event = res.data[0]
-                        let newEventItem: EventItem = {
-                            name: event.name,
-                            description: event.description,
-                            time: event.time,
-                            location: event.location,
-                            currentCapacity: event.current_capacity,
-                            totalCapacity: event.total_capacity,
-                            interestRating: event.interest_rating,
-                            category: event.category,
-                            hostId: event.host_id
-                        }
-                        list.push(newEventItem);
-                        // TODO: Currently, we re-render the entire list for each event item. Could optimize
-                        //  to only re-render the single event item.
-                        this.setState({ eventList: list });
-                    }
-                })
+        EventService.getAllEventsHydrated().then(
+            (events: EventItem[]) => {
+                this.setState( { eventList: events })
             }
-        });
+        )
     }
 
     handleListGroupItemClick(key: string) {
