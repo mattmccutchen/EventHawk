@@ -9,7 +9,13 @@
 * **Method:**
   
   POST
- 
+
+* **Headers:**
+
+  `Content-Type: application/json`
+
+  `Authorization: Bearer [token]`
+
 * **Data Params**
 
    **Required:**
