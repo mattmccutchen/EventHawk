@@ -10,6 +10,7 @@ import axios from "axios";
 import { connect } from 'react-redux';
 import { EventHawkAppState } from '../../reducers/EventHawkAppReducer'
 import { withRouter } from 'react-router-dom'
+import { UserItem } from '../../services/user'
 
 interface State {
     expandedEventId: string;
@@ -37,7 +38,7 @@ class EventListPresentation extends React.Component<Props, State> {
     }
 
     componentWillMount() {
-        EventService.getAllEventsHydrated().then(
+        EventService.getAllEventItems().then(
             (events: EventItem[]) => {
                 this.setState( { eventList: events })
             }
@@ -63,6 +64,11 @@ class EventListPresentation extends React.Component<Props, State> {
         return (
             (!filters.hostUserId || filters.hostUserId === eventItem.hostId)
         );
+    }
+
+    // Returns a user's name formatted for display in the event list
+    getUserName(user: UserItem): string {
+        return user == null ? "" : user.firstName + " " + user.lastName 
     }
 
     getListGroupItem(key: string, eventItem: EventItem) {
@@ -105,7 +111,7 @@ class EventListPresentation extends React.Component<Props, State> {
 
                     <Panel collapsible expanded={this.state.expandedEventId === key}>
                         <Well>
-                            <div>Host: <Link to="/users/profile">John A. Student</Link></div>
+                            <div>Host: <Link to="/users/profile">{this.getUserName(eventItem.host)}</Link></div>
                             <div>{eventItem.description}</div>
                             <div>Category: {eventItem.category}</div>
                         </Well>

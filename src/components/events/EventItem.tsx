@@ -1,3 +1,5 @@
+import { UserItem } from "../../services/user"
+
 export interface EventItem {
     name: string
     description: string
@@ -7,6 +9,7 @@ export interface EventItem {
     category: string
     hostId: string
     id?: string
-    currentCapacity?: number
     interestRating?: number
+    currentCapacity?: number
+    host?: UserItem
 }
