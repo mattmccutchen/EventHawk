@@ -9,7 +9,13 @@
 * **Method:**
   
   PUT
- 
+
+* **Headers:**
+
+  `Content-Type: application/json`
+
+  `Authorization: Bearer [token]`
+
 *  **URL Params**
 
    **Required:**
