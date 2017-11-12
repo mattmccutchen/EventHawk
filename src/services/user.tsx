@@ -37,4 +37,11 @@ export class UserService {
         window.localStorage.setItem("token", token);
         this.setUserId();
     }
+
+    public static getAuthenticationHeader(): { headers: { Authorization: string } } {
+        return {
+            headers: { 
+                Authorization: `Bearer ${UserService.getToken()}` }
+        }
+    }
 }
