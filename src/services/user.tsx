@@ -97,16 +97,16 @@ export class UserService {
      */
     public static async getUser(id: string): Promise<UserItem> {
         let item: UserItem = null;
-        await axios.get(configVals.apiRoot + configVals.users + "/" + id, UserService.getAuthenticationHeader()).then(res => {
+        return axios.get(configVals.apiRoot + configVals.users + "/" + id, UserService.getAuthenticationHeader()).then(res => {
             if (res.data.length == 1) {
-                return item = {
+                item = {
                     id: id,
-                    firstName: res.data.first_name,
-                    lastName: res.data.last_name,
-                    email: res.data.email
+                    firstName: res.data[0].first_name,
+                    lastName: res.data[0].last_name,
+                    email: res.data[0].email
                 }
+                return item;
             }
         });
-        return null;
     }
 }

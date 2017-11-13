@@ -28,7 +28,7 @@ class HeaderComponent extends React.Component<headerProps, {}> {
             userArea = <div><Link to="login" className="option">Sign In</Link>
             <Link to="signup" className="option">Sign Up</Link></div>;
         } else {
-            userArea = <div>{`${this.props.authState.first_name} ${this.props.authState.last_name}`}</div>;
+            userArea = <div><Link to="/" className="option">{`${this.props.authState.first_name} ${this.props.authState.last_name}`}</Link></div>;
         }
 
         return <nav className="header">
