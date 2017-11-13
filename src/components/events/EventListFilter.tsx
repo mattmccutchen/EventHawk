@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ButtonToolbar, Button, Label, FormGroup, ControlLabel, FormControl } from "react-bootstrap"
+import { ButtonToolbar, Button, Label, FormGroup, ControlLabel, FormControl } from "react-bootstrap";
 import { EventListFilterSetting } from "./EventListFilterSetting";
 
 interface Props {
@@ -31,7 +31,7 @@ export class EventListFilter extends React.Component<Props, State> {
 
         this.props.onFilterApplied(newFilter);
 
-        this.props.history.push('/');
+        this.props.history.push("/");
     }
 
     handleInputChange(event: any) {

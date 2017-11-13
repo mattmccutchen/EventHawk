@@ -29,7 +29,7 @@ const router = [
         path: "/login",
         exact: false,
         sidebar: null,
-        main: () => <Login />
+        main: () => <Login history={null} />
     },
     {
         path: "/signup",

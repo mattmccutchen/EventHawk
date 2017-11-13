@@ -1,16 +1,16 @@
 import * as React from "react";
 import { Popover, OverlayTrigger, Button, ListGroup, ListGroupItem, Well, Panel, Badge, Glyphicon, Grid, Row, Col } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap"
+import { LinkContainer } from "react-router-bootstrap";
 import { Link } from "react-router-dom";
 import { EventItem } from "./EventItem";
 import { RateEvent } from "./RateEvent";
 import { EventService } from "../../services/events";
 import { EventListFilterSetting } from "./EventListFilterSetting";
 import axios from "axios";
-import { connect } from 'react-redux';
-import { EventHawkAppState } from '../../reducers/EventHawkAppReducer'
-import { withRouter } from 'react-router-dom'
-import { UserItem } from '../../services/user'
+import { connect } from "react-redux";
+import { EventHawkAppState } from "../../reducers/EventHawkAppReducer";
+import { withRouter } from "react-router-dom";
+import { UserItem } from "../../services/user";
 
 interface State {
     expandedEventId: string;

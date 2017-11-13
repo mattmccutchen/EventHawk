@@ -8,7 +8,19 @@ import { createLogger } from "redux-logger";
 import EventHawkAppReducer from "./reducers/EventHawkAppReducer";
 
 let logger = createLogger();
-let store = createStore(EventHawkAppReducer, applyMiddleware(logger));
+
+let localState: Object;
+if (localStorage.getItem("appState"))  {
+    localState = JSON.parse(localStorage.getItem('appState'));
+} else {
+    localState = {};
+}
+
+let store = createStore(EventHawkAppReducer, localState, applyMiddleware(logger));
+
+store.subscribe(() => {
+    localStorage.setItem("appState", JSON.stringify(store.getState()));
+});
 
 ReactDOM.render((
     <Provider store={store}>

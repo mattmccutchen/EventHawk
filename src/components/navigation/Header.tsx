@@ -1,15 +1,36 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { DropSidebar } from "./DropSidebar"
+import { DropSidebar } from "./DropSidebar";
+import { EventHawkAppState } from "../../reducers/EventHawkAppReducer";
+import { AuthenticationState } from "../../common/state/Auth";
 
-export class Header extends React.Component {
+interface headerProps {
+    authState?: AuthenticationState
+    history?: { push(path: string): any }
+}
+
+const mapStateToProps = (state: EventHawkAppState) => {
+    return {
+        authState: state.authState
+    }
+}
+
+class HeaderComponent extends React.Component<headerProps, {}> {
 
     constructor(props: any) {
         super(props);
     }
 
     render() {
+        let userArea: JSX.Element;
+        if (!this.props.authState.loggedIn) {
+            userArea = <div><Link to="login" className="option">Sign In</Link>
+            <Link to="signup" className="option">Sign Up</Link></div>;
+        } else {
+            userArea = <div>{`${this.props.authState.first_name} ${this.props.authState.last_name}`}</div>;
+        }
+
         return <nav className="header">
             <DropSidebar />
             <Link to="/" className="navbar-brand header-logo">EventHawk</Link>
@@ -17,12 +38,11 @@ export class Header extends React.Component {
                 <div className="links">
                     <input type="text" className="header-input search" placeholder="Search for events" />
                     <input type="submit" className="header-search-submit" value="" />
-                    <Link to="login" className="option">Sign In</Link>
-                    <Link to="signup" className="option">Sign Up</Link>
+                    {userArea}
                 </div>
             </div>
         </nav>
     }
 }
 
-export default Header;
+export const Header = withRouter(connect(mapStateToProps, null)(HeaderComponent));

@@ -33,7 +33,7 @@ export class EventService {
                 hostId: event.host_id
             }
 
-            newEventItem.host = await UserService.getUserItem(newEventItem.hostId)
+            newEventItem.host = await UserService.getUser(newEventItem.hostId)
 
             return newEventItem
         }

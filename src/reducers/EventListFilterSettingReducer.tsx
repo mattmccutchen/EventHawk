@@ -1,5 +1,5 @@
 import { EventListFilterSetting } from "../components/events/EventListFilterSetting";
-import { AnyAction } from 'redux'
+import { AnyAction } from "redux";
 
 export interface EventListFilterSettingReducerAction extends AnyAction {
     type: string,
@@ -8,7 +8,7 @@ export interface EventListFilterSettingReducerAction extends AnyAction {
 
 const EventListFilterSettingReducer = (state: EventListFilterSetting = {}, action: EventListFilterSettingReducerAction) => {
     switch (action.type) {
-        case 'NEW':
+        case "NEW":
           return action.newSetting
         default:
           return state
