@@ -2,15 +2,13 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import { UserService } from "../../services/user";
 
-const mapStateToProps = (state: React.ComponentState) => ({
-    state: state
-});
+interface registerProps {}
 
 export interface registerState { firstName: string, lastName: string, email: string, password: string };
 
 export class Register extends React.Component<{}, registerState> {
-    constructor() {
-        super();
+    constructor(props: registerProps) {
+        super(props);
         this.state = { firstName: "", lastName: "", email: "", password: "" };
         this.onSubmit = this.onSubmit.bind(this);
     }

@@ -14,8 +14,8 @@ interface loginProps {
 interface loginState { email: string, password: string };
 
 class LoginComponent extends React.Component<loginProps, loginState> {
-    constructor() {
-        super();
+    constructor(props: loginProps) {
+        super(props);
         this.state = { email: "", password: "" };
         this.onSubmit = this.onSubmit.bind(this);
     }
