@@ -31,3 +31,5 @@
 
   * **Code:** 422 UNPROCESSABLE ENTRY <br />
     **Content:** `{ "error" : ["string"] }`
+  * **Code:** 409 CONFLICT <br />
+    **Content:** `{ "review" : { "reviewer_id" : "[string]", "host_prep" : [integer], "matched_desc" : [integer], "would_ret" : [integer], "review_id" : "[string]", "event_id" : [string] } }`

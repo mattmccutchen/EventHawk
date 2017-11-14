@@ -25,3 +25,5 @@
 
   * **Code:** 422 UNPROCESSABLE ENTRY <br />
     **Content:** `{ "error" : ["string"] }`
+  * **Code:** 409 CONFLICT <br />
+    **Content:**
