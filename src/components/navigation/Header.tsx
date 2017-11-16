@@ -2,6 +2,7 @@ import * as React from "react";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { DropSidebar } from "./DropSidebar";
+import { Dropdown, dropdownItem } from "./Dropdown";
 import { EventHawkAppState } from "../../reducers/EventHawkAppReducer";
 import { AuthenticationState } from "../../common/state/Auth";
 
@@ -28,7 +29,13 @@ class HeaderComponent extends React.Component<headerProps, {}> {
             userArea = <div><Link to="login" className="option">Sign In</Link>
             <Link to="signup" className="option">Sign Up</Link></div>;
         } else {
-            userArea = <div><Link to="/" className="option">{`${this.props.authState.first_name} ${this.props.authState.last_name}`}</Link></div>;
+            let items: dropdownItem[] = 
+            [{
+                label: "Profile", link: "/user/" + this.props.authState.user_id 
+            }, {
+                label: "Sign Out", link: "/"
+            }];
+            userArea = <Dropdown className="" text={`${this.props.authState.first_name} ${this.props.authState.last_name}`} items={items}></Dropdown>;
         }
 
         return <nav className="header">

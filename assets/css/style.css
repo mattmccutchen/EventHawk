@@ -51,13 +51,56 @@ nav.header > .options-container > .links {
 	justify-content: flex-end;
 }
 
-nav.header > .options-container > .links a.option,
+nav.header > .options-container > .links .option,
 nav.header > .options-container > .links div.dropdown {
 	color: inherit;
 	display: table-cell;
 	padding: 0 10px;
 	text-decoration: none;
 	width: auto;
+}
+
+nav.header > .options-container > .links .dropdown-container {
+	position: relative;
+}
+
+nav.header > .options-container > .links .dropdown-container .dropdown-label-text {
+	
+}
+
+nav.header > .options-container > .links .dropdown-container .dropdown-content {
+	display: none;
+	position: absolute;
+}
+
+nav.header > .options-container > .links .dropdown-container .dropdown-content.open {
+	background-color: #fff;
+	border: 1px solid #ddd;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	display: block;
+	left: 0;
+	width: 100%;
+}
+
+nav.header > .options-container > .links .dropdown-container .dropdown-content .dropdown-item {
+	border-top: 1px solid #ddd;
+	line-height: normal;
+}
+
+nav.header > .options-container > .links .dropdown-container .dropdown-content .dropdown-item a {
+	display: block;
+	padding: 10px 17px;
+	text-decoration: none;
+}
+
+nav.header > .options-container > .links .dropdown-container .dropdown-content .dropdown-item a:hover {
+	background-color: #f0f0f0;
+	text-decoration: none;
+}
+
+nav.header > .options-container > .links .dropdown-container .dropdown-content .dropdown-item:first-of-type {
+	border: 0;
 }
 
 nav.header > .options-container > .links div.dropdown { padding: 0; }
@@ -69,7 +112,7 @@ nav.header > .options-container > .links div.dropdown a {
 	text-decoration: none;
 }
 
-nav.header > .options-container > .links a.option:hover,
+nav.header > .options-container > .links .option:hover,
 nav.header > .options-container > .links div.dropdown a:hover {
 	background-color: #4d5480;
 	text-decoration: none;
