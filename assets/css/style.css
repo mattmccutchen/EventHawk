@@ -64,10 +64,6 @@ nav.header > .options-container > .links .dropdown-container {
 	position: relative;
 }
 
-nav.header > .options-container > .links .dropdown-container .dropdown-label-text {
-	
-}
-
 nav.header > .options-container > .links .dropdown-container .dropdown-content {
 	display: none;
 	position: absolute;

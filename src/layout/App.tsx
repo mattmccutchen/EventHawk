@@ -6,11 +6,13 @@ import { createStore } from "redux";
 import { Header } from "../components/navigation/Header";
 import { Sidebar } from "../components/navigation/Sidebar";
 import { Container } from "../components/Container";
-import { Login } from "../components/authentication/Login"
-import { Register } from "../components/authentication/Register"
+import { Login } from "../components/authentication/Login";
+import { Logout } from "../components/authentication/Logout";
+import { Register } from "../components/authentication/Register";
 
+import { UserService } from "../services/user";
 import { Maintenance } from "../components/maintenance/Maintenance";
-import { EventListFilterContainer } from "../components/events/EventListFilterContainer"
+import { EventListFilterContainer } from "../components/events/EventListFilterContainer";
 
 import { HomeView } from "../views/HomeView";
 import { MyEventsView } from "../views/MyEventsView";
@@ -62,16 +64,22 @@ const router = [
         main: () => <RateEventView />
     },
     {
-        path: "/users/profile",
+        path: "/events/filter",
+        exact: false,
+        sidebar: () => <Sidebar event={null} />,
+        main: () => <EventListFilterContainer history={null} />
+    },
+    {
+        path: "/user/:id",
         exact: false,
         sidebar: () => <Sidebar event={null} />,
         main: () => <UserProfileView />
     },
     {
-        path: "/events/filter",
+        path: "/user/logout",
         exact: false,
-        sidebar: () => <Sidebar event={null} />,
-        main: () => <EventListFilterContainer history={null} />
+        sidebar: null,
+        main: () => <Logout history={null} />
     }
 ];
 

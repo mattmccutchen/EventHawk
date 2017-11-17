@@ -1,11 +1,19 @@
-import * as React from "react"
-import { EventList } from "../components/events/EventList"
+import * as React from "react";
+import { UserService } from "../services/user";
+import { EventList } from "../components/events/EventList";
 
-export const HomeView = () => (
-    <div>
-        <div>
-            <h1>Upcoming Events</h1>
+export class HomeView extends React.Component {
+
+    constructor(props: any) {
+        super(props);
+    }
+
+    render() {
+        return <div>
+            <div>
+                <h1>Upcoming Events</h1>
+            </div>
+            <EventList />
         </div>
-        <EventList />
-    </div>
-)
+    }
+}

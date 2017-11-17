@@ -35,6 +35,15 @@ export class UserService {
     }
 
     /**
+     * Logout currently logged-in user
+     */
+    public static performLogOut(): void {
+        window.localStorage.removeItem("user_id");
+        window.localStorage.removeItem("token");
+        window.localStorage.removeItem("appState");
+    }
+
+    /**
      * Get ID of currently logged-in user.
      * @returns         ID of currently logged-in user
      */

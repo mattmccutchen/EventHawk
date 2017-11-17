@@ -33,7 +33,7 @@ class HeaderComponent extends React.Component<headerProps, {}> {
             [{
                 label: "Profile", link: "/user/" + this.props.authState.user_id 
             }, {
-                label: "Sign Out", link: "/"
+                label: "Sign Out", link: "/user/logout"
             }];
             userArea = <Dropdown className="" text={`${this.props.authState.first_name} ${this.props.authState.last_name}`} items={items}></Dropdown>;
         }
