@@ -19,7 +19,7 @@
 * **Success Response:**
 
   * **Code:** 201 CREATED <br />
-    **Content:** `{ "user" : { "first_name" : "[string]", "last_name" : "[string]", "email" : "[string]", "user_id" : "[string]" } }`
+    **Content:** `{ "user" : { "first_name" : "[string]", "last_name" : "[string]", "email" : "[string]", "user_id" : "[string]", "is_active" : "true" } }`
  
 * **Error Response:**
 

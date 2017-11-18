@@ -4,7 +4,7 @@
 
 * **URL**
 
-  /reviews/:review_id
+  /reviews/:id
 
 * **Method:**
   
@@ -14,12 +14,12 @@
 
    **Required:**
     
-   `review_id=[string]`
+   `id=[string]`
 
 * **Success Response:**
 
   * **Code:** 200 OK <br />
-    **Content:** `{ "review" : { "reviewer_id" : "[string]", "host_prep" : [integer], "matched_desc" : [integer], "would_ret" : [integer], "review_id" : [string], "event_id" : [string] } }`
+    **Content:** `{ "review" : { "reviewer_id" : "[string]", "host_prep" : [integer], "matched_desc" : [integer], "would_ret" : [integer], "review_id" : "[string]", "event_id" : [string], "is_active" : "true" } }`
  
 * **Error Response:**
 

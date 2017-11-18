@@ -19,7 +19,7 @@
 * **Success Response:**
 
   * **Code:** 200 OK <br />
-    **Content:** `[ { "event" : { "name" : "[string]", "description" : "[string]", "time" : "[string]", "location" : "[string]", "current_capacity" : [integer], "total_capacity" : [integer], "interest_rating" : [integer], "category" : "[string]", "host_id" : "[string]" } } ]`
+    **Content:** `{ "event" : { "name" : "[string]", "description" : "[string]", "time" : "[string]", "location" : "[string]", "total_capacity" : [integer], "category" : "[string]", "host_id" : "[string]", "event_id" : "[string]", "_current_capacity" : "[integer]", "_interest_raing" : "[integer]", "_review_matched_desc" : [integer], "_review_host_prep" : "[integer], "_review_would_ret" : "[integer], "_my_vote" : "[string]", "_my_review" : "[string]", "_my_ticket" : "[string]" } }`
     
     An array containing exactly 0 or 1 item.
  

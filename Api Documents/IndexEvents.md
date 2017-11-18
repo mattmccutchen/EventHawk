@@ -9,6 +9,14 @@
 * **Method:**
   
   GET
+  
+*  **URL Params**
+
+	**Required:**
+
+	`category=[string]`
+	`hostedBy=[string]`
+	`attendedBy=[string]`
 
 * **Success Response:**
 

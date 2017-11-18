@@ -1,10 +1,10 @@
-**Update User**
+**Update Ticket**
 ----
-  Update a single EventHawk user.
+  Update a single EventHawk event ticket.
 
 * **URL**
 
-  /users/:id
+  /votes/:id
 
 * **Method:**
   
@@ -19,24 +19,19 @@
 *  **URL Params**
 
    **Required:**
- 
+    
    `id=[string]`
  
 * **Data Params**
 
    **Required:**
  
-   `{ "user" : { <one_or_more_optional> } }`
-   
-   **Optional:**
-   
-   `{ "first_name" : "[string]" }` <br/>
-   `{ "last_name" : "[string]" }`
+   `{ "ticket" : { "attending" : [boolean] } }`
 
 * **Success Response:**
 
   * **Code:** 202 ACCEPTED <br />
-    **Content:** `{ "user" : { "first_name" : "[string]", "last_name" : "[string]", "host_prep" : [integer], "matched_desc" : [integer], "would_ret" : [integer] }`
+    **Content:** `{ "ticket" : { "attending" : [boolean], "attendee_id" : "[string]", "event_id" : [string], "ticket_id" : [string], "is_active" : "true" } }`
  
 * **Error Response:**
 

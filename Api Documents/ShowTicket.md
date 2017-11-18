@@ -1,10 +1,10 @@
-**Show User**
+**Show Ticket**
 ----
-  Returns JSON data about a single EventHawk user
+  Returns JSON data about a single EventHawk event ticket.
 
 * **URL**
 
-  /users/:id
+  /ticket/:id
 
 * **Method:**
   
@@ -13,13 +13,13 @@
 *  **URL Params**
 
    **Required:**
- 
+    
    `id=[string]`
 
 * **Success Response:**
 
   * **Code:** 200 OK <br />
-    **Content:** `{ "user" : { "first_name" : "[string]", "last_name" : "[string]", "email" : "[string]", "is_active" : "true" }`
+    **Content:** `{ "ticket" : { "attending" : [boolean], "attendee_id" : "[string]", "event_id" : [string], "ticket_id" : [string], "is_active" : "true" } }`
  
 * **Error Response:**
 
