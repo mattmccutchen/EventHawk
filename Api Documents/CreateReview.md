@@ -20,7 +20,7 @@
 
    **Required:**
  
-   `{ "review" : { "event_id" : [string], "host_prep" : [integer], "matched_desc" : [integer], "would_ret" : [integer], "reviewer_id" : [string] } }`
+   `{ "review" : { "event_id" : [string], "host_prep" : [integer], "matched_desc" : [integer], "would_ret" : [integer] } }`
 
 * **Success Response:**
 

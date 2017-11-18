@@ -20,7 +20,7 @@
 
    **Required:**
  
-   `{ "vote" : { "value" : [integer], "event_id" : [string], "voter_id" : [string] } }`
+   `{ "vote" : { "value" : [integer], "event_id" : [string] } }`
 
 * **Success Response:**
 

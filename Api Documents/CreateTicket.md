@@ -20,7 +20,7 @@
 
    **Required:**
  
-   `{ "ticket" : { "attending" : [boolean], "event_id" : [string], "attendee_id" : [string] } }`
+   `{ "ticket" : { "attending" : [boolean], "event_id" : [string] } }`
 
 * **Success Response:**
 
