@@ -107,12 +107,12 @@ export class UserService {
     public static async getUser(id: string): Promise<UserItem> {
         let item: UserItem = null;
         return axios.get(configVals.apiRoot + configVals.users + "/" + id, UserService.getAuthenticationHeader()).then(res => {
-            if (res.data.length == 1) {
+            if (res.status === 200) {
                 item = {
                     id: id,
-                    firstName: res.data[0].first_name,
-                    lastName: res.data[0].last_name,
-                    email: res.data[0].email
+                    firstName: res.data.first_name,
+                    lastName: res.data.last_name,
+                    email: res.data.email
                 }
                 return item;
             }
