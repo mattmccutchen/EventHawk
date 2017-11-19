@@ -3,6 +3,7 @@ import * as JwtDecode from "jwt-decode";
 import axios from "axios";
 import { AxiosResponse } from "axios";
 import { configVals } from "./config";
+import { InvalidIdError } from "./exceptions";
 
 interface authorizationHeader {
     headers: {
@@ -106,16 +107,27 @@ export class UserService {
      */
     public static async getUser(id: string): Promise<UserItem> {
         let item: UserItem = null;
-        return axios.get(configVals.apiRoot + configVals.users + "/" + id, UserService.getAuthenticationHeader()).then(res => {
-            if (res.status === 200) {
-                item = {
-                    id: id,
-                    firstName: res.data.first_name,
-                    lastName: res.data.last_name,
-                    email: res.data.email
-                }
-                return item;
+
+        let response: AxiosResponse
+
+        try {
+            response = await axios.get(configVals.apiRoot + configVals.users + "/" + id, UserService.getAuthenticationHeader())
+        } catch (e) {
+            if (e.response && e.response.status === 404) {
+                throw new InvalidIdError(id);
+            } else {
+                throw e;
             }
-        });
+        }
+
+        if (response.status === 200) {
+            item = {
+                id: id,
+                firstName: response.data.first_name,
+                lastName: response.data.last_name,
+                email: response.data.email
+            }
+            return item;
+        }
     }
 }

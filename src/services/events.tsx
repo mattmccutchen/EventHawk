@@ -5,6 +5,7 @@ import axios from "axios";
 import { AxiosResponse } from "axios";
 import { UserService } from "./user"
 import { EventItem } from "../components/events/EventItem"
+import { InvalidIdError } from "./exceptions";
 
 export class EventService {
     public static async indexEvents(): Promise<AxiosResponse> {
@@ -33,7 +34,16 @@ export class EventService {
                 hostId: event.host_id
             }
 
-            newEventItem.host = await UserService.getUser(newEventItem.hostId)
+            try {
+                newEventItem.host = await UserService.getUser(newEventItem.hostId)
+            } catch (e) {
+                if (e instanceof InvalidIdError) {
+                    console.error("Ignoring invalid hostId when populating event list. hostId was: " + e.id)
+                    newEventItem.host = null;
+                } else {
+                    throw e;
+                }
+            }
 
             return newEventItem
         }

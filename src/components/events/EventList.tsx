@@ -38,16 +38,11 @@ class EventListPresentation extends React.Component<Props, State> {
     }
 
     componentWillMount() {
-        let events: EventItem[] = []
-        EventService.indexEvents().then(res => {
-            let eventIds: string[] = res.data;
-            for (let eventId of eventIds) {
-                EventService.getEventItem(eventId).then(response => {
-                    events.push(response);
-                    this.setState({ eventList: events });
-                });
+        EventService.getAllEventItems().then(
+            (events: EventItem[]) => {
+                this.setState({ eventList: events })
             }
-        });
+        )
     }
 
     handleListGroupItemClick(key: string) {
@@ -73,7 +68,7 @@ class EventListPresentation extends React.Component<Props, State> {
 
     // Returns a user's name formatted for display in the event list
     getUserName(user: UserItem): string {
-        return user == null ? "" : user.firstName + " " + user.lastName 
+        return user == null ? "" : user.firstName + " " + user.lastName
     }
 
     getListGroupItem(key: string, eventItem: EventItem) {
