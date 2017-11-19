@@ -1,7 +1,5 @@
 import * as React from "react";
-import { Switch, Route, BrowserRouter } from "react-router-dom";
-import { Provider } from "react-redux";
-import { createStore } from "redux";
+import { Switch } from "react-router-dom";
 
 import { Header } from "../components/navigation/Header";
 import { Sidebar } from "../components/navigation/Sidebar";
@@ -12,6 +10,7 @@ import { Register } from "../components/authentication/Register";
 
 import { UserService } from "../services/user";
 import { Maintenance } from "../components/maintenance/Maintenance";
+import { AppRoute } from "../components/navigation/AppRoute";
 import { EventListFilterContainer } from "../components/events/EventListFilterContainer";
 
 import { HomeView } from "../views/HomeView";
@@ -25,60 +24,70 @@ const router = [
         path: "/",
         exact: true,
         sidebar: () => <Sidebar event={null} />,
+        auth: 0,
         main: () => <HomeView />
     },
     {
         path: "/login",
         exact: false,
         sidebar: null,
+        auth: 2,
         main: () => <Login history={null} />
     },
     {
         path: "/signup",
         exact: false,
         sidebar: null,
+        auth: 2,
         main: () => <Register />
     },
     {
         path: "/myevents",
         exact: false,
         sidebar: () => <Sidebar event={null} />,
+        auth: 1,
         main: () => <MyEventsView />
     },
     {
         path: "/events/create",
         exact: false,
         sidebar: () => <Sidebar event={null} />,
+        auth: 1,
         main: () => <CreateEventView />
     },
     {
         path: "/events/edit",
         exact: false,
         sidebar: () => <Sidebar event={null} />,
+        auth: 1,
         main: () => <CreateEventView />
     },
     {
         path: "/events/rate",
         exact: false,
         sidebar: () => <Sidebar event={null} />,
+        auth: 1,
         main: () => <RateEventView />
     },
     {
         path: "/events/filter",
         exact: false,
         sidebar: () => <Sidebar event={null} />,
+        auth: 0,
         main: () => <EventListFilterContainer history={null} />
     },
     {
         path: "/user/:id",
         exact: false,
-        sidebar: () => <Sidebar event={null} />,
+        sidebar: () => <Sidebar type="user" event={null} />,
+        auth: 1,
         main: () => <UserProfileView />
     },
     {
         path: "/user/logout",
         exact: true,
         sidebar: null,
+        auth: 1,
         main: () => <Logout history={null} />
     }
 ];
@@ -86,12 +95,12 @@ const router = [
 export const Content = () => (
     <div className="global-container">
         {router.map((route, num) => (
-            <Route key={num} path={route.path} exact={route.exact} component={route.sidebar} />
+            <AppRoute key={num} path={route.path} exact={route.exact} component={route.sidebar} auth={route.auth} />
         ))}
         <div className="content">
             <div className="area">
                 {router.map((route, num) => (
-                    <Route key={num} path={route.path} exact={route.exact} component={route.main} />
+                    <AppRoute key={num} path={route.path} exact={route.exact} component={route.main} auth={route.auth} />
                 ))}
             </div>
             <footer>EventHawk &copy; 2017</footer>
@@ -102,6 +111,10 @@ export const Content = () => (
 export const App = () => (
     <div className="root">
         <Header />
-        <Content />
+        <Switch>
+            <Maintenance>
+                <Content />
+            </Maintenance>
+        </Switch>
     </div>
 );

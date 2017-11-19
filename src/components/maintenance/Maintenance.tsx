@@ -14,6 +14,7 @@ export class Maintenance extends React.Component<RouteProps, {}> {
     }
 
     render() {
-        return <div>{this.props.children}</div>
+        let el: JSX.Element = this.props.children as JSX.Element;
+        return el;
     }
 };
