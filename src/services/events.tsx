@@ -7,6 +7,7 @@ import { UserService } from "./user"
 import { EventItem } from "../components/events/EventItem"
 import { InvalidIdError } from "./exceptions";
 import { EventListFilterSetting } from "../components/events/EventListFilterSetting";
+import { TicketService } from "./tickets";
 
 // EventCategory keys will be converted to strings when making API calls to /events
 export enum EventCategory {
@@ -98,7 +99,8 @@ export class EventService {
                 totalCapacity: event.total_capacity,
                 interestRating: event.interest_rating,
                 category: this.mapToCategory(event.category),
-                hostId: event.host_id
+                hostId: event.host_id,
+                ticketId: event._my_ticket
             }
 
             try {
@@ -106,6 +108,17 @@ export class EventService {
             } catch (e) {
                 if (e instanceof InvalidIdError) {
                     console.error("Ignoring invalid hostId when populating event list. hostId was: " + e.id)
+                    newEventItem.host = null;
+                } else {
+                    throw e;
+                }
+            }
+            
+            try {
+                newEventItem.ticket = await TicketService.getTicket(newEventItem.ticketId)
+            } catch (e) {
+                if (e instanceof InvalidIdError) {
+                    console.error("Ignoring invalid ticketId when populating event list. ticketId was: " + e.id)
                     newEventItem.host = null;
                 } else {
                     throw e;

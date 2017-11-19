@@ -1,5 +1,6 @@
 import { UserItem } from "../../services/user"
 import { EventCategory } from "../../services/events";
+import { TicketItem } from "../../services/tickets";
 
 export interface EventItem {
     name: string
@@ -13,4 +14,6 @@ export interface EventItem {
     interestRating?: number
     currentCapacity?: number
     host?: UserItem
+    ticketId?: string
+    ticket?: TicketItem
 }

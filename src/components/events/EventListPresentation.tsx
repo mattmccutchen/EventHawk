@@ -78,6 +78,13 @@ export class EventListPresentation extends React.Component<Props, State> {
         return this.props.authState.loggedIn ? this.props.authState.user_id : ""        
     }
 
+    getIsUserAttending(event: EventItem): boolean {
+        if (event.ticket && event.ticket.isAttending) {
+            return true;
+        }
+        return false;
+    }
+
     getListGroupItem(key: string, eventItem: EventItem) {
         if (this.applyFilter(eventItem)) {
             let isHostedByCurrentUser = eventItem.hostId === this.getLoggedInUserId();
@@ -103,7 +110,7 @@ export class EventListPresentation extends React.Component<Props, State> {
                                     <Glyphicon glyph="arrow-down" />
                                 </Col>
                                 <Col xs={1}>
-                                    <Glyphicon glyph="ok-circle" />
+                                    <Glyphicon glyph="ok-circle" style={this.getIsUserAttending(eventItem) ? {color:"green"} : null} />
                                 </Col>
                                 <Col xs={descriptionWidth}>{eventItem.name}</Col>
                                 <Col xs={1} hidden={!isHostedByCurrentUser}>
