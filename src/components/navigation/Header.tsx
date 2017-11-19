@@ -26,8 +26,7 @@ class HeaderComponent extends React.Component<headerProps, {}> {
     render() {
         let userArea: JSX.Element;
         if (!this.props.authState.loggedIn) {
-            userArea = <div><Link to="login" className="option">Sign In</Link>
-            <Link to="signup" className="option">Sign Up</Link></div>;
+            userArea = <div><Link to="/login" className="option">Sign In</Link><Link to="/signup" className="option">Sign Up</Link></div>;
         } else {
             let items: dropdownItem[] = 
             [{
