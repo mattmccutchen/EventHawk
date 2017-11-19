@@ -35,5 +35,11 @@
  
 * **Error Response:**
 
+  * **Code:** 400 BAD REQUEST <br />
+    **Content:** ``
+  * **Code:** 401 UNAUTHORIZED <br />
+    **Content:** ``
+  * **Code:** 403 FORBIDDEN <br />
+    **Content:** ``
   * **Code:** 422 UNPROCESSABLE ENTRY <br />
     **Content:** `{ "error" : ["string"] }`
