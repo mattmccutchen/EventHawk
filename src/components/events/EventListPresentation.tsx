@@ -8,25 +8,26 @@ import { EventService } from "../../services/events";
 import { EventListFilterSetting } from "./EventListFilterSetting";
 import axios from "axios";
 import { UserItem } from "../../services/user";
+import { AuthenticationState } from "../../common/state/Auth";
+
 
 interface State {
     expandedEventId: string;
-    loggedInUserId: string;
     eventList: EventItem[];
 }
 
 interface Props {
+    authState?: AuthenticationState
     filters?: EventListFilterSetting
     history?: { push(path: string): any }
 }
-
 
 export class EventListPresentation extends React.Component<Props, State> {
 
     constructor(props: Props) {
         super(props);
 
-        this.state = { expandedEventId: null, loggedInUserId: "userA", eventList: [] }
+        this.state = { expandedEventId: null, eventList: [] }
     }
 
     componentDidMount() {
@@ -71,9 +72,13 @@ export class EventListPresentation extends React.Component<Props, State> {
         return user == null ? "" : user.firstName + " " + user.lastName
     }
 
+    getLoggedInUserId(): string {
+        return this.props.authState.loggedIn ? this.props.authState.user_id : ""        
+    }
+
     getListGroupItem(key: string, eventItem: EventItem) {
         if (this.applyFilter(eventItem)) {
-            let isHostedByCurrentUser = eventItem.hostId === this.state.loggedInUserId;
+            let isHostedByCurrentUser = eventItem.hostId === this.getLoggedInUserId();
             // TODO: Assume the logged in user can rate every event, until API filters let us find
             // the actual events the user attended
             let isAttendedByCurrentUser = true

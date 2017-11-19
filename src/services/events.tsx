@@ -7,6 +7,16 @@ import { UserService } from "./user"
 import { EventItem } from "../components/events/EventItem"
 import { InvalidIdError } from "./exceptions";
 
+export enum EventCategory {
+    SPORTS = "Sports",
+    CARD_GAMES = "Card game",
+    EDUCATIONAL = "Educational",
+    MUSIC = "Music",
+    ART = "Art",
+    FOOD = "Food",
+    NONE = "None",
+}
+
 export class EventService {
     public static async indexEvents(): Promise<AxiosResponse> {
         return axios.get(configVals.apiRoot + configVals.events, UserService.getAuthenticationHeader());
@@ -14,6 +24,28 @@ export class EventService {
 
     private static async showEvent(id: string): Promise<AxiosResponse> {
         return axios.get(configVals.apiRoot + configVals.events + "/" + id, UserService.getAuthenticationHeader())
+    }
+
+    private static mapToCategory(category: string): EventCategory {
+        category = category.toUpperCase()
+
+        switch (category) {
+            case "SPORTS":
+                return EventCategory.SPORTS;
+            case "CARD_GAMES":
+                return EventCategory.CARD_GAMES;
+            case "EDUCATIONAL":
+                return EventCategory.EDUCATIONAL;
+            case "MUSIC":
+                return EventCategory.MUSIC;
+            case "ART":
+                return EventCategory.ART;
+            case "FOOD":
+                return EventCategory.FOOD;
+            default:
+                console.error("Unknown category: " + category)
+                return EventCategory.NONE;
+        }
     }
 
     public static async getEventItem(eventId: string): Promise<EventItem> {
@@ -30,7 +62,7 @@ export class EventService {
                 currentCapacity: event.current_capacity,
                 totalCapacity: event.total_capacity,
                 interestRating: event.interest_rating,
-                category: event.category,
+                category: this.mapToCategory(event.category),
                 hostId: event.host_id
             }
 

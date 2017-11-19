@@ -5,7 +5,8 @@ import { connect } from "react-redux";
 
 const mapStateToProps = (state: EventHawkAppState) => {
     return {
-        filters: state.eventListFilterSettingState
+        filters: state.eventListFilterSettingState,
+        authState: state.authState
     }
 }
 
