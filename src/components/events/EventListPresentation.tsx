@@ -4,7 +4,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { Link } from "react-router-dom";
 import { EventItem } from "./EventItem";
 import { RateEvent } from "./RateEvent";
-import { EventService } from "../../services/events";
+import { EventService, EventCategoryName } from "../../services/events";
 import { EventListFilterSetting } from "./EventListFilterSetting";
 import axios from "axios";
 import { UserItem } from "../../services/user";
@@ -31,11 +31,11 @@ export class EventListPresentation extends React.Component<Props, State> {
     }
 
     componentDidMount() {
-        this.fetchEventList();
+        this.fetchEventList(this.props);
     }
 
-    fetchEventList() {
-        EventService.getAllEventItems().then(
+    fetchEventList(props: Props) {
+        EventService.getAllEventItems(props.filters).then(
             (events: EventItem[]) => {
                 this.setState({ eventList: events })
             }
@@ -51,8 +51,10 @@ export class EventListPresentation extends React.Component<Props, State> {
         }
     }
 
-    applyFilters() {
-
+    componentWillReceiveProps(props: Props) {
+        if (props.filters != this.props.filters) {
+            this.fetchEventList(props)
+        }
     }
 
     applyFilter(eventItem: EventItem) {
@@ -118,7 +120,7 @@ export class EventListPresentation extends React.Component<Props, State> {
                         <Well>
                             <div>Host: <Link to="/users/profile">{this.getUserName(eventItem.host)}</Link></div>
                             <div>{eventItem.description}</div>
-                            <div>Category: {eventItem.category}</div>
+                            <div>Category: {EventCategoryName.get(eventItem.category)}</div>
                         </Well>
                     </Panel>
                 </div>

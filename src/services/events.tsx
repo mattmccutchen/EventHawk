@@ -6,20 +6,56 @@ import { AxiosResponse } from "axios";
 import { UserService } from "./user"
 import { EventItem } from "../components/events/EventItem"
 import { InvalidIdError } from "./exceptions";
+import { EventListFilterSetting } from "../components/events/EventListFilterSetting";
 
+// EventCategory keys will be converted to strings when making API calls to /events
 export enum EventCategory {
-    SPORTS = "Sports",
-    CARD_GAMES = "Card game",
-    EDUCATIONAL = "Educational",
-    MUSIC = "Music",
-    ART = "Art",
-    FOOD = "Food",
-    NONE = "None",
+    ALL = 0,
+    SPORTS,
+    CARD_GAMES,
+    EDUCATIONAL,
+    MUSIC,
+    ART,
+    FOOD,
 }
 
+export const EventCategoryName = new Map<number, string>([
+    [EventCategory.ALL, 'All'],
+    [EventCategory.SPORTS, 'Sports'],
+    [EventCategory.CARD_GAMES, 'Card games'],
+    [EventCategory.EDUCATIONAL, 'Educational'],
+    [EventCategory.MUSIC, 'Music'],
+    [EventCategory.ART, 'Art'],
+    [EventCategory.FOOD, 'Food'],
+]);
+
 export class EventService {
-    public static async indexEvents(): Promise<AxiosResponse> {
-        return axios.get(configVals.apiRoot + configVals.events, UserService.getAuthenticationHeader());
+    public static async indexEvents(filters?: EventListFilterSetting): Promise<AxiosResponse> {
+        let url = configVals.apiRoot + configVals.events
+
+        let requestProperties = {
+            params: {}
+        }
+
+        if (filters) {
+            let filterParams: any = {}
+            if (filters.attendeeUserId) {
+                filterParams["attendedBy"] = filters.attendeeUserId
+            }
+            if (filters.hostUserId) {
+                filterParams["hostedBy"] = filters.hostUserId
+            }
+            if (filters.category) {
+                if (filters.category as EventCategory != EventCategory.ALL) {
+                    filterParams["category"] = EventCategory[filters.category]
+                }
+            }
+            Object.assign(requestProperties.params, filterParams)
+        }
+
+        Object.assign(requestProperties, UserService.getAuthenticationHeader())
+
+        return axios.get(url, requestProperties);
     }
 
     private static async showEvent(id: string): Promise<AxiosResponse> {
@@ -44,7 +80,7 @@ export class EventService {
                 return EventCategory.FOOD;
             default:
                 console.error("Unknown category: " + category)
-                return EventCategory.NONE;
+                return EventCategory.ALL;
         }
     }
 
@@ -83,9 +119,9 @@ export class EventService {
         return null
     }
 
-    public static async getAllEventItems(): Promise<EventItem[]> {
+    public static async getAllEventItems(filters: EventListFilterSetting): Promise<EventItem[]> {
 
-        let response = await EventService.indexEvents()
+        let response = await EventService.indexEvents(filters)
         let eventIds: string[] = response.data
 
         let events: EventItem[] = []

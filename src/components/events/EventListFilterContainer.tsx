@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { EventListFilterSettingActionNew } from '../../actions/EventListFilterSettingActions'
 import { EventListFilter } from './EventListFilter'
 import { withRouter } from 'react-router-dom'
+import { EventHawkAppState } from "../../reducers/EventHawkAppReducer";
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
@@ -12,7 +13,13 @@ const mapDispatchToProps = (dispatch: any) => {
     }
 }
 
+const mapStateToProps = (state: EventHawkAppState) => {
+    return {
+        filters: state.eventListFilterSettingState,
+    }
+}
+
 export const EventListFilterContainer = connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 )(withRouter(EventListFilter))

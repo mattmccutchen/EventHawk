@@ -1,14 +1,16 @@
 import * as React from "react";
 import { ButtonToolbar, Button, Label, FormGroup, ControlLabel, FormControl } from "react-bootstrap";
 import { EventListFilterSetting } from "./EventListFilterSetting";
+import { EventCategory, EventCategoryName } from "../../services/events"
 
 interface Props {
     onFilterApplied(newFilter: EventListFilterSetting): any
-    history: {push(path: string): any}
+    history: { push(path: string): any }
+    filters: EventListFilterSetting
 }
 
 interface State {
-    hostUserId: string;
+    category: EventCategory;
 }
 
 export class EventListFilter extends React.Component<Props, State> {
@@ -17,7 +19,7 @@ export class EventListFilter extends React.Component<Props, State> {
         super(props);
 
         this.state = {
-            hostUserId: ""
+            category: props.filters.category
         }
 
         this.handleInputChange = this.handleInputChange.bind(this)
@@ -26,7 +28,7 @@ export class EventListFilter extends React.Component<Props, State> {
 
     handleFilterApplied() {
         let newFilter: EventListFilterSetting = {
-            hostUserId: this.state.hostUserId
+            category: this.state.category
         }
 
         this.props.onFilterApplied(newFilter);
@@ -44,6 +46,12 @@ export class EventListFilter extends React.Component<Props, State> {
         });
     }
 
+    renderCategoryOption(category: EventCategory) {
+        return (
+            <option value={category} selected={this.state.category == category}>{EventCategoryName.get(category)}</option>
+        )
+    }
+
     render() {
         return (
             <div>
@@ -51,8 +59,15 @@ export class EventListFilter extends React.Component<Props, State> {
 
                 <form>
                     <FormGroup>
-                        <ControlLabel>Hosted by:</ControlLabel>
-                        <FormControl name="hostUserId" onChange={this.handleInputChange} type="text" />
+                        <FormControl name="category" onChange={this.handleInputChange} componentClass="select" placeholder="select">
+                            {this.renderCategoryOption(EventCategory.ALL)}
+                            {this.renderCategoryOption(EventCategory.ART)}
+                            {this.renderCategoryOption(EventCategory.CARD_GAMES)}
+                            {this.renderCategoryOption(EventCategory.EDUCATIONAL)}
+                            {this.renderCategoryOption(EventCategory.FOOD)}
+                            {this.renderCategoryOption(EventCategory.MUSIC)}
+                            {this.renderCategoryOption(EventCategory.SPORTS)}
+                        </FormControl>
                     </FormGroup>
                     <Button onClick={this.handleFilterApplied}>Apply</Button>
                 </form>
