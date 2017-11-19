@@ -29,7 +29,11 @@
  
 * **Error Response:**
 
-  * **Code:** 422 UNPROCESSABLE ENTRY <br />
-    **Content:** `{ "error" : ["string"] }`
+  * **Code:** 400 BAD REQUEST <br />
+    **Content:** ``
+  * **Code:** 401 UNAUTHORIZED <br />
+    **Content:** ``
   * **Code:** 409 CONFLICT <br />
     **Content:** `{ "ticket" : { "attending" : [boolean], "attendee_id" : "[string]", "event_id" : [string], "ticket_id" : [string], "is_active" : "true" } }`
+  * **Code:** 422 UNPROCESSABLE ENTRY <br />
+    **Content:** `{ "error" : ["string"] }`
