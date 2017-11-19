@@ -77,7 +77,7 @@ const router = [
     },
     {
         path: "/user/logout",
-        exact: false,
+        exact: true,
         sidebar: null,
         main: () => <Logout history={null} />
     }

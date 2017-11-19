@@ -27,7 +27,6 @@ class LoginComponent extends React.Component<loginProps, loginState> {
             if (res.status == 201) {
                 UserService.saveToken(res.data.jwt);
                 UserService.getUser(UserService.getUserId()).then(res => {
-                    console.log(res);
                     this.props.loginUser({ 
                         loggedIn: true, 
                         user_id: UserService.getUserId(),
