@@ -7,7 +7,7 @@ import { UserService } from "./user"
 import { EventItem } from "../components/events/EventItem"
 
 export class EventService {
-    private static async indexEvents(): Promise<AxiosResponse> {
+    public static async indexEvents(): Promise<AxiosResponse> {
         return axios.get(configVals.apiRoot + configVals.events, UserService.getAuthenticationHeader());
     }
 
@@ -19,8 +19,8 @@ export class EventService {
         let response = await EventService.showEvent(eventId)
 
         // Assume showEvent returns an array of events with exactly 0 or 1 item
-        if (response.data.length == 1) {
-            let event = response.data[0]
+        if (response.status === 200) {
+            let event = response.data
             let newEventItem: EventItem = {
                 name: event.name,
                 description: event.description,

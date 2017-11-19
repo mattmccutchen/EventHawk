@@ -38,11 +38,16 @@ class EventListPresentation extends React.Component<Props, State> {
     }
 
     componentWillMount() {
-        EventService.getAllEventItems().then(
-            (events: EventItem[]) => {
-                this.setState( { eventList: events })
+        let events: EventItem[] = []
+        EventService.indexEvents().then(res => {
+            let eventIds: string[] = res.data;
+            for (let eventId of eventIds) {
+                EventService.getEventItem(eventId).then(response => {
+                    events.push(response);
+                    this.setState({ eventList: events });
+                });
             }
-        )
+        });
     }
 
     handleListGroupItemClick(key: string) {
