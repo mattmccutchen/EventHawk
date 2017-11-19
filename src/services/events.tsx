@@ -87,7 +87,6 @@ export class EventService {
     public static async getEventItem(eventId: string): Promise<EventItem> {
         let response = await EventService.showEvent(eventId)
 
-        // Assume showEvent returns an array of events with exactly 0 or 1 item
         if (response.status === 200) {
             let event = response.data
             let newEventItem: EventItem = {

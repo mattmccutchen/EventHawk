@@ -96,7 +96,7 @@ export class EventListPresentation extends React.Component<Props, State> {
                         <Grid>
                             <Row>
                                 <Col xs={1}>
-                                    <Badge>13</Badge>
+                                    <Badge>{eventItem.interestRating}</Badge>
                                 </Col>
                                 <Col xs={1}>
                                     <Glyphicon glyph="arrow-up" />
