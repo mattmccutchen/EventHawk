@@ -3,6 +3,7 @@ import { Popover, OverlayTrigger, Button, ListGroup, ListGroupItem, Well, Panel,
 import { LinkContainer } from "react-router-bootstrap";
 import { Link } from "react-router-dom";
 import { EventItem } from "./EventItem";
+import { EventCard } from "./EventCard";
 import { RateEvent } from "./RateEvent";
 import { EventService, EventCategoryName } from "../../services/events";
 import { EventListFilterSetting } from "./EventListFilterSetting";
@@ -12,8 +13,9 @@ import { AuthenticationState } from "../../common/state/Auth";
 
 
 interface State {
-    expandedEventId: string;
-    eventList: EventItem[];
+    expandedEventId: string,
+    eventList: EventItem[],
+    loading: boolean
 }
 
 interface Props {
@@ -26,8 +28,11 @@ export class EventListPresentation extends React.Component<Props, State> {
 
     constructor(props: Props) {
         super(props);
+        this.state = { expandedEventId: null, eventList: [], loading: true }
+    }
 
-        this.state = { expandedEventId: null, eventList: [] }
+    componentWillMount() {
+        this.setState({ loading: true });
     }
 
     componentDidMount() {
@@ -38,6 +43,7 @@ export class EventListPresentation extends React.Component<Props, State> {
         EventService.getAllEventItems(props.filters).then(
             (events: EventItem[]) => {
                 this.setState({ eventList: events })
+                this.setState({ loading: false });
             }
         )
     }
@@ -97,41 +103,7 @@ export class EventListPresentation extends React.Component<Props, State> {
             if (isHostedByCurrentUser) descriptionWidth--;
             if (isAttendedByCurrentUser) descriptionWidth--;
 
-            return (
-                <div>
-                    <ListGroupItem key={key} onClick={() => this.handleListGroupItemClick(key)}>
-                        <Grid>
-                            <Row>
-                                <Col xs={1}>
-                                    <Badge>{eventItem.interestRating}</Badge>
-                                </Col>
-                                <Col xs={1}>
-                                    <Glyphicon glyph="arrow-up" />
-                                    <Glyphicon glyph="arrow-down" />
-                                </Col>
-                                <Col xs={1}>
-                                    <Glyphicon glyph="ok-circle" style={this.getIsUserAttending(eventItem) ? {color:"green"} : null} />
-                                </Col>
-                                <Col xs={descriptionWidth}>{eventItem.name}</Col>
-                                <Col xs={1} hidden={!isHostedByCurrentUser}>
-                                    <Link to="/events/edit">Edit</Link>
-                                </Col>
-                                <Col xs={1} hidden={!isAttendedByCurrentUser}>
-                                    <Link to="/events/rate">Rate</Link>
-                                </Col>
-                            </Row>
-                        </Grid>
-                    </ListGroupItem>
-
-                    <Panel collapsible expanded={this.state.expandedEventId === key}>
-                        <Well>
-                            <div>Host: <Link to="/users/profile">{this.getUserName(eventItem.host)}</Link></div>
-                            <div>{eventItem.description}</div>
-                            <div>Category: {EventCategoryName.get(eventItem.category)}</div>
-                        </Well>
-                    </Panel>
-                </div>
-            );
+            return <EventCard title={eventItem.name} description={eventItem.description} host={this.getUserName(eventItem.host)} interest={eventItem.interestRating} time={null} category={EventCategoryName.get(eventItem.category)} capacity={eventItem.totalCapacity} currentCapacity={eventItem.currentCapacity} />;
         } else {
             return;
         }
@@ -139,12 +111,14 @@ export class EventListPresentation extends React.Component<Props, State> {
 
     render() {
         var i: number = 0;
+        let loading: JSX.Element = (this.state.loading) ? <div><i className="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div> : null;
         return (
             <div>
                 <Link to="/events/filter">Filter</Link>
-                <ListGroup>
+                {loading}
+                <div className="event-list">
                     {this.state.eventList.map((event) => (<div>{this.getListGroupItem((i++).toString(), event)}</div>))}
-                </ListGroup>
+                </div>
             </div>
         );
     }

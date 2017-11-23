@@ -86,49 +86,50 @@ export class EventService {
     }
 
     public static async getEventItem(eventId: string): Promise<EventItem> {
-        let response = await EventService.showEvent(eventId)
+        let response = await EventService.showEvent(eventId);
+        let newEventItem: EventItem
 
-        if (response.status === 200) {
-            let event = response.data
-            let newEventItem: EventItem = {
-                name: event.name,
-                description: event.description,
-                time: event.time,
-                location: event.location,
-                currentCapacity: event.current_capacity,
-                totalCapacity: event.total_capacity,
-                interestRating: event.interest_rating,
-                category: this.mapToCategory(event.category),
-                hostId: event.host_id,
-                ticketId: event._my_ticket
+        return EventService.showEvent(eventId).then((res: AxiosResponse) => {
+            if (res.status === 200) {
+                newEventItem = {
+                    name: res.data.name,
+                    description: res.data.description,
+                    time: res.data.time,
+                    location: res.data.location,
+                    currentCapacity: res.data.current_capacity,
+                    totalCapacity: res.data.total_capacity,
+                    interestRating: res.data.interest_rating,
+                    category: this.mapToCategory(res.data.category),
+                    hostId: res.data.host_id, 
+                    ticketId: res.data._my_ticket
+                }
+            } else {
+                console.error("There was an error finding this event.");
             }
-
-            try {
-                newEventItem.host = await UserService.getUser(newEventItem.hostId)
-            } catch (e) {
-                if (e instanceof InvalidIdError) {
-                    console.error("Ignoring invalid hostId when populating event list. hostId was: " + e.id)
+        }).then(() => {
+            UserService.getUser(newEventItem.hostId).then(res => {
+                newEventItem.host = res;
+            }).catch(ex => {
+                if (ex instanceof InvalidIdError) {
+                    console.error("Ignoring invalid hostId when populating event list. hostId was: " + ex.id)
                     newEventItem.host = null;
                 } else {
-                    throw e;
+                    throw ex;
                 }
-            }
-            
-            try {
-                newEventItem.ticket = await TicketService.getTicket(newEventItem.ticketId)
-            } catch (e) {
-                if (e instanceof InvalidIdError) {
-                    console.error("Ignoring invalid ticketId when populating event list. ticketId was: " + e.id)
-                    newEventItem.host = null;
+            })
+        }).then(() => {
+            TicketService.getTicket(newEventItem.ticketId).then(res => {
+                newEventItem.ticket = res;
+            }).catch(ex => {
+                if (ex instanceof InvalidIdError) {
+                    console.error("Ignoring invalid ticketId when populating event list. ticketId was: " + ex.id)
                 } else {
-                    throw e;
+                    throw ex;
                 }
-            }
-
-            return newEventItem
-        }
-
-        return null
+            });
+        }).then(() => {
+            return newEventItem;
+        });
     }
 
     public static async getAllEventItems(filters: EventListFilterSetting): Promise<EventItem[]> {
@@ -137,13 +138,13 @@ export class EventService {
         let eventIds: string[] = response.data
 
         let events: EventItem[] = []
-        for (let eventId of eventIds) {
-            let newEvent: EventItem = await EventService.getEventItem(eventId)
+        
 
-            if (newEvent) {
-                events.push(newEvent)
-            }
-        }
+        await Promise.all(eventIds.map(function(eventId) {
+            return EventService.getEventItem(eventId);
+        })).then((event: EventItem[]) => {
+            events = event;
+        });
 
         return events
     }
