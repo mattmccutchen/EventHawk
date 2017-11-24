@@ -8,12 +8,13 @@ import { EventItem } from "../components/events/EventItem"
 import { InvalidIdError } from "./exceptions";
 import { EventListFilterSetting } from "../components/events/EventListFilterSetting";
 import { TicketService } from "./tickets";
+import { VoteService, VoteItem } from "./votes";
 
 // EventCategory keys will be converted to strings when making API calls to /events
 export enum EventCategory {
     ALL = 0,
     SPORTS,
-    CARD_GAMES,
+    GAMES,
     EDUCATIONAL,
     MUSIC,
     ART,
@@ -23,7 +24,7 @@ export enum EventCategory {
 export const EventCategoryName = new Map<number, string>([
     [EventCategory.ALL, 'All'],
     [EventCategory.SPORTS, 'Sports'],
-    [EventCategory.CARD_GAMES, 'Card games'],
+    [EventCategory.GAMES, 'Games'],
     [EventCategory.EDUCATIONAL, 'Educational'],
     [EventCategory.MUSIC, 'Music'],
     [EventCategory.ART, 'Art'],
@@ -69,8 +70,8 @@ export class EventService {
         switch (category) {
             case "SPORTS":
                 return EventCategory.SPORTS;
-            case "CARD_GAMES":
-                return EventCategory.CARD_GAMES;
+            case "GAMES":
+                return EventCategory.GAMES;
             case "EDUCATIONAL":
                 return EventCategory.EDUCATIONAL;
             case "MUSIC":
@@ -92,6 +93,7 @@ export class EventService {
         return EventService.showEvent(eventId).then((res: AxiosResponse) => {
             if (res.status === 200) {
                 newEventItem = {
+                    id: eventId,
                     name: res.data.name,
                     description: res.data.description,
                     time: res.data.time,
@@ -101,7 +103,8 @@ export class EventService {
                     interestRating: res.data.interest_rating,
                     category: this.mapToCategory(res.data.category),
                     hostId: res.data.host_id, 
-                    ticketId: res.data._my_ticket
+                    ticketId: res.data._my_ticket,
+                    voteId: res.data._my_vote
                 }
             } else {
                 console.error("There was an error finding this event.");
@@ -128,6 +131,16 @@ export class EventService {
                 }
             });
         }).then(() => {
+            VoteService.getVote(newEventItem.voteId).then(res => {
+                newEventItem.vote = res;
+            }).catch(ex => {
+                if (ex instanceof InvalidIdError) {
+                    console.error("Ignoring invalid voteId when populating event list. voteId was: " + ex.id)
+                } else {
+                    throw ex;
+                }
+            });
+        }).then(() => {
             return newEventItem;
         });
     }
@@ -147,5 +160,32 @@ export class EventService {
         });
 
         return events
+    }
+
+    public static async upvote(event: EventItem): Promise<EventItem> {
+        return this.createOrChangeVote(event, 1)
+    }
+    
+    public static async downvote(event: EventItem): Promise<EventItem> {
+        return this.createOrChangeVote(event, -1)
+    }
+    
+    public static async novote(event: EventItem): Promise<EventItem> {
+        return this.createOrChangeVote(event, 0)
+    }
+
+    private static async createOrChangeVote(event: EventItem, value: number): Promise<EventItem> {
+        // Create a shallow copy of the EventItem, so we don't modify the argument
+        let newEvent: EventItem = Object.assign({}, event); 
+
+        if (!event.vote) {
+            // If the vote doesn't exist, we have to create it
+            newEvent.vote = await VoteService.createVote({eventId: event.id, value: value});
+        } else {
+            // The event already exists, so just update it
+            newEvent.vote = await VoteService.updateVote(event.vote.id, {eventId: event.id, value: value})
+        }
+
+        return newEvent;
     }
 }

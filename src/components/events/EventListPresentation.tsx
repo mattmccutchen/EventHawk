@@ -10,7 +10,8 @@ import { EventListFilterSetting } from "./EventListFilterSetting";
 import axios from "axios";
 import { UserItem } from "../../services/user";
 import { AuthenticationState } from "../../common/state/Auth";
-
+import { VoteService } from "../../services/votes";
+import * as update from 'immutability-helper';
 
 interface State {
     expandedEventId: string,
@@ -48,6 +49,27 @@ export class EventListPresentation extends React.Component<Props, State> {
         )
     }
 
+    // If an event has changed on the server as a result of user action, 
+    // update the event in place in the event list if possible.
+    // Otherwise, fetch the full event list from the server
+    handleChangedEvent(event: EventItem) {
+        let index = this.state.eventList.findIndex(
+            (eventInList: EventItem) => { return eventInList.id === event.id }
+        )
+        if (index == -1) {
+            console.error("An event changed, but the event could not be found in the event list. Reloading the event list. eventId: " + event.id);
+            this.fetchEventList(this.props);
+            return;
+        }
+
+        this.setState(
+            // Use immutability helpers to set this.state.eventList[index] = event
+            update(this.state,
+                { eventList: { $splice: [[index, 1, event]] } }
+            )
+        );
+    }
+
     handleListGroupItemClick(key: string) {
         if (this.state.expandedEventId === key) {
             // If this item is already expanded, collapse it.
@@ -81,7 +103,7 @@ export class EventListPresentation extends React.Component<Props, State> {
     }
 
     getLoggedInUserId(): string {
-        return this.props.authState.loggedIn ? this.props.authState.user_id : ""        
+        return this.props.authState.loggedIn ? this.props.authState.user_id : ""
     }
 
     getIsUserAttending(event: EventItem): boolean {
@@ -89,6 +111,58 @@ export class EventListPresentation extends React.Component<Props, State> {
             return true;
         }
         return false;
+    }
+
+    handleUpvote(event: EventItem) {
+        if (!event.vote || event.vote.value < 1) {
+            // The user clicked upvote on an event with a downvote or no vote
+            EventService.upvote(event).then(
+                (event: EventItem) => {
+                    this.handleChangedEvent(event);
+                }
+            ).catch(
+                (ex) => {
+                    console.error("Error upvoting event: " + ex)
+                }
+                )
+        } else {
+            // The user clicked upvote on an event that was already upvoted, so clear the upvote
+            EventService.novote(event).then(
+                (event: EventItem) => {
+                    this.handleChangedEvent(event);
+                }
+            ).catch(
+                (ex) => {
+                    console.error("Error clearing vote for event: " + ex)
+                }
+                )
+        }
+    }
+
+    handleDownvote(event: EventItem) {
+        if (!event.vote || event.vote.value > -1) {
+            // The user clicked downvote on an event with an upvote or no vote
+            EventService.downvote(event).then(
+                (event: EventItem) => {
+                    this.handleChangedEvent(event);
+                }
+            ).catch(
+                (ex) => {
+                    console.error("Error downvoting event: " + ex)
+                }
+                )
+        } else {
+            // The user clicked downvote on an event that was already downvoted, so clear the upvote
+            EventService.novote(event).then(
+                (event: EventItem) => {
+                    this.handleChangedEvent(event);
+                }
+            ).catch(
+                (ex) => {
+                    console.error("Error clearing vote for event: " + ex)
+                }
+                )
+        }
     }
 
     getListGroupItem(key: string, eventItem: EventItem) {
@@ -103,7 +177,18 @@ export class EventListPresentation extends React.Component<Props, State> {
             if (isHostedByCurrentUser) descriptionWidth--;
             if (isAttendedByCurrentUser) descriptionWidth--;
 
-            return <EventCard title={eventItem.name} description={eventItem.description} host={this.getUserName(eventItem.host)} interest={eventItem.interestRating} time={null} category={EventCategoryName.get(eventItem.category)} capacity={eventItem.totalCapacity} currentCapacity={eventItem.currentCapacity} />;
+            return <EventCard
+                title={eventItem.name}
+                description={eventItem.description}
+                host={this.getUserName(eventItem.host)}
+                interest={eventItem.interestRating}
+                time={null}
+                category={EventCategoryName.get(eventItem.category)}
+                capacity={eventItem.totalCapacity}
+                currentCapacity={eventItem.currentCapacity}
+                vote={eventItem.vote ? eventItem.vote.value : 0}
+                handleUpvote={() => this.handleUpvote(eventItem)}
+                handleDownvote={() => this.handleDownvote(eventItem)} />;
         } else {
             return;
         }

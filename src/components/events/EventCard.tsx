@@ -9,7 +9,10 @@ export interface EventCardProps {
     time: number,
     category: string,
     capacity: number,
-    currentCapacity: number
+    currentCapacity: number,
+    vote: number,
+    handleUpvote: () => void,
+    handleDownvote: () => void
 }
 
 export class EventCard extends React.Component<EventCardProps, {}> {
@@ -22,9 +25,9 @@ export class EventCard extends React.Component<EventCardProps, {}> {
         let spotsLeft: number = (this.props.capacity - this.props.currentCapacity);
         return <div className="event-item-container">
             <div className="event-options-panel">
-                <span className="event-upvote"><i className="fa fa-arrow-up"></i></span>
+                <span className="event-upvote" style={this.props.vote == 1 ? {color: "green"} : null} onClick={this.props.handleUpvote}><i className="fa fa-arrow-up"></i></span>
                 <span className="event-votes">{this.props.interest}</span>
-                <span className="event-downvote"><i className="fa fa-arrow-down"></i></span>
+                <span className="event-downvote" style={this.props.vote == -1 ? {color: "green"} : null} onClick={this.props.handleDownvote}><i className="fa fa-arrow-down"></i></span>
             </div>
             <div className="event-content-panel">
                 <div className="event-info">

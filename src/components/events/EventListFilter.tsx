@@ -62,7 +62,7 @@ export class EventListFilter extends React.Component<Props, State> {
                         <FormControl name="category" onChange={this.handleInputChange} componentClass="select" placeholder="select">
                             {this.renderCategoryOption(EventCategory.ALL)}
                             {this.renderCategoryOption(EventCategory.ART)}
-                            {this.renderCategoryOption(EventCategory.CARD_GAMES)}
+                            {this.renderCategoryOption(EventCategory.GAMES)}
                             {this.renderCategoryOption(EventCategory.EDUCATIONAL)}
                             {this.renderCategoryOption(EventCategory.FOOD)}
                             {this.renderCategoryOption(EventCategory.MUSIC)}
