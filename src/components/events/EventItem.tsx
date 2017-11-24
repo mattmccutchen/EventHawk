@@ -10,7 +10,7 @@ export interface EventItem {
     location: string
     totalCapacity: number
     category: EventCategory
-    hostId: string
+    hostId?: string
     id?: string
     interestRating?: number
     currentCapacity?: number
