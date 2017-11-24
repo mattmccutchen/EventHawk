@@ -23,6 +23,7 @@ interface Props {
     authState?: AuthenticationState
     filters?: EventListFilterSetting
     history?: { push(path: string): any }
+    showFilterButton?: boolean
 }
 
 export class EventListPresentation extends React.Component<Props, State> {
@@ -188,12 +189,18 @@ export class EventListPresentation extends React.Component<Props, State> {
         }
     }
 
+    renderFilterButton() {
+        if (this.props.showFilterButton) {
+            return <LinkContainer to="/events/filter"><Button>Filter</Button></LinkContainer>
+        }
+    }
+    
     render() {
         var i: number = 0;
         let loading: JSX.Element = (this.state.loading) ? <div><i className="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div> : null;
         return (
             <div>
-                <Link to="/events/filter">Filter</Link>
+                {this.renderFilterButton()}
                 {loading}
                 <div className="event-list">
                     {this.state.eventList.map((event) => (<div>{this.getListGroupItem((i++).toString(), event)}</div>))}
