@@ -1,6 +1,7 @@
 import * as React from "react";
 import { EventCategory, EventCategoryName } from "../../services/events";
 import * as moment from 'moment'
+import { Glyphicon } from "react-bootstrap";
 
 export interface EventCardProps {
     title: string,
@@ -16,6 +17,8 @@ export interface EventCardProps {
     handleUpvote: () => void,
     handleDownvote: () => void,
     isHostedByCurrentUser: boolean, // Is this event hosted by the logged in user
+    isAttendedByCurrentUser: boolean, // Is this event attended by the logged in user
+    handleAttendingClick: () => void,
 }
 
 export class EventCard extends React.Component<EventCardProps, {}> {
@@ -44,6 +47,33 @@ export class EventCard extends React.Component<EventCardProps, {}> {
         )
     }
 
+    renderAttending() {
+        let spotsLeft: number = (this.props.capacity - this.props.currentCapacity);
+        if (this.props.isHostedByCurrentUser) {
+            // Don't display the sign up button for events hosted by the logged in user
+            return;
+        }
+        if (this.props.isAttendedByCurrentUser) {
+            return (
+                <div className="event-user-attending" role="button" onClick={this.props.handleAttendingClick}>
+                    <Glyphicon glyph="ok-sign" style={{ color: "green" }} /> I'm attending!
+                </div>
+            )
+        } else if (spotsLeft > 0) {
+            return (
+                <div className="event-user-attending" role="button" onClick={this.props.handleAttendingClick}>
+                    <Glyphicon glyph="question-sign" /> Sign me up!
+                </div>
+            )
+        } else {
+            return (
+                <div className="event-user-attending">
+                    <Glyphicon glyph="minus-sign" /> This event is full!
+                </div>
+            )
+        }
+    }
+
     render() {
         let spotsLeft: number = (this.props.capacity - this.props.currentCapacity);
         return <div className="event-item-container">
@@ -56,6 +86,7 @@ export class EventCard extends React.Component<EventCardProps, {}> {
                 <div className="event-host">{this.props.host}</div>
                 <div className="event-description">{this.props.description}</div>
                 <div className="event-location">{this.props.location}</div>
+                {this.renderAttending()}
                 <div className="event-stats">
                     <span className="event-time">{this.props.time.format("dddd, MMMM Do YYYY, h:mm a")}</span>
                     <span className="event-going"><strong>{spotsLeft}</strong> spots left</span>

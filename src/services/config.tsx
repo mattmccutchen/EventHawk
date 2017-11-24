@@ -3,6 +3,6 @@ export const configVals = {
     login: "login",
     events: "events",
     users: "users",
-    tickets: "ticket",
+    tickets: "tickets",
     votes: "votes"
 };

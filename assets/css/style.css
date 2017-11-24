@@ -640,7 +640,14 @@ body > div.global-container > .home-container > .activity-sidebar > ul.list-opti
 	width: 100%;
 }
   
-.event-item-container .event-content-panel .event-description {
+.event-item-container .event-content-panel .event-user-attending {
+	display: table-cell;
+	font-weight: 300;
+	margin-bottom: 15px;
+}
+
+.event-item-container .event-content-panel .event-description,
+.event-item-container .event-content-panel .event-location {
 	display: block;
 	font-weight: 300;
 	margin-bottom: 15px;

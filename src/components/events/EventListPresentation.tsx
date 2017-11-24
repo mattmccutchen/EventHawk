@@ -166,9 +166,38 @@ export class EventListPresentation extends React.Component<Props, State> {
         }
     }
 
+    handleAttendingClick(event: EventItem) {
+        if (!event.ticket) {
+            if (event.totalCapacity - event.currentCapacity > 0) {
+                // Get a ticket
+                EventService.createTicket(event).then(
+                    (event: EventItem) => {
+                        this.handleChangedEvent(event);
+                    }
+                ).catch(
+                    (ex) => {
+                        console.error("Error creating ticket for event: " + ex)
+                    }
+                    )
+            }
+        } else {
+            // Remove my ticket
+            EventService.deleteTicket(event).then(
+                (event: EventItem) => {
+                    this.handleChangedEvent(event);
+                }
+            ).catch(
+                (ex) => {
+                    console.error("Error deleting ticket for event: " + ex)
+                }
+                )
+        }
+    }
+
     getListGroupItem(key: string, eventItem: EventItem) {
         if (this.applyFilter(eventItem)) {
             let isHostedByCurrentUser = eventItem.hostId === this.getLoggedInUserId();
+            let isAttendedByCurrentUser = eventItem.ticket != null
 
             return <EventCard
                 title={eventItem.name}
@@ -183,7 +212,10 @@ export class EventListPresentation extends React.Component<Props, State> {
                 location={eventItem.location}
                 handleUpvote={() => this.handleUpvote(eventItem)}
                 handleDownvote={() => this.handleDownvote(eventItem)}
-                isHostedByCurrentUser={isHostedByCurrentUser} />;
+                isHostedByCurrentUser={isHostedByCurrentUser}
+                isAttendedByCurrentUser={isAttendedByCurrentUser}
+                handleAttendingClick={() => this.handleAttendingClick(eventItem)}
+            />;
         } else {
             return;
         }
@@ -194,7 +226,7 @@ export class EventListPresentation extends React.Component<Props, State> {
             return <LinkContainer to="/events/filter"><Button>Filter</Button></LinkContainer>
         }
     }
-    
+
     render() {
         var i: number = 0;
         let loading: JSX.Element = (this.state.loading) ? <div><i className="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div> : null;

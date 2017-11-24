@@ -187,6 +187,7 @@ export class EventService {
         if (!event.vote) {
             // If the vote doesn't exist, we have to create it
             newEvent.vote = await VoteService.createVote({ eventId: event.id, value: value });
+            newEvent.voteId = newEvent.vote.id;
         } else {
             // The event already exists, so just update it
             newEvent.vote = await VoteService.updateVote(event.vote.id, { eventId: event.id, value: value })
@@ -212,7 +213,7 @@ export class EventService {
         return axios.post(url, body, UserService.getAuthenticationHeader());
     }
 
-    public static async createEvent(event: CreateEventItem): Promise<{succeeded: boolean, message: string}> {
+    public static async createEvent(event: CreateEventItem): Promise<{ succeeded: boolean, message: string }> {
 
         let item: EventItem = null;
 
@@ -231,14 +232,38 @@ export class EventService {
                     message = "This event already exists! Change the title and try again."
                 }
 
-                return {succeeded: false, message: message}
+                return { succeeded: false, message: message }
             } else {
                 throw e;
             }
         }
 
         if (response.status >= 200 && response.status < 300) {
-            return {succeeded: true, message: "Success!"}
+            return { succeeded: true, message: "Success!" }
         }
     }
+
+    public static async createTicket(event: EventItem): Promise<EventItem> {
+        // Create a shallow copy of the EventItem, so we don't modify the argument
+        let newEvent: EventItem = Object.assign({}, event);
+
+        newEvent.ticket = await TicketService.createTicket({ eventId: event.id });
+        newEvent.ticketId = newEvent.ticket.id;
+        newEvent.currentCapacity++;
+
+        return newEvent;
+    }
+    
+    public static async deleteTicket(event: EventItem): Promise<EventItem> {
+        // Create a shallow copy of the EventItem, so we don't modify the argument
+        let newEvent: EventItem = Object.assign({}, event);
+
+        await TicketService.deleteTicket(event.ticket);
+        newEvent.ticket = null;
+        newEvent.ticketId = null;
+        newEvent.currentCapacity--;
+
+        return newEvent;
+    }
+
 }
