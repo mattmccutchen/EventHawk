@@ -2,11 +2,12 @@ import { UserItem } from "../../services/user"
 import { EventCategory } from "../../services/events";
 import { TicketItem } from "../../services/tickets";
 import { VoteItem } from "../../services/votes";
+import * as moment from 'moment';
 
 export interface EventItem {
     name: string
     description: string
-    time: string
+    time: moment.Moment
     location: string
     totalCapacity: number
     category: EventCategory

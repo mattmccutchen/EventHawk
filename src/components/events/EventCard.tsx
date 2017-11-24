@@ -1,12 +1,13 @@
 import * as React from "react";
 import { EventCategory, EventCategoryName } from "../../services/events";
+import * as moment from 'moment'
 
 export interface EventCardProps { 
     title: string,
     description: string,
     host: string,
     interest: number,
-    time: number,
+    time: moment.Moment,
     category: string,
     capacity: number,
     currentCapacity: number,
@@ -37,7 +38,7 @@ export class EventCard extends React.Component<EventCardProps, {}> {
                 <div className="event-host">{this.props.host}</div>
                 <div className="event-description">{this.props.description}</div>
                 <div className="event-stats">
-                    <span className="event-time">Saturday at 12:39 PM</span>
+                    <span className="event-time">{this.props.time.format("dddd, MMMM Do YYYY, h:mm a")}</span>
                     <span className="event-going"><strong>{spotsLeft}</strong> spots left</span>
                 </div>
             </div>

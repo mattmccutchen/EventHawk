@@ -182,7 +182,7 @@ export class EventListPresentation extends React.Component<Props, State> {
                 description={eventItem.description}
                 host={this.getUserName(eventItem.host)}
                 interest={eventItem.interestRating}
-                time={null}
+                time={eventItem.time}
                 category={EventCategoryName.get(eventItem.category)}
                 capacity={eventItem.totalCapacity}
                 currentCapacity={eventItem.currentCapacity}

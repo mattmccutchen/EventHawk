@@ -106,7 +106,7 @@ export class EventService {
                     id: eventId,
                     name: res.data.name,
                     description: res.data.description,
-                    time: res.data.time,
+                    time: moment(res.data.time),
                     location: res.data.location,
                     currentCapacity: res.data.current_capacity,
                     totalCapacity: res.data.total_capacity,
