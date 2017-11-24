@@ -9,6 +9,7 @@ import { InvalidIdError } from "./exceptions";
 import { EventListFilterSetting } from "../components/events/EventListFilterSetting";
 import { TicketService } from "./tickets";
 import { VoteService, VoteItem } from "./votes";
+import * as moment from "moment";
 
 // EventCategory keys will be converted to strings when making API calls to /events
 export enum EventCategory {
@@ -30,6 +31,15 @@ export const EventCategoryName = new Map<number, string>([
     [EventCategory.ART, 'Art'],
     [EventCategory.FOOD, 'Food'],
 ]);
+
+export interface CreateEventItem {
+    name: string,
+    description: string,
+    time: moment.Moment,
+    location: string,
+    totalCapacity: number,
+    category: EventCategory,
+}
 
 export class EventService {
     public static async indexEvents(filters?: EventListFilterSetting): Promise<AxiosResponse> {
@@ -102,7 +112,7 @@ export class EventService {
                     totalCapacity: res.data.total_capacity,
                     interestRating: res.data.interest_rating,
                     category: this.mapToCategory(res.data.category),
-                    hostId: res.data.host_id, 
+                    hostId: res.data.host_id,
                     ticketId: res.data._my_ticket,
                     voteId: res.data._my_vote
                 }
@@ -151,9 +161,9 @@ export class EventService {
         let eventIds: string[] = response.data
 
         let events: EventItem[] = []
-        
 
-        await Promise.all(eventIds.map(function(eventId) {
+
+        await Promise.all(eventIds.map(function (eventId) {
             return EventService.getEventItem(eventId);
         })).then((event: EventItem[]) => {
             events = event;
@@ -165,27 +175,74 @@ export class EventService {
     public static async upvote(event: EventItem): Promise<EventItem> {
         return this.createOrChangeVote(event, 1)
     }
-    
+
     public static async downvote(event: EventItem): Promise<EventItem> {
         return this.createOrChangeVote(event, -1)
     }
-    
+
     public static async novote(event: EventItem): Promise<EventItem> {
         return this.createOrChangeVote(event, 0)
     }
 
     private static async createOrChangeVote(event: EventItem, value: number): Promise<EventItem> {
         // Create a shallow copy of the EventItem, so we don't modify the argument
-        let newEvent: EventItem = Object.assign({}, event); 
+        let newEvent: EventItem = Object.assign({}, event);
 
         if (!event.vote) {
             // If the vote doesn't exist, we have to create it
-            newEvent.vote = await VoteService.createVote({eventId: event.id, value: value});
+            newEvent.vote = await VoteService.createVote({ eventId: event.id, value: value });
         } else {
             // The event already exists, so just update it
-            newEvent.vote = await VoteService.updateVote(event.vote.id, {eventId: event.id, value: value})
+            newEvent.vote = await VoteService.updateVote(event.vote.id, { eventId: event.id, value: value })
         }
 
         return newEvent;
+    }
+
+    public static async requestCreateEvent(event: CreateEventItem): Promise<AxiosResponse> {
+        let url = configVals.apiRoot + configVals.events
+
+        let body = {
+            "event":
+                {
+                    "name": event.name,
+                    "description": event.description,
+                    "time": event.time.toISOString(),
+                    "location": event.location,
+                    "total_capacity": event.totalCapacity,
+                    "category": EventCategory[event.category],
+                }
+        }
+        return axios.post(url, body, UserService.getAuthenticationHeader());
+    }
+
+    public static async createEvent(event: CreateEventItem): Promise<{succeeded: boolean, message: string}> {
+
+        let item: EventItem = null;
+
+        let response: AxiosResponse;
+
+        try {
+            response = await this.requestCreateEvent(event);
+        } catch (e) {
+            if (e.response && (e.response.status >= 400 && e.response.status < 500)) {
+                // TODO: Handle specific exceptions
+                // TODO: Remove user facing error messages from service: They belong in the presentation layer
+                console.error(e);
+                let message = "Error!"
+
+                if (e.response.status === 409) {
+                    message = "This event already exists! Change the title and try again."
+                }
+
+                return {succeeded: false, message: message}
+            } else {
+                throw e;
+            }
+        }
+
+        if (response.status >= 200 && response.status < 300) {
+            return {succeeded: true, message: "Success!"}
+        }
     }
 }

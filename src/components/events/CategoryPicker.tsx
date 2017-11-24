@@ -5,28 +5,34 @@ import { EventCategory, EventCategoryName } from "../../services/events";
 interface CategoryPickerProps {
     handleInputChange(event: any): void
     selectedCategory?: EventCategory
+
+    // Should the category picker show the "All" category?
+    allowAll?: boolean
 }
 
 export default function CategoryPicker(props: CategoryPickerProps) {
+    let categories = [
+        EventCategory.ART,
+        EventCategory.GAMES,
+        EventCategory.EDUCATIONAL,
+        EventCategory.FOOD,
+        EventCategory.MUSIC,
+        EventCategory.SPORTS
+    ]
+    if (props.allowAll) {
+        categories.unshift(EventCategory.ALL);
+    }
     return (
         <FormControl name="category" onChange={props.handleInputChange} componentClass="select" placeholder="select">
             {
-                [
-                    EventCategory.ALL,
-                    EventCategory.ART,
-                    EventCategory.GAMES,
-                    EventCategory.EDUCATIONAL,
-                    EventCategory.FOOD,
-                    EventCategory.MUSIC,
-                    EventCategory.SPORTS
-                ].map(
+                categories.map(
                     (category) =>
                         (
                             <option value={category} selected={props.selectedCategory == category}>
                                 {EventCategoryName.get(category)}
                             </option>
                         )
-                    )
+                )
             }
         </FormControl>
     );

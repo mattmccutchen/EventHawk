@@ -1,13 +1,14 @@
 import * as React from "react";
-import { FormGroup, ControlLabel, FormControl, Button } from "react-bootstrap"
+import { FormGroup, ControlLabel, FormControl, Button, HelpBlock } from "react-bootstrap"
 import CategoryPicker from "./CategoryPicker";
-import { EventCategory } from "../../services/events";
+import { EventCategory, EventService, CreateEventItem } from "../../services/events";
 import * as Datetime from 'react-datetime';
 import * as moment from "moment";
 import { EventItem } from "./EventItem";
+import { withRouter } from "react-router";
 
 interface Props {
-    //history: { push(path: string): any }
+    history?: { push(path: string): any }
 }
 
 interface State {
@@ -17,77 +18,116 @@ interface State {
     eventDateTime: moment.Moment,
     eventLocation: string,
     eventCapacity: number,
-    [key: string]: any // Have to specify type signature so typescript won't complain when we access properties by string index
+    createResultMessage: string,
+    validationState: { [key: string]: boolean }
 }
 
-export class CreateEvent extends React.Component<Props, State> {
+class CreateEventPresentation extends React.Component<Props, State> {
 
     constructor(props: any) {
         super(props);
 
         this.state = {
-            category: EventCategory.ALL,
+            category: EventCategory.ART,
             eventTitle: null,
             eventDescription: null,
-            eventDateTime: moment(),
+            eventDateTime: moment().add(7, 'days'),
             eventLocation: null,
-            eventCapacity: null,
+            eventCapacity: 5,
+            createResultMessage: null,
+            validationState: {},
         }
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleDatetimeChange = this.handleDatetimeChange.bind(this);
+        this.handleCreateEvent = this.handleCreateEvent.bind(this);
     }
-
 
     handleInputChange(event: any) {
         const target = event.target;
-        const value = target.value;
-        const name = target.name;
+        const fieldValue = target.value.trim();
+        const fieldName = target.name;
 
-        if (this.isValid(event.name, event.value)) {
-            this.setState({
-                [name]: value
-            });
-        }
-    }
+        //TODO: Use immutability-helpers
+        let validationState = Object.assign({}, this.state.validationState);
 
-    isValid(fieldName: string, value: any) {
-        if (fieldName == "eventCapacity") {
-            let capacity = parseInt(value)
-            if (capacity) {
-                return true;
-            } else {
-                return false;
-            }
+        switch (fieldName) {
+            case "eventCapacity":
+                // Capcity must be an integer >= 5
+                validationState[fieldName] = (/^\d+$/.test(fieldValue) && parseInt(fieldValue) >= 5)
+                break;
+            default:
+                validationState[fieldName] = true;
         }
 
-        return true;
+        if (validationState[fieldName]) {
+            this.setState({ [fieldName]: fieldValue });
+        }
+
+        this.setState({
+            validationState: validationState
+        });
+
     }
 
     getValidationState(fieldName: string): "success" | "warning" | "error" {
-        return this.isValid(fieldName, this.state[fieldName]) ? "success" : "error";
+        if (fieldName in this.state.validationState) {
+            return this.state.validationState[fieldName] ? "success" : "error";
+        }
+        return null;
     }
 
     handleDatetimeChange(value: moment.Moment | string) {
-        if (value instanceof moment) {
-            // User entered a valid date time
+        let validationState = Object.assign({}, this.state.validationState);
+
+        if (value instanceof moment && (value as moment.Moment).isAfter(Date.now())) {
+            validationState.eventDateTime = true;
             this.setState({
                 eventDateTime: value as moment.Moment
             });
+        } else {
+            //Datetime picker sets value to instanceof string if it's not a valid date time
+            validationState.eventDateTime = false;
         }
+
+        this.setState({
+            validationState: validationState
+        });
     }
 
+    isSelectableDate(current: moment.Moment) {
+        return current.isAfter(moment().subtract(1, 'day'));
+    };
+
     handleCreateEvent() {
-        let newEvent: EventItem = {
+        let newEvent: CreateEventItem = {
             name: this.state.eventTitle,
             description: this.state.eventDescription,
-            time: this.state.eventDateTime.toISOString(),
+            time: this.state.eventDateTime,
             location: this.state.eventLocation,
             totalCapacity: this.state.eventCapacity,
             category: this.state.category
         }
 
-        //this.props.history.push("/");
+        EventService.createEvent(newEvent).then(
+            (result: { succeeded: boolean, message: string }) => {
+                let validationState = Object.assign({}, this.state.validationState);
+                validationState["createResult"] = result.succeeded;
+
+                this.setState({
+                    createResultMessage: result.message,
+                    validationState: validationState
+                })
+
+                if (result.succeeded) {
+                    setTimeout(function() { this.props.history.push("/"); }.bind(this), 2000);   
+                }
+            }
+        );
+    }
+
+    reportResult(result: string) {
+
     }
 
     render() {
@@ -95,30 +135,35 @@ export class CreateEvent extends React.Component<Props, State> {
             <form>
                 <FormGroup>
                     <ControlLabel>Title</ControlLabel>
-                    <FormControl name="eventTitle" type="text" />
+                    <FormControl onChange={this.handleInputChange} name="eventTitle" type="text" />
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>Description</ControlLabel>
-                    <FormControl name="eventDescription" type="text" />
+                    <FormControl onChange={this.handleInputChange} name="eventDescription" type="text" />
                 </FormGroup>
-                <FormGroup>
+                <FormGroup validationState={this.getValidationState("eventDateTime")}>
                     <ControlLabel>Date</ControlLabel>
-                    <Datetime value={this.state.eventDateTime} onChange={this.handleDatetimeChange} />
+                    <Datetime isValidDate={this.isSelectableDate} value={this.state.eventDateTime} onChange={this.handleDatetimeChange} />
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>Location</ControlLabel>
-                    <FormControl name="eventLocation" type="text" />
+                    <FormControl onChange={this.handleInputChange} name="eventLocation" type="text" />
                 </FormGroup>
                 <FormGroup validationState={this.getValidationState("eventCapacity")}>
                     <ControlLabel>Capacity</ControlLabel>
-                    <FormControl onChange={this.handleInputChange} name="eventCapacity" type="text" />
+                    <FormControl onChange={this.handleInputChange} value={this.state.eventCapacity} name="eventCapacity" type="text" />
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>Category</ControlLabel>
-                    <CategoryPicker handleInputChange={this.handleInputChange} selectedCategory={this.state.category} />
+                    <CategoryPicker allowAll={false} handleInputChange={this.handleInputChange} selectedCategory={this.state.category} />
                 </FormGroup>
-                <Button onClick={this.handleCreateEvent}>Create</Button>
+                <FormGroup validationState={this.getValidationState("createResult")}>
+                    <Button onClick={this.handleCreateEvent}>Create</Button>
+                    <HelpBlock>{this.state.createResultMessage}</HelpBlock>
+                </FormGroup>
             </form>
         )
     }
 }
+
+export const CreateEvent = withRouter(CreateEventPresentation)
