@@ -108,7 +108,7 @@ export class EventService {
                     description: res.data.description,
                     time: moment(res.data.time),
                     location: res.data.location,
-                    currentCapacity: res.data.current_capacity,
+                    currentCapacity: res.data.current_capacity || 0,
                     totalCapacity: res.data.total_capacity,
                     interestRating: res.data.interest_rating,
                     category: this.mapToCategory(res.data.category),
