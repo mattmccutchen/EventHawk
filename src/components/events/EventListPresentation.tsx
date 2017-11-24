@@ -8,7 +8,7 @@ import { RateEvent } from "./RateEvent";
 import { EventService, EventCategoryName } from "../../services/events";
 import { EventListFilterSetting } from "./EventListFilterSetting";
 import axios from "axios";
-import { UserItem } from "../../services/user";
+import { UserItem, UserService } from "../../services/user";
 import { AuthenticationState } from "../../common/state/Auth";
 import { VoteService } from "../../services/votes";
 import * as update from 'immutability-helper';
@@ -168,14 +168,6 @@ export class EventListPresentation extends React.Component<Props, State> {
     getListGroupItem(key: string, eventItem: EventItem) {
         if (this.applyFilter(eventItem)) {
             let isHostedByCurrentUser = eventItem.hostId === this.getLoggedInUserId();
-            // TODO: Assume the logged in user can rate every event, until API filters let us find
-            // the actual events the user attended
-            let isAttendedByCurrentUser = true
-
-            // Manually calculate column width, because react-bootstrap requires width to be specified
-            let descriptionWidth = 9
-            if (isHostedByCurrentUser) descriptionWidth--;
-            if (isAttendedByCurrentUser) descriptionWidth--;
 
             return <EventCard
                 title={eventItem.name}
@@ -187,8 +179,10 @@ export class EventListPresentation extends React.Component<Props, State> {
                 capacity={eventItem.totalCapacity}
                 currentCapacity={eventItem.currentCapacity}
                 vote={eventItem.vote ? eventItem.vote.value : 0}
+                location={eventItem.location}
                 handleUpvote={() => this.handleUpvote(eventItem)}
-                handleDownvote={() => this.handleDownvote(eventItem)} />;
+                handleDownvote={() => this.handleDownvote(eventItem)}
+                isHostedByCurrentUser={isHostedByCurrentUser} />;
         } else {
             return;
         }

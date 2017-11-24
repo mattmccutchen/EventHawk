@@ -2,7 +2,7 @@ import * as React from "react";
 import { EventCategory, EventCategoryName } from "../../services/events";
 import * as moment from 'moment'
 
-export interface EventCardProps { 
+export interface EventCardProps {
     title: string,
     description: string,
     host: string,
@@ -12,8 +12,10 @@ export interface EventCardProps {
     capacity: number,
     currentCapacity: number,
     vote: number,
+    location: string,
     handleUpvote: () => void,
-    handleDownvote: () => void
+    handleDownvote: () => void,
+    isHostedByCurrentUser: boolean, // Is this event hosted by the logged in user
 }
 
 export class EventCard extends React.Component<EventCardProps, {}> {
@@ -22,14 +24,30 @@ export class EventCard extends React.Component<EventCardProps, {}> {
         super(props);
     }
 
+    renderVoteButtons() {
+        // Event hosts cannot vote on their own events, so hide the voting buttons for events hosted
+        // by the logged in user
+        if (this.props.isHostedByCurrentUser) {
+            return (
+                <div className="event-options-panel">
+                    <span className="event-votes">{this.props.interest}</span>
+                </div>
+            )
+        }
+
+        return (
+            <div className="event-options-panel">
+                <span className="event-upvote" style={this.props.vote == 1 ? { color: "green" } : null} onClick={this.props.handleUpvote}><i className="fa fa-arrow-up"></i></span>
+                <span className="event-votes">{this.props.interest}</span>
+                <span className="event-downvote" style={this.props.vote == -1 ? { color: "green" } : null} onClick={this.props.handleDownvote}><i className="fa fa-arrow-down"></i></span>
+            </div>
+        )
+    }
+
     render() {
         let spotsLeft: number = (this.props.capacity - this.props.currentCapacity);
         return <div className="event-item-container">
-            <div className="event-options-panel">
-                <span className="event-upvote" style={this.props.vote == 1 ? {color: "green"} : null} onClick={this.props.handleUpvote}><i className="fa fa-arrow-up"></i></span>
-                <span className="event-votes">{this.props.interest}</span>
-                <span className="event-downvote" style={this.props.vote == -1 ? {color: "green"} : null} onClick={this.props.handleDownvote}><i className="fa fa-arrow-down"></i></span>
-            </div>
+            {this.renderVoteButtons()}
             <div className="event-content-panel">
                 <div className="event-info">
                     <div className="event-title">{this.props.title}</div>
@@ -37,6 +55,7 @@ export class EventCard extends React.Component<EventCardProps, {}> {
                 </div>
                 <div className="event-host">{this.props.host}</div>
                 <div className="event-description">{this.props.description}</div>
+                <div className="event-location">{this.props.location}</div>
                 <div className="event-stats">
                     <span className="event-time">{this.props.time.format("dddd, MMMM Do YYYY, h:mm a")}</span>
                     <span className="event-going"><strong>{spotsLeft}</strong> spots left</span>
