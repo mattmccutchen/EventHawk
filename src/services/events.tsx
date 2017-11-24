@@ -110,7 +110,7 @@ export class EventService {
                     location: res.data.location,
                     currentCapacity: res.data.current_capacity || 0,
                     totalCapacity: res.data.total_capacity,
-                    interestRating: res.data.interest_rating,
+                    interestRating: res.data.interest_rating || 0,
                     category: this.mapToCategory(res.data.category),
                     hostId: res.data.host_id,
                     ticketId: res.data._my_ticket,
