@@ -614,9 +614,14 @@ body > div.global-container > .home-container > .activity-sidebar > ul.list-opti
 	width: 100%;
 }
   
-.event-item-container .event-content-panel .event-info {
+.event-item-container .event-content-panel .event-info,
+.event-item-container .event-content-panel .event-location-attend {
 	display: table;
 	width: 100%;
+}
+
+.event-item-container .event-content-panel .event-location-attend {
+	margin-bottom: 15px;
 }
   
 .event-item-container .event-content-panel .event-info .event-title {
@@ -639,17 +644,36 @@ body > div.global-container > .home-container > .activity-sidebar > ul.list-opti
 	margin-bottom: 15px;
 	width: 100%;
 }
-  
-.event-item-container .event-content-panel .event-user-attending {
+
+.event-item-container .event-content-panel .event-location-attend .event-location,
+.event-item-container .event-content-panel .event-location-attend .event-user-attending {
 	display: table-cell;
 	font-weight: 300;
-	margin-bottom: 15px;
+	text-decoration: none;
 }
 
-.event-item-container .event-content-panel .event-description,
-.event-item-container .event-content-panel .event-location {
+.event-item-container .event-content-panel .event-location-attend .event-user-attending.signup {
+	color: #337ab7;
+}
+
+.event-item-container .event-content-panel .event-location-attend .event-user-attending.attending {
+	color: #03982c;
+}
+
+.event-item-container .event-content-panel .event-location-attend .event-user-attending.full {
+	color: #b70b13;
+}
+
+.event-item-container .event-content-panel .event-location-attend .event-user-attending:hover {
+	text-decoration: underline;
+}
+
+.event-item-container .event-content-panel .event-location-attend .event-user-attending {
+	text-align: right;
+}
+
+.event-item-container .event-content-panel .event-description {
 	display: block;
-	font-weight: 300;
 	margin-bottom: 15px;
 }
   

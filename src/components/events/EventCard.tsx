@@ -55,21 +55,19 @@ export class EventCard extends React.Component<EventCardProps, {}> {
         }
         if (this.props.isAttendedByCurrentUser) {
             return (
-                <div className="event-user-attending" role="button" onClick={this.props.handleAttendingClick}>
-                    <Glyphicon glyph="ok-sign" style={{ color: "green" }} /> I'm attending!
-                </div>
+                <a className="event-user-attending attending" onClick={this.props.handleAttendingClick}>
+                    <i className="fa fa-check" style={{ color: "green" }}></i> I'm attending!
+                </a>
             )
         } else if (spotsLeft > 0) {
             return (
-                <div className="event-user-attending" role="button" onClick={this.props.handleAttendingClick}>
-                    <Glyphicon glyph="question-sign" /> Sign me up!
-                </div>
+                <a className="event-user-attending signup" onClick={this.props.handleAttendingClick}>Sign me up!</a>
             )
         } else {
             return (
-                <div className="event-user-attending">
-                    <Glyphicon glyph="minus-sign" /> This event is full!
-                </div>
+                <span className="event-user-attending full">
+                    <i className="fa fa-exclamation"></i> This event is full!
+                </span>
             )
         }
     }
@@ -85,10 +83,12 @@ export class EventCard extends React.Component<EventCardProps, {}> {
                 </div>
                 <div className="event-host">{this.props.host}</div>
                 <div className="event-description">{this.props.description}</div>
-                <div className="event-location">{this.props.location}</div>
-                {this.renderAttending()}
+                <div className="event-location-attend">
+                    <div className="event-location">Location: {this.props.location}</div>
+                    {this.renderAttending()}
+                </div>
                 <div className="event-stats">
-                    <span className="event-time">{this.props.time.format("dddd, MMMM Do YYYY, h:mm a")}</span>
+                    <span className="event-time">{this.props.time.format("dddd, MMM Do YYYY, h:mm A")}</span>
                     <span className="event-going"><strong>{spotsLeft}</strong> spots left</span>
                 </div>
             </div>
