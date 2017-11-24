@@ -16,20 +16,18 @@ export enum EventCategory {
     ALL = 0,
     SPORTS,
     GAMES,
-    EDUCATIONAL,
+    EDUCATION,
     MUSIC,
     ART,
-    FOOD,
 }
 
 export const EventCategoryName = new Map<number, string>([
     [EventCategory.ALL, 'All'],
     [EventCategory.SPORTS, 'Sports'],
     [EventCategory.GAMES, 'Games'],
-    [EventCategory.EDUCATIONAL, 'Educational'],
+    [EventCategory.EDUCATION, 'Education'],
     [EventCategory.MUSIC, 'Music'],
     [EventCategory.ART, 'Art'],
-    [EventCategory.FOOD, 'Food'],
 ]);
 
 export interface CreateEventItem {
@@ -82,14 +80,12 @@ export class EventService {
                 return EventCategory.SPORTS;
             case "GAMES":
                 return EventCategory.GAMES;
-            case "EDUCATIONAL":
-                return EventCategory.EDUCATIONAL;
+            case "EDUCATION":
+                return EventCategory.EDUCATION;
             case "MUSIC":
                 return EventCategory.MUSIC;
             case "ART":
                 return EventCategory.ART;
-            case "FOOD":
-                return EventCategory.FOOD;
             default:
                 console.error("Unknown category: " + category)
                 return EventCategory.ALL;

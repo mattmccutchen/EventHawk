@@ -53,8 +53,8 @@ class CreateEventPresentation extends React.Component<Props, State> {
 
         switch (fieldName) {
             case "eventCapacity":
-                // Capcity must be an integer >= 5
-                validationState[fieldName] = (/^\d+$/.test(fieldValue) && parseInt(fieldValue) >= 5)
+                // Capcity must be an integer >= 5 and <= 50
+                validationState[fieldName] = (/^\d+$/.test(fieldValue) && parseInt(fieldValue) >= 5 && parseInt(fieldValue) <= 50)
                 break;
             default:
                 validationState[fieldName] = true;
@@ -151,7 +151,7 @@ class CreateEventPresentation extends React.Component<Props, State> {
                 </FormGroup>
                 <FormGroup validationState={this.getValidationState("eventCapacity")}>
                     <ControlLabel>Capacity</ControlLabel>
-                    <FormControl onChange={this.handleInputChange} value={this.state.eventCapacity} name="eventCapacity" type="text" />
+                    <FormControl onChange={this.handleInputChange} defaultValue={this.state.eventCapacity.toString()} name="eventCapacity" type="text" />
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>Category</ControlLabel>

@@ -14,8 +14,7 @@ export default function CategoryPicker(props: CategoryPickerProps) {
     let categories = [
         EventCategory.ART,
         EventCategory.GAMES,
-        EventCategory.EDUCATIONAL,
-        EventCategory.FOOD,
+        EventCategory.EDUCATION,
         EventCategory.MUSIC,
         EventCategory.SPORTS
     ]
