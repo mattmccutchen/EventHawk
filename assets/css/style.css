@@ -27,7 +27,8 @@ nav.header {
     color: #292929;
     display: table;
     height: 50px;
-    padding: 0 30px;
+	padding: 0 30px;
+	position: fixed;
 }
 
 nav.header > .header-logo {
@@ -159,13 +160,16 @@ body > div.global-container {
 	display: flex;
 	flex-direction: row;
 	height: calc(100% - 51px);
+	padding-top: 51px;
 	width: 100%;
 }
 
 .global-container .sidebar {
 	display: block;
+	height: 100%;
 	min-width: 200px;
 	padding: 10px 0;
+	position: fixed;
 }
 
 .global-container .sidebar.left {
@@ -187,6 +191,7 @@ body > div.global-container {
 
 .global-container .sidebar.right {
 	border-left: 1px solid #dddddd;
+	right: 0;
 }
 
 .global-container .sidebar.right .group .header {
@@ -235,8 +240,9 @@ body > div.global-container {
 .global-container .content {
 	display: block;
 	height: 100%;
+	margin: 0 auto;
 	padding: 10px;
-	width: 100%;
+	width: calc(100% - 400px);
 }
 
 .global-container .content .area {
