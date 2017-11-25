@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import { configVals } from "./config";
 import axios from "axios";
 import { AxiosResponse } from "axios";
-import { UserService } from "./user"
-import { EventItem } from "../components/events/EventItem"
+import { UserService } from "./user";
+import { EventItem } from "../components/events/EventItem";
 import { InvalidIdError } from "./exceptions";
 import { EventListFilterSetting } from "../components/events/EventListFilterSetting";
 import { TicketService } from "./tickets";
@@ -17,8 +17,10 @@ export enum EventCategory {
     SPORTS,
     GAMES,
     EDUCATION,
+    MOVIES,
     MUSIC,
     ART,
+    FOOD
 }
 
 export const EventCategoryName = new Map<number, string>([
@@ -26,8 +28,10 @@ export const EventCategoryName = new Map<number, string>([
     [EventCategory.SPORTS, 'Sports'],
     [EventCategory.GAMES, 'Games'],
     [EventCategory.EDUCATION, 'Education'],
+    [EventCategory.MOVIES, 'Movies'],
     [EventCategory.MUSIC, 'Music'],
     [EventCategory.ART, 'Art'],
+    [EventCategory.FOOD, 'Food'],
 ]);
 
 export interface CreateEventItem {
@@ -82,10 +86,14 @@ export class EventService {
                 return EventCategory.GAMES;
             case "EDUCATION":
                 return EventCategory.EDUCATION;
+            case "MOVIES":
+                return EventCategory.MOVIES;
             case "MUSIC":
                 return EventCategory.MUSIC;
             case "ART":
                 return EventCategory.ART;
+            case "FOOD":
+                return EventCategory.FOOD;
             default:
                 console.error("Unknown category: " + category)
                 return EventCategory.ALL;

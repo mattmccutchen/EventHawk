@@ -29,7 +29,6 @@ export class FilterLink extends React.Component<FilterLinkProps, FilterState> {
 
     componentWillMount() {
         if (this.props.filter === this.props.filterSetting.category) {
-            console.log(this.props.filter)
             this.setState({ active: "active" });
             document.addEventListener("mousedown", this.mousedown);
         }
