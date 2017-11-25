@@ -29,6 +29,7 @@ nav.header {
     height: 50px;
 	padding: 0 30px;
 	position: fixed;
+	z-index: 1;
 }
 
 nav.header > .header-logo {
@@ -199,8 +200,10 @@ body > div.global-container {
 	right: 0;
 }
 
-.global-container .sidebar.right .group .header {
+.global-container .sidebar .group .header {
+	font-size: 20px;
 	margin-bottom: 10px;
+	padding: 0 20px;
 }
 
 .global-container .sidebar ul {
@@ -233,8 +236,12 @@ body > div.global-container {
 	background-color: #DFE2E6;
 }
 
-.global-container .sidebar ul a.active {
+.global-container .sidebar.left ul a.active {
 	border-right: 2px solid #3A5488;
+}
+
+.global-container .sidebar.right ul a.active {
+	border-left: 2px solid #3A5488;
 }
 
 .global-container div.area h1:first-of-type {
@@ -591,13 +598,13 @@ body > div.global-container > .home-container > .activity-sidebar > ul.list-opti
 }
 
 .event-list {
-	width: 800px;
+	width: auto;
 }
 
 .event-item-container {
-	-webkit-box-shadow: 0px 0px 22px 0px rgba(0,0,0,0.25);
-	-moz-box-shadow: 0px 0px 22px 0px rgba(0,0,0,0.25);
-	box-shadow: 0px 0px 22px 0px rgba(0,0,0,0.25);
+	-webkit-box-shadow: 0px 0px 22px 0px rgba(0,0,0,0.22);
+	-moz-box-shadow: 0px 0px 22px 0px rgba(0,0,0,0.22);
+	box-shadow: 0px 0px 22px 0px rgba(0,0,0,0.22);
 	background-color: #eee;
 	display: table;
 	padding: 10px 15px;

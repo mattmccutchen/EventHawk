@@ -5,6 +5,7 @@ import { EventCategory } from "../../services/events";
 
 interface FilterLinkProps extends LinkProps {
     filter: number,
+    filterSetting: EventListFilterSetting,
     onFilterApplied(newFilter: EventListFilterSetting): any
 };
 
@@ -24,6 +25,14 @@ export class FilterLink extends React.Component<FilterLinkProps, FilterState> {
 
         this.onclick = this.onclick.bind(this);
         this.mousedown = this.mousedown.bind(this);
+    }
+
+    componentWillMount() {
+        if (this.props.filter === this.props.filterSetting.category) {
+            console.log(this.props.filter)
+            this.setState({ active: "active" });
+            document.addEventListener("mousedown", this.mousedown);
+        }
     }
 
     mousedown() {
