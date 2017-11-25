@@ -32,12 +32,14 @@ export class FilterLink extends React.Component<FilterLinkProps, FilterState> {
     }
 
     onclick(e: React.MouseEvent<HTMLAnchorElement>) {
+        document.getElementById("app_context").classList.add("loading");
         let newFilter: EventListFilterSetting = {
             category: this.props.filter
         }
         this.props.onFilterApplied(newFilter);
         this.setState({ active: "active" });
         document.addEventListener("mousedown", this.mousedown);
+        document.getElementById("app_context").classList.remove("loading");
     }
 
     render() {

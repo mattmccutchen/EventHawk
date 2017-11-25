@@ -103,7 +103,7 @@ const router = [
 ];
 
 export const Content = () => (
-    <div className="global-container">
+    <div className="global-container" id="app_context">
         {router.map((route, num) => (
             <AppRoute key={num} path={route.path} exact={route.exact} component={route.sidebar} auth={route.auth} />
         ))}

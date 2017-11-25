@@ -164,6 +164,11 @@ body > div.global-container {
 	width: 100%;
 }
 
+.global-container.loading {
+	opacity: 0.2;
+	pointer-events: none
+}
+
 .global-container .sidebar {
 	display: block;
 	height: 100%;
