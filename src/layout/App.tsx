@@ -24,6 +24,7 @@ const router = [
         path: "/",
         exact: true,
         sidebar: () => <Sidebar event={null} />,
+        options: () => <Sidebar event={null} type="options" />,
         auth: 0,
         main: () => <HomeView />
     },
@@ -31,6 +32,7 @@ const router = [
         path: "/login",
         exact: false,
         sidebar: null,
+        options: null,
         auth: 2,
         main: () => <Login history={null} />
     },
@@ -38,6 +40,7 @@ const router = [
         path: "/signup",
         exact: false,
         sidebar: null,
+        options: null,
         auth: 2,
         main: () => <Register />
     },
@@ -45,6 +48,7 @@ const router = [
         path: "/myevents",
         exact: false,
         sidebar: () => <Sidebar event={null} />,
+        options: () => <Sidebar event={null} type="options" />,
         auth: 1,
         main: () => <MyEventsView />
     },
@@ -52,6 +56,7 @@ const router = [
         path: "/events/create",
         exact: false,
         sidebar: () => <Sidebar event={null} />,
+        options: () => <Sidebar event={null} type="options" />,
         auth: 1,
         main: () => <CreateEventView />
     },
@@ -59,6 +64,7 @@ const router = [
         path: "/events/edit",
         exact: false,
         sidebar: () => <Sidebar event={null} />,
+        options: () => <Sidebar event={null} type="options" />,
         auth: 1,
         main: () => <CreateEventView />
     },
@@ -66,6 +72,7 @@ const router = [
         path: "/events/rate",
         exact: false,
         sidebar: () => <Sidebar event={null} />,
+        options: () => <Sidebar event={null} type="options" />,
         auth: 1,
         main: () => <RateEventView />
     },
@@ -73,6 +80,7 @@ const router = [
         path: "/events/filter",
         exact: false,
         sidebar: () => <Sidebar event={null} />,
+        options: () => <Sidebar event={null} type="options" />,
         auth: 0,
         main: () => <EventListFilterContainer history={null} />
     },
@@ -80,6 +88,7 @@ const router = [
         path: "/user/:id",
         exact: false,
         sidebar: () => <Sidebar type="user" event={null} />,
+        options: () => <Sidebar event={null} type="options" />,
         auth: 1,
         main: () => <UserProfileView />
     },
@@ -87,6 +96,7 @@ const router = [
         path: "/user/logout",
         exact: true,
         sidebar: null,
+        options: null,
         auth: 1,
         main: () => <Logout history={null} />
     }
@@ -105,6 +115,9 @@ export const Content = () => (
             </div>
             <footer>EventHawk &copy; 2017</footer>
         </div>
+        {router.map((route, num) => (
+            <AppRoute key={num} path={route.path} exact={route.exact} component={route.options} auth={route.auth} />
+        ))}
     </div>
 );
 

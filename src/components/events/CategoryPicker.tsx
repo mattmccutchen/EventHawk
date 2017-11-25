@@ -1,5 +1,6 @@
 import * as React from "react";
 import { FormControl } from "react-bootstrap";
+import { FilterLink } from "../navigation/FilterLink";
 import { EventCategory, EventCategoryName } from "../../services/events";
 
 interface CategoryPickerProps {
@@ -18,21 +19,18 @@ export default function CategoryPicker(props: CategoryPickerProps) {
         EventCategory.MUSIC,
         EventCategory.SPORTS
     ]
+
     if (props.allowAll) {
         categories.unshift(EventCategory.ALL);
     }
+
     return (
-        <FormControl name="category" onChange={props.handleInputChange} componentClass="select" placeholder="select">
+        <ul>
             {
-                categories.map(
-                    (category) =>
-                        (
-                            <option value={category} selected={props.selectedCategory == category}>
-                                {EventCategoryName.get(category)}
-                            </option>
-                        )
-                )
+                categories.map((category) => (
+                    <li><FilterLink to="" filter={category} onFilterApplied={props.handleInputChange}>{EventCategoryName.get(category)}</FilterLink></li>
+                ))
             }
-        </FormControl>
+        </ul>
     );
 }

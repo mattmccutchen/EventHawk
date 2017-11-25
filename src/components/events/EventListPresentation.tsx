@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Popover, OverlayTrigger, Button, ListGroup, ListGroupItem, Well, Panel, Badge, Glyphicon, Grid, Row, Col } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { Link } from "react-router-dom";
 import { EventItem } from "./EventItem";
@@ -232,7 +232,6 @@ export class EventListPresentation extends React.Component<Props, State> {
         let loading: JSX.Element = (this.state.loading) ? <div><i className="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div> : null;
         return (
             <div>
-                {this.renderFilterButton()}
                 {loading}
                 <div className="event-list">
                     {this.state.eventList.map((event) => (<div>{this.getListGroupItem((i++).toString(), event)}</div>))}

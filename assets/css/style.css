@@ -173,11 +173,11 @@ body > div.global-container {
 	border-right: 1px solid #dddddd;
 }
 
-.global-container .sidebar.left.user .group {
+.global-container .sidebar .group {
 	margin-bottom: 10px;
 }
 
-.global-container .sidebar.left.user .group .header {
+.global-container .sidebar .group .header {
 	display: block;
 	font-size: 21px;
 	font-weight: 500;
@@ -186,9 +186,11 @@ body > div.global-container {
 }
 
 .global-container .sidebar.right {
-	min-width: 300px;
-	padding: 10px;
-	vertical-align: top;
+	border-left: 1px solid #dddddd;
+}
+
+.global-container .sidebar.right .group .header {
+	margin-bottom: 10px;
 }
 
 .global-container .sidebar ul {
@@ -699,6 +701,7 @@ body > div.global-container > .home-container > .activity-sidebar > ul.list-opti
 
 footer {
 	color: #aaa;
+	padding-bottom: 20px;
 	text-align: center;
 }
 
