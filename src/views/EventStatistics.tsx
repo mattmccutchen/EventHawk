@@ -15,9 +15,16 @@ interface IEventStatisticsState {
     loading: boolean
 }
 
+interface Margin {
+    left: number,
+    top: number,
+    right: number,
+    bottom: number
+}
+
 export class EventStatistics extends React.Component<IEventStatisticsProps, IEventStatisticsState> {
 
-    chart: SVGSVGElement;
+    chart: any;
 
     constructor(props: IEventStatisticsProps) {
         super(props);
@@ -71,6 +78,12 @@ export class EventStatistics extends React.Component<IEventStatisticsProps, IEve
             <div className="event-statistics-page-header">
                 <h2>Statistics</h2>
                 <span>View statistics and metrics for this event. </span>
+            </div>
+            <div className="event-stat-group">
+                <span className="event-stat-header">Event capacity vs amount of people attending</span>
+                <svg className="container" ref={(ref: SVGSVGElement) => this.chart = ref}
+                    width={100} height={500}>
+                </svg>
             </div>
         </div>
     }
