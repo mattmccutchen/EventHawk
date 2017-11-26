@@ -17,3 +17,23 @@ export class InvalidIdError extends Error {
         this.id = id;
     }
 }
+
+export class InvalidPropertyError extends Error {
+    propertyName: string
+    propertyValue: any
+
+    constructor(propertyName: string, propertyValue: any, message = "Invalid value given for property: " + propertyName, ...params: any[]) {
+
+        // Pass remaining arguments (including vendor specific ones) to parent constructor
+        super(message = message, ...params);
+
+        // Maintains proper stack trace for where our error was thrown (only available on V8)
+        if (Error.captureStackTrace) {
+            Error.captureStackTrace(this, InvalidPropertyError);
+        }
+
+        // Custom debugging information
+        this.propertyName = propertyName;
+        this.propertyValue = propertyValue;
+    }
+}

@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as JwtDecode from "jwt-decode";
 import axios from "axios";
-import { AxiosResponse } from "axios";
+import { AxiosResponse, AxiosError } from "axios";
 import { configVals } from "./config";
 import { InvalidIdError } from "./exceptions";
 
@@ -106,28 +106,21 @@ export class UserService {
      *                  a null object is returned.
      */
     public static async getUser(id: string): Promise<UserItem> {
-        let item: UserItem = null;
-
-        let response: AxiosResponse
-
-        try {
-            response = await axios.get(configVals.apiRoot + configVals.users + "/" + id, UserService.getAuthenticationHeader())
-        } catch (e) {
-            if (e.response && e.response.status === 404) {
+        return axios.get(configVals.apiRoot + configVals.users + "/" + id, UserService.getAuthenticationHeader()).then(res => {
+            if (res.status === 200) {
+                return {
+                    id: id,
+                    firstName: res.data.first_name,
+                    lastName: res.data.last_name,
+                    email: res.data.email
+                }
+            }
+        }).catch((ex: AxiosError) => {
+            if (ex.response && ex.response.status === 404) {
                 throw new InvalidIdError(id);
             } else {
-                throw e;
+                throw ex;
             }
-        }
-
-        if (response.status === 200) {
-            item = {
-                id: id,
-                firstName: response.data.first_name,
-                lastName: response.data.last_name,
-                email: response.data.email
-            }
-            return item;
-        }
+        });
     }
 }

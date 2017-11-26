@@ -1,34 +1,51 @@
 import * as React from "react";
 import { FormGroup, ControlLabel, Button } from "react-bootstrap"
 import { EventList } from "../events/EventList"
+import { EventHawkAppState } from "../../reducers/EventHawkAppReducer";
+import { connect } from "react-redux";
+import { AuthenticationState } from "../../common/state/Auth";
 
-export class UserProfile extends React.Component {
+interface Props {
+    authState?: AuthenticationState
+}
+
+export class UserProfilePresentation extends React.Component<Props, any> {
 
     constructor(props: any) {
         super(props);
     }
 
+    getLoggedInUserId(): string {
+        return this.props.authState.loggedIn ? this.props.authState.user_id : ""
+    }
+
     render() {
         return (
             <div>
-                <h1>John A. Student's Profile</h1>
-                <Button>Change password</Button>
+                <h1>{this.props.authState.first_name}'s Profile</h1>
 
-                <FormGroup>
-                    <ControlLabel>Planned Events</ControlLabel>
-                    <EventList filters={{hostUserId: "userA"}}/>
-                </FormGroup>
-                
-                <FormGroup>
-                    <ControlLabel >Past Hosted</ControlLabel>
-                    <EventList filters={{hostUserId: "userA"}}/>
-                </FormGroup>
-                
-                <FormGroup>
-                    <ControlLabel>Past Attended</ControlLabel>
-                    <EventList filters={{attendeeUserId: "userA"}}/>
-                </FormGroup>
+                <div>
+                    <Button>Change password</Button>
+                </div>
+
+                <div>
+                    <h2>Hosted Events</h2>
+                    <EventList showFilterButton={false} filters={{ hostUserId: this.getLoggedInUserId() }} />
+                </div>
+
+                <div>
+                    <h2>Attended Events</h2>
+                    <EventList showFilterButton={false} filters={{ attendeeUserId: this.getLoggedInUserId() }} />
+                </div>
             </div>
         )
     }
 }
+
+const mapStateToProps = (state: EventHawkAppState) => {
+    return {
+        authState: state.authState
+    }
+}
+
+export const UserProfile = connect(mapStateToProps, null)(UserProfilePresentation);

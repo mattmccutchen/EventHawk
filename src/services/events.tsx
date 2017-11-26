@@ -3,32 +3,45 @@ import { Link } from "react-router-dom";
 import { configVals } from "./config";
 import axios from "axios";
 import { AxiosResponse } from "axios";
-import { UserService } from "./user"
-import { EventItem } from "../components/events/EventItem"
+import { UserService } from "./user";
+import { EventItem } from "../components/events/EventItem";
 import { InvalidIdError } from "./exceptions";
 import { EventListFilterSetting } from "../components/events/EventListFilterSetting";
 import { TicketService } from "./tickets";
+import { VoteService, VoteItem } from "./votes";
+import * as moment from "moment";
 
 // EventCategory keys will be converted to strings when making API calls to /events
 export enum EventCategory {
     ALL = 0,
     SPORTS,
-    CARD_GAMES,
-    EDUCATIONAL,
+    GAMES,
+    EDUCATION,
+    MOVIES,
     MUSIC,
     ART,
-    FOOD,
+    FOOD
 }
 
 export const EventCategoryName = new Map<number, string>([
     [EventCategory.ALL, 'All'],
     [EventCategory.SPORTS, 'Sports'],
-    [EventCategory.CARD_GAMES, 'Card games'],
-    [EventCategory.EDUCATIONAL, 'Educational'],
+    [EventCategory.GAMES, 'Games'],
+    [EventCategory.EDUCATION, 'Education'],
+    [EventCategory.MOVIES, 'Movies'],
     [EventCategory.MUSIC, 'Music'],
     [EventCategory.ART, 'Art'],
     [EventCategory.FOOD, 'Food'],
 ]);
+
+export interface CreateEventItem {
+    name: string,
+    description: string,
+    time: moment.Moment,
+    location: string,
+    totalCapacity: number,
+    category: EventCategory,
+}
 
 export class EventService {
     public static async indexEvents(filters?: EventListFilterSetting): Promise<AxiosResponse> {
@@ -69,10 +82,12 @@ export class EventService {
         switch (category) {
             case "SPORTS":
                 return EventCategory.SPORTS;
-            case "CARD_GAMES":
-                return EventCategory.CARD_GAMES;
-            case "EDUCATIONAL":
-                return EventCategory.EDUCATIONAL;
+            case "GAMES":
+                return EventCategory.GAMES;
+            case "EDUCATION":
+                return EventCategory.EDUCATION;
+            case "MOVIES":
+                return EventCategory.MOVIES;
             case "MUSIC":
                 return EventCategory.MUSIC;
             case "ART":
@@ -86,49 +101,62 @@ export class EventService {
     }
 
     public static async getEventItem(eventId: string): Promise<EventItem> {
-        let response = await EventService.showEvent(eventId)
+        let response = await EventService.showEvent(eventId);
+        let newEventItem: EventItem
 
-        if (response.status === 200) {
-            let event = response.data
-            let newEventItem: EventItem = {
-                name: event.name,
-                description: event.description,
-                time: event.time,
-                location: event.location,
-                currentCapacity: event.current_capacity,
-                totalCapacity: event.total_capacity,
-                interestRating: event.interest_rating,
-                category: this.mapToCategory(event.category),
-                hostId: event.host_id,
-                ticketId: event._my_ticket
+        return EventService.showEvent(eventId).then((res: AxiosResponse) => {
+            if (res.status === 200) {
+                newEventItem = {
+                    id: eventId,
+                    name: res.data.name,
+                    description: res.data.description,
+                    time: moment(res.data.time),
+                    location: res.data.location,
+                    currentCapacity: res.data._current_capacity || 0,
+                    totalCapacity: res.data.total_capacity,
+                    interestRating: res.data._interest_rating || 0,
+                    category: this.mapToCategory(res.data.category),
+                    hostId: res.data.host_id,
+                    ticketId: res.data._my_ticket,
+                    voteId: res.data._my_vote
+                }
+            } else {
+                console.error("There was an error finding this event.");
             }
-
-            try {
-                newEventItem.host = await UserService.getUser(newEventItem.hostId)
-            } catch (e) {
-                if (e instanceof InvalidIdError) {
-                    console.error("Ignoring invalid hostId when populating event list. hostId was: " + e.id)
+        }).then(() => {
+            return UserService.getUser(newEventItem.hostId).then(res => {
+                newEventItem.host = res;
+            }).catch(ex => {
+                if (ex instanceof InvalidIdError) {
+                    console.error("Ignoring invalid hostId when populating event list. hostId was: " + ex.id)
                     newEventItem.host = null;
                 } else {
-                    throw e;
+                    throw ex;
                 }
-            }
-            
-            try {
-                newEventItem.ticket = await TicketService.getTicket(newEventItem.ticketId)
-            } catch (e) {
-                if (e instanceof InvalidIdError) {
-                    console.error("Ignoring invalid ticketId when populating event list. ticketId was: " + e.id)
-                    newEventItem.host = null;
+            })
+        }).then(() => {
+            return TicketService.getTicket(newEventItem.ticketId).then(res => {
+                newEventItem.ticket = res;
+            }).catch(ex => {
+                if (ex instanceof InvalidIdError) {
+                    console.error("Ignoring invalid ticketId when populating event list. ticketId was: " + ex.id)
                 } else {
-                    throw e;
+                    throw ex;
                 }
-            }
-
-            return newEventItem
-        }
-
-        return null
+            });
+        }).then(() => {
+            return VoteService.getVote(newEventItem.voteId).then(res => {
+                newEventItem.vote = res;
+            }).catch(ex => {
+                if (ex instanceof InvalidIdError) {
+                    console.error("Ignoring invalid voteId when populating event list. voteId was: " + ex.id)
+                } else {
+                    throw ex;
+                }
+            });
+        }).then(() => {
+            return newEventItem;
+        });
     }
 
     public static async getAllEventItems(filters: EventListFilterSetting): Promise<EventItem[]> {
@@ -137,14 +165,115 @@ export class EventService {
         let eventIds: string[] = response.data
 
         let events: EventItem[] = []
-        for (let eventId of eventIds) {
-            let newEvent: EventItem = await EventService.getEventItem(eventId)
 
-            if (newEvent) {
-                events.push(newEvent)
-            }
-        }
+
+        events = await Promise.all(
+            eventIds.map(
+                function (eventId) {
+                    return EventService.getEventItem(eventId);
+                }
+            )
+        );
 
         return events
     }
+
+    public static async upvote(event: EventItem): Promise<EventItem> {
+        return this.createOrChangeVote(event, 1)
+    }
+
+    public static async downvote(event: EventItem): Promise<EventItem> {
+        return this.createOrChangeVote(event, -1)
+    }
+
+    public static async novote(event: EventItem): Promise<EventItem> {
+        return this.createOrChangeVote(event, 0)
+    }
+
+    private static async createOrChangeVote(event: EventItem, value: number): Promise<EventItem> {
+        // Create a shallow copy of the EventItem, so we don't modify the argument
+        let newEvent: EventItem = Object.assign({}, event);
+
+        if (!event.vote) {
+            // If the vote doesn't exist, we have to create it
+            newEvent.vote = await VoteService.createVote({ eventId: event.id, value: value });
+            newEvent.voteId = newEvent.vote.id;
+        } else {
+            // The event already exists, so just update it
+            newEvent.vote = await VoteService.updateVote(event.vote.id, { eventId: event.id, value: value })
+        }
+
+        return newEvent;
+    }
+
+    public static async requestCreateEvent(event: CreateEventItem): Promise<AxiosResponse> {
+        let url = configVals.apiRoot + configVals.events
+
+        let body = {
+            "event":
+                {
+                    "name": event.name,
+                    "description": event.description,
+                    "time": event.time.toISOString(),
+                    "location": event.location,
+                    "total_capacity": event.totalCapacity,
+                    "category": EventCategory[event.category],
+                }
+        }
+        return axios.post(url, body, UserService.getAuthenticationHeader());
+    }
+
+    public static async createEvent(event: CreateEventItem): Promise<{ succeeded: boolean, message: string }> {
+
+        let item: EventItem = null;
+
+        let response: AxiosResponse;
+
+        try {
+            response = await this.requestCreateEvent(event);
+        } catch (e) {
+            if (e.response && (e.response.status >= 400 && e.response.status < 500)) {
+                // TODO: Handle specific exceptions
+                // TODO: Remove user facing error messages from service: They belong in the presentation layer
+                console.error(e);
+                let message = "Error!"
+
+                if (e.response.status === 409) {
+                    message = "This event already exists! Change the title and try again."
+                }
+
+                return { succeeded: false, message: message }
+            } else {
+                throw e;
+            }
+        }
+
+        if (response.status >= 200 && response.status < 300) {
+            return { succeeded: true, message: "Success!" }
+        }
+    }
+
+    public static async createTicket(event: EventItem): Promise<EventItem> {
+        // Create a shallow copy of the EventItem, so we don't modify the argument
+        let newEvent: EventItem = Object.assign({}, event);
+
+        newEvent.ticket = await TicketService.createTicket({ eventId: event.id });
+        newEvent.ticketId = newEvent.ticket.id;
+        newEvent.currentCapacity++;
+
+        return newEvent;
+    }
+
+    public static async deleteTicket(event: EventItem): Promise<EventItem> {
+        // Create a shallow copy of the EventItem, so we don't modify the argument
+        let newEvent: EventItem = Object.assign({}, event);
+
+        await TicketService.deleteTicket(event.ticket);
+        newEvent.ticket = null;
+        newEvent.ticketId = null;
+        newEvent.currentCapacity--;
+
+        return newEvent;
+    }
+
 }

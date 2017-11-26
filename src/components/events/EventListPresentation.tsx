@@ -1,33 +1,40 @@
 import * as React from "react";
-import { Popover, OverlayTrigger, Button, ListGroup, ListGroupItem, Well, Panel, Badge, Glyphicon, Grid, Row, Col } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { Link } from "react-router-dom";
 import { EventItem } from "./EventItem";
+import { EventCard } from "./EventCard";
 import { RateEvent } from "./RateEvent";
 import { EventService, EventCategoryName } from "../../services/events";
 import { EventListFilterSetting } from "./EventListFilterSetting";
 import axios from "axios";
-import { UserItem } from "../../services/user";
+import { UserItem, UserService } from "../../services/user";
 import { AuthenticationState } from "../../common/state/Auth";
-
+import { VoteService } from "../../services/votes";
+import * as update from 'immutability-helper';
 
 interface State {
-    expandedEventId: string;
-    eventList: EventItem[];
+    expandedEventId: string,
+    eventList: EventItem[],
+    loading: boolean
 }
 
 interface Props {
     authState?: AuthenticationState
     filters?: EventListFilterSetting
     history?: { push(path: string): any }
+    showFilterButton?: boolean
 }
 
 export class EventListPresentation extends React.Component<Props, State> {
 
     constructor(props: Props) {
         super(props);
+        this.state = { expandedEventId: null, eventList: [], loading: true }
+    }
 
-        this.state = { expandedEventId: null, eventList: [] }
+    componentWillMount() {
+        this.setState({ loading: true });
     }
 
     componentDidMount() {
@@ -38,8 +45,30 @@ export class EventListPresentation extends React.Component<Props, State> {
         EventService.getAllEventItems(props.filters).then(
             (events: EventItem[]) => {
                 this.setState({ eventList: events })
+                this.setState({ loading: false });
             }
         )
+    }
+
+    // If an event has changed on the server as a result of user action, 
+    // update the event in place in the event list if possible.
+    // Otherwise, fetch the full event list from the server
+    handleChangedEvent(event: EventItem) {
+        let index = this.state.eventList.findIndex(
+            (eventInList: EventItem) => { return eventInList.id === event.id }
+        )
+        if (index == -1) {
+            console.error("An event changed, but the event could not be found in the event list. Reloading the event list. eventId: " + event.id);
+            this.fetchEventList(this.props);
+            return;
+        }
+
+        this.setState(
+            // Use immutability helpers to set this.state.eventList[index] = event
+            update(this.state,
+                { eventList: { $splice: [[index, 1, event]] } }
+            )
+        );
     }
 
     handleListGroupItemClick(key: string) {
@@ -75,7 +104,7 @@ export class EventListPresentation extends React.Component<Props, State> {
     }
 
     getLoggedInUserId(): string {
-        return this.props.authState.loggedIn ? this.props.authState.user_id : ""        
+        return this.props.authState.loggedIn ? this.props.authState.user_id : ""
     }
 
     getIsUserAttending(event: EventItem): boolean {
@@ -85,66 +114,129 @@ export class EventListPresentation extends React.Component<Props, State> {
         return false;
     }
 
+    handleUpvote(event: EventItem) {
+        if (!event.vote || event.vote.value < 1) {
+            // The user clicked upvote on an event with a downvote or no vote
+            EventService.upvote(event).then(
+                (event: EventItem) => {
+                    this.handleChangedEvent(event);
+                }
+            ).catch(
+                (ex) => {
+                    console.error("Error upvoting event: " + ex)
+                }
+                )
+        } else {
+            // The user clicked upvote on an event that was already upvoted, so clear the upvote
+            EventService.novote(event).then(
+                (event: EventItem) => {
+                    this.handleChangedEvent(event);
+                }
+            ).catch(
+                (ex) => {
+                    console.error("Error clearing vote for event: " + ex)
+                }
+                )
+        }
+    }
+
+    handleDownvote(event: EventItem) {
+        if (!event.vote || event.vote.value > -1) {
+            // The user clicked downvote on an event with an upvote or no vote
+            EventService.downvote(event).then(
+                (event: EventItem) => {
+                    this.handleChangedEvent(event);
+                }
+            ).catch(
+                (ex) => {
+                    console.error("Error downvoting event: " + ex)
+                }
+                )
+        } else {
+            // The user clicked downvote on an event that was already downvoted, so clear the upvote
+            EventService.novote(event).then(
+                (event: EventItem) => {
+                    this.handleChangedEvent(event);
+                }
+            ).catch(
+                (ex) => {
+                    console.error("Error clearing vote for event: " + ex)
+                }
+                )
+        }
+    }
+
+    handleAttendingClick(event: EventItem) {
+        if (!event.ticket) {
+            if (event.totalCapacity - event.currentCapacity > 0) {
+                // Get a ticket
+                EventService.createTicket(event).then(
+                    (event: EventItem) => {
+                        this.handleChangedEvent(event);
+                    }
+                ).catch(
+                    (ex) => {
+                        console.error("Error creating ticket for event: " + ex)
+                    }
+                    )
+            }
+        } else {
+            // Remove my ticket
+            EventService.deleteTicket(event).then(
+                (event: EventItem) => {
+                    this.handleChangedEvent(event);
+                }
+            ).catch(
+                (ex) => {
+                    console.error("Error deleting ticket for event: " + ex)
+                }
+                )
+        }
+    }
+
     getListGroupItem(key: string, eventItem: EventItem) {
         if (this.applyFilter(eventItem)) {
             let isHostedByCurrentUser = eventItem.hostId === this.getLoggedInUserId();
-            // TODO: Assume the logged in user can rate every event, until API filters let us find
-            // the actual events the user attended
-            let isAttendedByCurrentUser = true
+            let isAttendedByCurrentUser = eventItem.ticket != null
 
-            // Manually calculate column width, because react-bootstrap requires width to be specified
-            let descriptionWidth = 9
-            if (isHostedByCurrentUser) descriptionWidth--;
-            if (isAttendedByCurrentUser) descriptionWidth--;
-
-            return (
-                <div>
-                    <ListGroupItem key={key} onClick={() => this.handleListGroupItemClick(key)}>
-                        <Grid>
-                            <Row>
-                                <Col xs={1}>
-                                    <Badge>{eventItem.interestRating}</Badge>
-                                </Col>
-                                <Col xs={1}>
-                                    <Glyphicon glyph="arrow-up" />
-                                    <Glyphicon glyph="arrow-down" />
-                                </Col>
-                                <Col xs={1}>
-                                    <Glyphicon glyph="ok-circle" style={this.getIsUserAttending(eventItem) ? {color:"green"} : null} />
-                                </Col>
-                                <Col xs={descriptionWidth}>{eventItem.name}</Col>
-                                <Col xs={1} hidden={!isHostedByCurrentUser}>
-                                    <Link to="/events/edit">Edit</Link>
-                                </Col>
-                                <Col xs={1} hidden={!isAttendedByCurrentUser}>
-                                    <Link to="/events/rate">Rate</Link>
-                                </Col>
-                            </Row>
-                        </Grid>
-                    </ListGroupItem>
-
-                    <Panel collapsible expanded={this.state.expandedEventId === key}>
-                        <Well>
-                            <div>Host: <Link to="/users/profile">{this.getUserName(eventItem.host)}</Link></div>
-                            <div>{eventItem.description}</div>
-                            <div>Category: {EventCategoryName.get(eventItem.category)}</div>
-                        </Well>
-                    </Panel>
-                </div>
-            );
+            return <EventCard
+                eventid={eventItem.id}
+                title={eventItem.name}
+                description={eventItem.description}
+                host={this.getUserName(eventItem.host)}
+                interest={eventItem.interestRating}
+                time={eventItem.time}
+                category={EventCategoryName.get(eventItem.category)}
+                capacity={eventItem.totalCapacity}
+                currentCapacity={eventItem.currentCapacity}
+                vote={eventItem.vote ? eventItem.vote.value : 0}
+                location={eventItem.location}
+                handleUpvote={() => this.handleUpvote(eventItem)}
+                handleDownvote={() => this.handleDownvote(eventItem)}
+                isHostedByCurrentUser={isHostedByCurrentUser}
+                isAttendedByCurrentUser={isAttendedByCurrentUser}
+                handleAttendingClick={() => this.handleAttendingClick(eventItem)}
+            />;
         } else {
             return;
         }
     }
 
+    renderFilterButton() {
+        if (this.props.showFilterButton) {
+            return <LinkContainer to="/events/filter"><Button>Filter</Button></LinkContainer>
+        }
+    }
+
     render() {
         var i: number = 0;
+        let loading: JSX.Element = (this.state.loading) ? <div><i className="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div> : null;
         return (
             <div>
-                <Link to="/events/filter">Filter</Link>
-                <ListGroup>
+                {loading}
+                <div className="event-list">
                     {this.state.eventList.map((event) => (<div>{this.getListGroupItem((i++).toString(), event)}</div>))}
-                </ListGroup>
+                </div>
             </div>
         );
     }

@@ -2,6 +2,7 @@ import * as React from "react";
 import { ButtonToolbar, Button, Label, FormGroup, ControlLabel, FormControl } from "react-bootstrap";
 import { EventListFilterSetting } from "./EventListFilterSetting";
 import { EventCategory, EventCategoryName } from "../../services/events"
+import CategoryPicker from "./CategoryPicker";
 
 interface Props {
     onFilterApplied(newFilter: EventListFilterSetting): any
@@ -46,12 +47,6 @@ export class EventListFilter extends React.Component<Props, State> {
         });
     }
 
-    renderCategoryOption(category: EventCategory) {
-        return (
-            <option value={category} selected={this.state.category == category}>{EventCategoryName.get(category)}</option>
-        )
-    }
-
     render() {
         return (
             <div>
@@ -59,15 +54,7 @@ export class EventListFilter extends React.Component<Props, State> {
 
                 <form>
                     <FormGroup>
-                        <FormControl name="category" onChange={this.handleInputChange} componentClass="select" placeholder="select">
-                            {this.renderCategoryOption(EventCategory.ALL)}
-                            {this.renderCategoryOption(EventCategory.ART)}
-                            {this.renderCategoryOption(EventCategory.CARD_GAMES)}
-                            {this.renderCategoryOption(EventCategory.EDUCATIONAL)}
-                            {this.renderCategoryOption(EventCategory.FOOD)}
-                            {this.renderCategoryOption(EventCategory.MUSIC)}
-                            {this.renderCategoryOption(EventCategory.SPORTS)}
-                        </FormControl>
+                        <CategoryPicker allowAll={true} selectedCategory={this.state.category} handleInputChange={this.handleInputChange} />
                     </FormGroup>
                     <Button onClick={this.handleFilterApplied}>Apply</Button>
                 </form>
