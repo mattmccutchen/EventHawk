@@ -118,7 +118,10 @@ export class EventService {
                     category: this.mapToCategory(res.data.category),
                     hostId: res.data.host_id,
                     ticketId: res.data._my_ticket,
-                    voteId: res.data._my_vote
+                    voteId: res.data._my_vote,
+                    reviewWouldReturn: res.data._review_would_ret,
+                    reviewHostPrep: res.data._review_host_prep,
+                    reviewMatchedDesc: res.data._review_matched_desc,
                 }
             } else {
                 console.error("There was an error finding this event.");

@@ -72,6 +72,9 @@ export class EventStatistics extends React.Component<IEventStatisticsProps, IEve
                     isHostedByCurrentUser={null}
                     isAttendedByCurrentUser={null}
                     handleAttendingClick={null}
+                    reviewHostPrep={event.reviewHostPrep}
+                    reviewMatchedDesc={event.reviewMatchedDesc}
+                    reviewWouldReturn={event.reviewWouldReturn}
                 />
             )}
             <span className="separator"></span>

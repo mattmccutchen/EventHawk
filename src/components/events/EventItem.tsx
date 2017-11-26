@@ -20,4 +20,7 @@ export interface EventItem {
     ticket?: TicketItem
     voteId?: string
     vote?: VoteItem
+    reviewMatchedDesc?: number,
+    reviewHostPrep?: number,
+    reviewWouldReturn?: number
 }

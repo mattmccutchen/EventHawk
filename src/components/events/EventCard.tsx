@@ -1,7 +1,7 @@
 import * as React from "react";
 import { EventCategory, EventCategoryName } from "../../services/events";
 import * as moment from "moment";
-import { Glyphicon } from "react-bootstrap";
+import { Glyphicon, OverlayTrigger, Tooltip, Label } from "react-bootstrap";
 import { Dropdown, dropdownItem } from "../navigation/Dropdown";
 import { Link } from "react-router-dom";
 
@@ -17,6 +17,9 @@ export interface EventCardProps {
     currentCapacity: number,
     vote: number,
     location: string,
+    reviewMatchedDesc: number,
+    reviewWouldReturn: number,
+    reviewHostPrep: number,
     handleUpvote: () => void,
     handleDownvote: () => void,
     isHostedByCurrentUser: boolean, // Is this event hosted by the logged in user
@@ -85,6 +88,33 @@ export class EventCard extends React.Component<EventCardProps, {}> {
         }
     }
 
+    renderReviews() {
+        const hostPrepTooltip = (
+            <Tooltip id="hostPrepTooltip"><div><strong>Host preparedness</strong></div> Was the host prepared? From 1 (worst) to 5 (best)</Tooltip>
+        );
+        const matchedDescTooltip = (
+            <Tooltip id="matchedDescTooltip"><div><strong>Matched description</strong></div> Did the event match the description? From 1 (worst) to 5 (best)</Tooltip>
+        );
+        const wouldReturnTooltip = (
+            <Tooltip id="wouldReturnTooltip"><div><strong>Would return</strong></div> Would you participate in this event again? From 1 (worst) to 5 (best)</Tooltip>
+        );
+
+        return (
+            <div>
+                Reviews:
+                <OverlayTrigger placement="top" overlay={hostPrepTooltip}>
+                    <Label>{this.props.reviewHostPrep}</Label>
+                </OverlayTrigger>
+                <OverlayTrigger placement="top" overlay={matchedDescTooltip}>
+                    <Label>{this.props.reviewMatchedDesc}</Label>
+                </OverlayTrigger>
+                <OverlayTrigger placement="top" overlay={wouldReturnTooltip}>
+                    <Label>{this.props.reviewWouldReturn}</Label>
+                </OverlayTrigger>
+            </div>
+        )
+    }
+
     render() {
         let items: dropdownItem[] =
             [{
@@ -102,7 +132,7 @@ export class EventCard extends React.Component<EventCardProps, {}> {
                         <Dropdown className="" items={items}><i className="fa fa-angle-down"></i></Dropdown>
                     </div>
                 </div>
-                <div className="event-host">{this.props.host}</div>
+                <div className="event-host">{this.props.host}{this.renderReviews()}</div>
                 <div className="event-description">{this.props.description}</div>
                 <div className="event-location-attend">
                     <div className="event-location">Location: {this.props.location}</div>

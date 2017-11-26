@@ -245,6 +245,9 @@ export class EventListPresentation extends React.Component<Props, State> {
                 isAttendedByCurrentUser={isAttendedByCurrentUser}
                 handleAttendingClick={() => this.handleAttendingClick(eventItem)}
                 handleRateClick={() => this.handleRateClick(eventItem)}
+                reviewHostPrep={eventItem.reviewHostPrep}
+                reviewMatchedDesc={eventItem.reviewMatchedDesc}
+                reviewWouldReturn={eventItem.reviewWouldReturn}
             />;
         } else {
             return;
