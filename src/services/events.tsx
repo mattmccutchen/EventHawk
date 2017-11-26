@@ -194,14 +194,21 @@ export class EventService {
         // Create a shallow copy of the EventItem, so we don't modify the argument
         let newEvent: EventItem = Object.assign({}, event);
 
+        let oldValue = 0
+
         if (!event.vote) {
             // If the vote doesn't exist, we have to create it
             newEvent.vote = await VoteService.createVote({ eventId: event.id, value: value });
             newEvent.voteId = newEvent.vote.id;
         } else {
             // The event already exists, so just update it
+            oldValue = event.vote.value;
             newEvent.vote = await VoteService.updateVote(event.vote.id, { eventId: event.id, value: value })
         }
+        
+        let deltaValue: number = oldValue - value;
+
+        newEvent.interestRating -= deltaValue;
 
         return newEvent;
     }
