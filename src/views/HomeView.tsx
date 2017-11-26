@@ -10,9 +10,7 @@ export class HomeView extends React.Component {
 
     render() {
         return <div>
-            <div>
-                <h1>Upcoming Events</h1>
-            </div>
+            <h1>Upcoming Events</h1>
             <EventList showFilterButton={true} />
         </div>
     }

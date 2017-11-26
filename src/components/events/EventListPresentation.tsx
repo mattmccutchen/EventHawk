@@ -200,6 +200,7 @@ export class EventListPresentation extends React.Component<Props, State> {
             let isAttendedByCurrentUser = eventItem.ticket != null
 
             return <EventCard
+                eventid={eventItem.id}
                 title={eventItem.name}
                 description={eventItem.description}
                 host={this.getUserName(eventItem.host)}

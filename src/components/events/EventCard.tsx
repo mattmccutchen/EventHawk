@@ -1,9 +1,11 @@
 import * as React from "react";
 import { EventCategory, EventCategoryName } from "../../services/events";
-import * as moment from 'moment'
+import * as moment from "moment";
 import { Glyphicon } from "react-bootstrap";
+import { Dropdown, dropdownItem } from "../navigation/Dropdown";
 
 export interface EventCardProps {
+    eventid: string,
     title: string,
     description: string,
     host: string,
@@ -73,6 +75,11 @@ export class EventCard extends React.Component<EventCardProps, {}> {
     }
 
     render() {
+        let items: dropdownItem[] = 
+        [{
+            label: "Statistics", link: "/event/" + this.props.eventid + "/statistics" 
+        }];
+
         let spotsLeft: number = (this.props.capacity - this.props.currentCapacity);
         return <div className="event-item-container">
             {this.renderVoteButtons()}
@@ -80,6 +87,9 @@ export class EventCard extends React.Component<EventCardProps, {}> {
                 <div className="event-info">
                     <div className="event-title">{this.props.title}</div>
                     <div className="event-category">{this.props.category}</div>
+                    <div className="event-misc">
+                        <Dropdown className="" items={items}><i className="fa fa-angle-down"></i></Dropdown>
+                    </div>
                 </div>
                 <div className="event-host">{this.props.host}</div>
                 <div className="event-description">{this.props.description}</div>

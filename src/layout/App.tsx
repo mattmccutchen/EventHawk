@@ -18,8 +18,18 @@ import { MyEventsView } from "../views/MyEventsView";
 import { CreateEventView } from "../views/CreateEventView";
 import { UserProfileView } from "../views/UserProfileView";
 import { RateEventView } from "../views/RateEventView";
+import { EventStatistics } from "../views/EventStatistics";
 
-const router = [
+interface routerProps {
+    path: string,
+    exact: boolean,
+    sidebar: any,
+    options: any,
+    auth: number,
+    main: any
+}
+
+const router: routerProps[] = [
     {
         path: "/",
         exact: true,
@@ -83,6 +93,14 @@ const router = [
         options: () => <Sidebar event={null} type="options" />,
         auth: 0,
         main: () => <EventListFilterContainer history={null} />
+    },
+    {
+        path: "/event/:id/statistics",
+        exact: false,
+        sidebar: () => <Sidebar event={null} />,
+        options: null,
+        auth: 0,
+        main: (props: any) => <EventStatistics {...props} />
     },
     {
         path: "/user/:id",

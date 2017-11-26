@@ -7,7 +7,6 @@ export interface dropdownItem {
 }
 
 interface dropdownProps {
-    text: string,
     className: string,
     items: dropdownItem[]
 }
@@ -50,7 +49,7 @@ export class Dropdown extends React.Component<dropdownProps, dropdownState> {
         var items = this.renderItems();
         return <div className={"dropdown-container " + this.props.className}>
             <div className="dropdown-label" onClick={this.renderDropdown}>
-                <span className="dropdown-label-text option">{this.props.text}</span>
+                <span className="dropdown-label-text option">{this.props.children}</span>
             </div>
             <div className={"dropdown-content " + (this.state.dropdownOpen ? "open" : "") }>
                 {this.renderItems()}
