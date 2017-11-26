@@ -17,7 +17,6 @@ import { HomeView } from "../views/HomeView";
 import { MyEventsView } from "../views/MyEventsView";
 import { CreateEventView } from "../views/CreateEventView";
 import { UserProfileView } from "../views/UserProfileView";
-import { RateEventView } from "../views/RateEventView";
 import { EventStatistics } from "../views/EventStatistics";
 
 interface routerProps {
@@ -77,14 +76,6 @@ const router: routerProps[] = [
         options: () => <Sidebar event={null} type="options" />,
         auth: 1,
         main: () => <CreateEventView />
-    },
-    {
-        path: "/events/rate",
-        exact: false,
-        sidebar: () => <Sidebar event={null} />,
-        options: () => <Sidebar event={null} type="options" />,
-        auth: 1,
-        main: () => <RateEventView />
     },
     {
         path: "/events/filter",

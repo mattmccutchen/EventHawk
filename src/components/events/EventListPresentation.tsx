@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { Link } from "react-router-dom";
 import { EventItem } from "./EventItem";
@@ -17,6 +17,8 @@ interface State {
     expandedEventId: string,
     eventList: EventItem[],
     loading: boolean
+    showRateEvent: boolean
+    currentlyRatingEvent: EventItem
 }
 
 interface Props {
@@ -30,7 +32,15 @@ export class EventListPresentation extends React.Component<Props, State> {
 
     constructor(props: Props) {
         super(props);
-        this.state = { expandedEventId: null, eventList: [], loading: true }
+        this.state = {
+            expandedEventId: null,
+            eventList: [],
+            loading: true,
+            showRateEvent: false,
+            currentlyRatingEvent: null
+        }
+
+        this.handleSubmitRating = this.handleSubmitRating.bind(this);
     }
 
     componentWillMount() {
@@ -48,6 +58,24 @@ export class EventListPresentation extends React.Component<Props, State> {
                 this.setState({ loading: false });
             }
         )
+    }
+
+    openRateEventModal() {
+        this.setState({ showRateEvent: true });
+    }
+
+    closeRateEventModal() {
+        this.setState({ showRateEvent: false });
+    }
+
+    handleRateClick(event: EventItem) {
+        this.setState({ currentlyRatingEvent: event });
+        this.openRateEventModal();
+    }
+
+    handleSubmitRating(hostPreparedness: number, matchedDescription: number, wouldReturn: boolean) {
+        console.log("Submitted rating: " + hostPreparedness + ", " + matchedDescription + ", " + wouldReturn);
+        this.closeRateEventModal();
     }
 
     // If an event has changed on the server as a result of user action, 
@@ -216,6 +244,7 @@ export class EventListPresentation extends React.Component<Props, State> {
                 isHostedByCurrentUser={isHostedByCurrentUser}
                 isAttendedByCurrentUser={isAttendedByCurrentUser}
                 handleAttendingClick={() => this.handleAttendingClick(eventItem)}
+                handleRateClick={() => this.handleRateClick(eventItem)}
             />;
         } else {
             return;
@@ -237,6 +266,14 @@ export class EventListPresentation extends React.Component<Props, State> {
                 <div className="event-list">
                     {this.state.eventList.map((event) => (<div>{this.getListGroupItem((i++).toString(), event)}</div>))}
                 </div>
+                <Modal show={this.state.showRateEvent} onHide={() => this.closeRateEventModal()}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Rate event</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <RateEvent handleSubmitRating={this.handleSubmitRating} />
+                    </Modal.Body>
+                </Modal>
             </div>
         );
     }

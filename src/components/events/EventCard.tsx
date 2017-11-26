@@ -3,6 +3,7 @@ import { EventCategory, EventCategoryName } from "../../services/events";
 import * as moment from "moment";
 import { Glyphicon } from "react-bootstrap";
 import { Dropdown, dropdownItem } from "../navigation/Dropdown";
+import { Link } from "react-router-dom";
 
 export interface EventCardProps {
     eventid: string,
@@ -21,6 +22,7 @@ export interface EventCardProps {
     isHostedByCurrentUser: boolean, // Is this event hosted by the logged in user
     isAttendedByCurrentUser: boolean, // Is this event attended by the logged in user
     handleAttendingClick: () => void,
+    handleRateClick?: () => void,
 }
 
 export class EventCard extends React.Component<EventCardProps, {}> {
@@ -57,9 +59,12 @@ export class EventCard extends React.Component<EventCardProps, {}> {
         }
         if (this.props.isAttendedByCurrentUser) {
             return (
-                <a className="event-user-attending attending" onClick={this.props.handleAttendingClick}>
-                    <i className="fa fa-check" style={{ color: "green" }}></i> I'm attending!
-                </a>
+                <span>
+                    <a className="event-user-attending attending" onClick={this.props.handleAttendingClick}>
+                        <i className="fa fa-check" style={{ color: "green" }}></i> I'm attending!
+                    </a>
+                    {this.renderRateButton()}
+                </span>
             )
         } else if (spotsLeft > 0) {
             return (
@@ -74,11 +79,17 @@ export class EventCard extends React.Component<EventCardProps, {}> {
         }
     }
 
+    renderRateButton() {
+        if (this.props.isAttendedByCurrentUser && this.props.handleRateClick) {
+            return <a onClick={this.props.handleRateClick}> Rate</a>
+        }
+    }
+
     render() {
-        let items: dropdownItem[] = 
-        [{
-            label: "Statistics", link: "/event/" + this.props.eventid + "/statistics" 
-        }];
+        let items: dropdownItem[] =
+            [{
+                label: "Statistics", link: "/event/" + this.props.eventid + "/statistics"
+            }];
 
         let spotsLeft: number = (this.props.capacity - this.props.currentCapacity);
         return <div className="event-item-container">
