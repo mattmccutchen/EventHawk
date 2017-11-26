@@ -124,7 +124,7 @@ export class EventService {
                 console.error("There was an error finding this event.");
             }
         }).then(() => {
-            UserService.getUser(newEventItem.hostId).then(res => {
+            return UserService.getUser(newEventItem.hostId).then(res => {
                 newEventItem.host = res;
             }).catch(ex => {
                 if (ex instanceof InvalidIdError) {
@@ -135,7 +135,7 @@ export class EventService {
                 }
             })
         }).then(() => {
-            TicketService.getTicket(newEventItem.ticketId).then(res => {
+            return TicketService.getTicket(newEventItem.ticketId).then(res => {
                 newEventItem.ticket = res;
             }).catch(ex => {
                 if (ex instanceof InvalidIdError) {
@@ -145,7 +145,7 @@ export class EventService {
                 }
             });
         }).then(() => {
-            VoteService.getVote(newEventItem.voteId).then(res => {
+            return VoteService.getVote(newEventItem.voteId).then(res => {
                 newEventItem.vote = res;
             }).catch(ex => {
                 if (ex instanceof InvalidIdError) {
@@ -167,11 +167,13 @@ export class EventService {
         let events: EventItem[] = []
 
 
-        await Promise.all(eventIds.map(function (eventId) {
-            return EventService.getEventItem(eventId);
-        })).then((event: EventItem[]) => {
-            events = event;
-        });
+        events = await Promise.all(
+            eventIds.map(
+                function (eventId) {
+                    return EventService.getEventItem(eventId);
+                }
+            )
+        );
 
         return events
     }
@@ -261,7 +263,7 @@ export class EventService {
 
         return newEvent;
     }
-    
+
     public static async deleteTicket(event: EventItem): Promise<EventItem> {
         // Create a shallow copy of the EventItem, so we don't modify the argument
         let newEvent: EventItem = Object.assign({}, event);
