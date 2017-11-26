@@ -4,5 +4,6 @@ export const configVals = {
     events: "events",
     users: "users",
     tickets: "tickets",
-    votes: "votes"
+    votes: "votes",
+    reviews: "reviews",
 };
