@@ -155,7 +155,7 @@ class CreateEventPresentation extends React.Component<Props, State> {
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>Category</ControlLabel>
-                    <CategoryPicker allowAll={false} handleInputChange={this.handleInputChange} filters={null} selectedCategory={this.state.category} />
+                    <CategoryPicker renderAs="dropdown" allowAll={false} handleInputChange={this.handleInputChange} filters={null} selectedCategory={this.state.category} />
                 </FormGroup>
                 <FormGroup validationState={this.getValidationState("createResult")}>
                     <Button onClick={this.handleCreateEvent}>Create</Button>

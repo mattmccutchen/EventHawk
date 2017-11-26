@@ -50,7 +50,7 @@ class SidebarComponent extends React.Component<SidebarProps, {}> {
             el = <div className="sidebar right">
                 <div className="group">
                     <span className="header">Categories</span>
-                    <CategoryPicker handleInputChange={this.props.onFilterApplied} filters={this.props.filters} allowAll />
+                    <CategoryPicker renderAs="links" handleInputChange={this.props.onFilterApplied} filters={this.props.filters} allowAll />
                 </div>
             </div>;
         } else {

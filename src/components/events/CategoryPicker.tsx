@@ -10,6 +10,7 @@ interface CategoryPickerProps {
     filters?: EventListFilterSetting,
     // Should the category picker show the "All" category?
     allowAll?: boolean
+    renderAs: "dropdown" | "links"
 }
 
 export default function CategoryPicker(props: CategoryPickerProps) {
@@ -25,13 +26,32 @@ export default function CategoryPicker(props: CategoryPickerProps) {
         categories.unshift(EventCategory.ALL);
     }
 
-    return (
-        <ul>
-            {
-                categories.map((category) => (
-                    <li><FilterLink to="" filter={category} filterSetting={props.filters} onFilterApplied={props.handleInputChange}>{EventCategoryName.get(category)}</FilterLink></li>
-                ))
-            }
-        </ul>
-    );
+    switch (props.renderAs) {
+        case "dropdown":
+            return (
+                <FormControl name="category" onChange={props.handleInputChange} componentClass="select" placeholder="select">
+                    {
+                        categories.map(
+                            (category) =>
+                                (
+                                    <option value={category} selected={props.selectedCategory == category}>
+                                        {EventCategoryName.get(category)}
+                                    </option>
+                                )
+                        )
+                    }
+                </FormControl>
+            )
+            
+        case "links":
+            return (
+                <ul>
+                    {
+                        categories.map((category) => (
+                            <li><FilterLink to="" filter={category} filterSetting={props.filters} onFilterApplied={props.handleInputChange}>{EventCategoryName.get(category)}</FilterLink></li>
+                        ))
+                    }
+                </ul>
+            );
+    }
 }

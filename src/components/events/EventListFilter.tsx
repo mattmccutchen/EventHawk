@@ -54,7 +54,7 @@ export class EventListFilter extends React.Component<Props, State> {
 
                 <form>
                     <FormGroup>
-                        <CategoryPicker allowAll={true} selectedCategory={this.state.category} handleInputChange={this.handleInputChange} />
+                        <CategoryPicker renderAs="links" allowAll={true} selectedCategory={this.state.category} handleInputChange={this.handleInputChange} />
                     </FormGroup>
                     <Button onClick={this.handleFilterApplied}>Apply</Button>
                 </form>
