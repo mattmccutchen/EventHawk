@@ -51,7 +51,7 @@ export class VoteService {
         }
     }
 
-    public static async requestCreateVote(vote: {eventId: string, value: number}): Promise<AxiosResponse> {
+    public static async requestCreateVote(vote: { eventId: string, value: number }): Promise<AxiosResponse> {
         let url = configVals.apiRoot + configVals.votes
 
         let body = {
@@ -64,7 +64,7 @@ export class VoteService {
         return axios.post(url, body, UserService.getAuthenticationHeader());
     }
 
-    public static async createVote(vote: {eventId: string, value: number}): Promise<VoteItem> {
+    public static async createVote(vote: { eventId: string, value: number }): Promise<VoteItem> {
 
         let item: VoteItem = null;
 
@@ -78,7 +78,7 @@ export class VoteService {
         }
 
         try {
-            response = await this.requestCreateVote({eventId: vote.eventId, value: vote.value});
+            response = await this.requestCreateVote({ eventId: vote.eventId, value: vote.value });
         } catch (e) {
             if (e.response && (e.response.status >= 400 && e.response.status < 500)) {
                 throw new InvalidPropertyError("eventId", vote.eventId);
@@ -98,21 +98,17 @@ export class VoteService {
         }
     }
 
-    
-    public static async requestUpdateVote(voteId: string, vote: {value: number, eventId: string}): Promise<AxiosResponse> {
+
+    public static async requestUpdateVote(voteId: string, vote: { value: number, eventId: string }): Promise<AxiosResponse> {
         let url = configVals.apiRoot + configVals.votes + "/" + voteId
 
         let body = {
-            "vote":
-                {
-                    "value": vote.value,
-                    "event_id": vote.eventId
-                }
+            "value": vote.value,
         }
         return axios.put(url, body, UserService.getAuthenticationHeader());
     }
 
-    public static async updateVote(voteId: string, vote: {value: number, eventId: string}): Promise<VoteItem> {
+    public static async updateVote(voteId: string, vote: { value: number, eventId: string }): Promise<VoteItem> {
 
         let updatedVote: VoteItem
 
