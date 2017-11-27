@@ -666,8 +666,8 @@ body > div.global-container > .home-container > .activity-sidebar > ul.list-opti
 .event-item-container .event-options-panel {
 	display: table-cell;
 	min-width: 50px;
-	width: 50px;
 	padding-right: 15px;
+	width: 50px;
 }
   
 .event-item-container .event-options-panel span.event-upvote, 
@@ -675,6 +675,24 @@ body > div.global-container > .home-container > .activity-sidebar > ul.list-opti
 .event-item-container .event-options-panel span.event-downvote {
 	display: block;
 	text-align: center;
+}
+
+.event-item-container .event-options-panel div.spots {
+	margin-top: 20px;
+	text-align: center;
+	width: 35px;
+}
+
+.event-item-container .event-options-panel div.spots span.num-spots-left,
+.event-item-container .event-options-panel div.spots span.num-spots-label {
+	display: block;
+	font-size: 13px;
+	font-weight: 500;
+}
+
+.event-item-container .event-options-panel div.spots span.num-spots-left {
+	font-size: 20px;
+	font-weight: 500;
 }
 
 .event-item-container .event-content-panel {
@@ -689,7 +707,7 @@ body > div.global-container > .home-container > .activity-sidebar > ul.list-opti
 }
 
 .event-item-container .event-content-panel .event-location-attend {
-	margin-bottom: 15px;
+	margin-bottom: 5px;
 }
   
 .event-item-container .event-content-panel .event-info .event-title {
@@ -754,23 +772,64 @@ body > div.global-container > .home-container > .activity-sidebar > ul.list-opti
 }
   
 .event-item-container .event-content-panel .event-stats {
-	border-top: 1px solid #bbb;
 	display: table;
 	font-weight: 300;
-	padding: 5px 0;
 	width: 100%;
 }
+
+.event-item-container .event-content-panel .event-review-content {
+	display: none;
+}
+
+.event-item-container .event-content-panel .event-review-content.open {
+	display: block;
+}
+
+.event-item-container .event-content-panel .separator {
+	background-color: #bbb;
+	margin: 7px 0;
+}
   
-.event-item-container .event-content-panel .event-stats .event-time {
+.event-item-container .event-content-panel .event-stats .event-time,
+.event-item-container .event-content-panel .event-stats .event-reviews {
 	display: table-cell;
 	min-width: 200px;
 	text-align: left;
 }
-  
-.event-item-container .event-content-panel .event-stats .event-going {
-	display: table-cell;
-	min-width: 200px;
+
+.event-item-container .event-content-panel .event-stats .event-reviews {
 	text-align: right;
+}
+
+.event-item-container .event-content-panel .event-stats .event-reviews i {
+	font-size: 17px;
+	line-height: 20px;
+	margin-left: 5px;
+	min-width: 15px;
+	vertical-align: top;
+}
+
+.event-item-container .event-content-panel .event-review-content .event-review-container {
+	display: table;
+	width: 100%;
+}
+
+.event-item-container .event-content-panel .event-review-content .event-review-container .event-review-stat {
+	display: table-cell;
+	text-align: center;
+	width: 176px;
+}
+
+.event-item-container .event-content-panel .event-review-content .event-review-container .event-review-stat .event-review-num,
+.event-item-container .event-content-panel .event-review-content .event-review-container .event-review-stat .event-review-label {
+	display: block;
+	font-size: 13px;
+	font-weight: 500;
+}
+
+.event-item-container .event-content-panel .event-review-content .event-review-container .event-review-stat .event-review-num {
+	font-size: 20px;
+	font-weight: 500;
 }
 
 .event-statistics .event-item-container {
