@@ -1,41 +1,73 @@
 import * as React from "react";
+import { connect } from "react-redux";
+import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import { UserService } from "../../services/user";
+import { AuthenticationState } from "../../common/state/Auth";
+import { setUserState } from "../../actions/AuthenticationActions";
 
-interface registerProps {}
+interface registerProps {
+    loginUser(data: AuthenticationState): void
+    history: { push(path: string): void }
+}
 
-export interface registerState { firstName: string, lastName: string, email: string, password: string };
+export interface registerState { firstName: string, lastName: string, password: string };
 
-export class Register extends React.Component<{}, registerState> {
+class RegisterComponent extends React.Component<registerProps, registerState> {
+
     constructor(props: registerProps) {
         super(props);
-        this.state = { firstName: "", lastName: "", email: "", password: "" };
+        this.state = { firstName: "", lastName: "", password: "" };
         this.onSubmit = this.onSubmit.bind(this);
     }
 
     onSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        //UserService.performLogin(this.state.email, this.state.password);
+        
+        UserService.performRegister(this.state.firstName, this.state.lastName, this.state.password).then((r_res) => {
+            if (r_res.status == 201) {
+                UserService.performLogin(r_res.data.email, this.state.password).then((l_res) => {
+                    if (l_res.status == 201) {
+                        UserService.saveToken(l_res.data.jwt);
+                        this.props.loginUser({ 
+                            loggedIn: true, 
+                            user_id: r_res.data.user_id,
+                            first_name: r_res.data.first_name,
+                            last_name: r_res.data.last_name,
+                            email: r_res.data.email
+                        });
+                    }
+                });
+            } else {
+                // TODO: Proper application-wide exception handling
+            }
+        }).then(() => {
+            this.props.history.push("/");
+        });
     }
 
     render() {
-        return <div className="auth-form">
+        return <div className="auth-form signup">
             <h2>Sign Up</h2>
+            <span>To join EventHawk, enter your full name and choose a password.</span>
             <form onSubmit={e => this.onSubmit(e)}>
-                <label> First Name: 
+                <div className="auth-signup-name">
                     <input type="text" ref="register-first-name" placeholder="First Name" onChange={e => this.setState({firstName: e.target.value})} />
-                </label>
-                <label> Last Name: 
                     <input type="text" ref="register-last-name" placeholder="Last Name" onChange={e => this.setState({lastName: e.target.value})} />
-                </label>
-                <label> Email: 
-                    <input type="text" ref="register-email" placeholder="Email" onChange={e => this.setState({email: e.target.value})} />
-                </label>
-                <label> Password:
-                    <input type="password" className="register-pass" placeholder="Password" onChange={e => this.setState({password: e.target.value})} />
-                </label>
+                </div>
+                <input type="password" className="register-pass" placeholder="Password" onChange={e => this.setState({password: e.target.value})} />
                 <input type="submit" value="Sign Up" />
             </form>
         </div>
     }
 }
+
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+        loginUser: (data: AuthenticationState) => {
+            dispatch(setUserState(data))
+        }
+    }
+}
+
+export const Register = connect(null, mapDispatchToProps)(withRouter(RegisterComponent))

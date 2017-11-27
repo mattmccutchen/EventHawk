@@ -51,7 +51,7 @@ const router: routerProps[] = [
         sidebar: null,
         options: null,
         auth: 2,
-        main: () => <Register />
+        main: () => <Register history={null} />
     },
     {
         path: "/myevents",

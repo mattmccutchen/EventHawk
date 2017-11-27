@@ -36,6 +36,25 @@ export class UserService {
     }
 
     /**
+     * Submit first name, last name and password for user registration.
+     * @param firstName First name of user.
+     * @param lastName  Last name of user.
+     * @param password  Password of user.
+     * @returns         Promise of type `AxiosResponse` containing the name, password, email, user id and active status
+     */
+    public static async performRegister(firstName: string, lastName: string, password: string): Promise<AxiosResponse> {
+        let email: string = firstName + "_" + lastName + "@student.uml.edu";
+        return axios.post(configVals.apiRoot + configVals.users, {
+            user: {
+                "first_name": firstName,
+                "last_name": lastName,
+                "email": email.toLowerCase(),
+                "password": password
+            }
+        });
+    }
+
+    /**
      * Logout currently logged-in user
      */
     public static performLogOut(): void {
