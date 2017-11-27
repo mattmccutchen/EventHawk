@@ -110,8 +110,6 @@ class CreateEventPresentation extends React.Component<Props, State> {
             category: this.state.category
         }
 
-        console.log(newEvent);
-
         EventService.createEvent(newEvent).then(
             (result: { succeeded: boolean, message: string }) => {
                 let validationState = Object.assign({}, this.state.validationState);

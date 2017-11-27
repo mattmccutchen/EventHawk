@@ -18,8 +18,10 @@ export default function CategoryPicker(props: CategoryPickerProps) {
         EventCategory.ART,
         EventCategory.GAMES,
         EventCategory.EDUCATION,
+        EventCategory.MOVIES,
         EventCategory.MUSIC,
-        EventCategory.SPORTS
+        EventCategory.SPORTS,
+        EventCategory.FOOD
     ]
 
     if (props.allowAll) {
