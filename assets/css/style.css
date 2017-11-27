@@ -304,7 +304,8 @@ body > div.global-container {
     width: 400px;
 }
 
-.auth-form {
+.auth-form,
+.event-form {
 	background-color: #EFEFF1;
 	border: 1px solid #ccc;
 	border-radius: 5px;
@@ -313,18 +314,30 @@ body > div.global-container {
 	width: 450px;
 }
 
-.auth-form h2 {
+.event-form {
+	margin: auto;
+	padding: 0;
+	width: 550px;
+}
+
+.auth-form h2,
+.event-form h2 {
 	font-weight: 300;
 	margin-bottom: 10px;
 }
 
-.auth-form form label {
+.auth-form form label,
+.event-form form label {
 	display: block;
 	font-weight: 400;
 	line-height: normal;
 }
 
-.auth-form form input {
+.auth-form form input,
+.event-form form input,
+.event-form form select {
+	-webkit-box-shadow: none;
+	box-shadow: none;
 	border: 1px solid #aaa;
 	border-radius: 3px;
 	display: block;
@@ -336,22 +349,52 @@ body > div.global-container {
 	width: 100%;
 }
 
+.event-form .create-event-date-location {
+	display: table;
+	width: 100%;
+}
+
+.event-form .create-event-date-location .rdt,
+.event-form .create-event-date-location input {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	display: block;
+	font-size: 14px;
+	height: auto;
+	width: 100%;
+}
+
+.event-form .create-event-date-location .rdt {
+	display: table-cell;
+	padding-right: 10px;
+	width: 275px;
+}
+
+.event-form .create-event-date-location .rdt + input {
+	width: 275px;
+}
+
 .auth-form form input[type="text"]:focus,
-.auth-form form input[type="password"]:focus {
+.auth-form form input[type="password"]:focus,
+.event-form form input[type="text"]:focus,
+.event-form form input[type="password"]:focus {
 	border-color: #1D77F5;
 }
 
-.auth-form form input[type="submit"] {
+.auth-form form input[type="submit"],
+.event-form form input[type="submit"] {
 	background-color: #1279E6;
 	border-color: #1D77F5;
     color: #FFFFFF;
 }
 
-.auth-form form input[type="submit"]:hover {
+.auth-form form input[type="submit"]:hover,
+.event-form form input[type="submit"]:hover {
 	background-color: #0A53A0;
 }
 
-.auth-form.signup {
+.auth-form.signup,
+.event-form {
 	background-color: transparent;
 	border: 0;
 }

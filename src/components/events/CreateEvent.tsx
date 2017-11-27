@@ -99,7 +99,8 @@ class CreateEventPresentation extends React.Component<Props, State> {
         return current.isAfter(moment().subtract(1, 'day'));
     };
 
-    handleCreateEvent() {
+    handleCreateEvent(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
         let newEvent: CreateEventItem = {
             name: this.state.eventTitle,
             description: this.state.eventDescription,
@@ -108,6 +109,8 @@ class CreateEventPresentation extends React.Component<Props, State> {
             totalCapacity: this.state.eventCapacity,
             category: this.state.category
         }
+
+        console.log(newEvent);
 
         EventService.createEvent(newEvent).then(
             (result: { succeeded: boolean, message: string }) => {
@@ -132,36 +135,21 @@ class CreateEventPresentation extends React.Component<Props, State> {
 
     render() {
         return (
-            <form>
-                <FormGroup>
-                    <ControlLabel>Title</ControlLabel>
-                    <FormControl onChange={this.handleInputChange} name="eventTitle" type="text" />
-                </FormGroup>
-                <FormGroup>
-                    <ControlLabel>Description</ControlLabel>
-                    <FormControl onChange={this.handleInputChange} name="eventDescription" type="text" />
-                </FormGroup>
-                <FormGroup validationState={this.getValidationState("eventDateTime")}>
-                    <ControlLabel>Date</ControlLabel>
-                    <Datetime isValidDate={this.isSelectableDate} value={this.state.eventDateTime} onChange={this.handleDatetimeChange} />
-                </FormGroup>
-                <FormGroup>
-                    <ControlLabel>Location</ControlLabel>
-                    <FormControl onChange={this.handleInputChange} name="eventLocation" type="text" />
-                </FormGroup>
-                <FormGroup validationState={this.getValidationState("eventCapacity")}>
-                    <ControlLabel>Capacity</ControlLabel>
-                    <FormControl onChange={this.handleInputChange} defaultValue={this.state.eventCapacity.toString()} name="eventCapacity" type="text" />
-                </FormGroup>
-                <FormGroup>
-                    <ControlLabel>Category</ControlLabel>
+            <div className="event-form">
+                <h2>New Event</h2>
+                <span>To create an event, enter the following information:</span>
+                <form onClick={e => this.handleCreateEvent(e)}>
+                    <input type="text" placeholder="Title" onChange={this.handleInputChange} name="eventTitle" />
+                    <input type="text" placeholder="Description" onChange={this.handleInputChange} name="eventDescription" />
+                    <div className="create-event-date-location">
+                        <Datetime isValidDate={this.isSelectableDate} value={this.state.eventDateTime} onChange={this.handleDatetimeChange} />
+                        <input type="text" placeholder="Location" onChange={this.handleInputChange} name="eventLocation" />
+                    </div>
+                    <input type="number" placeholder="Capacity" min="0" step="1" onChange={this.handleInputChange} defaultValue={this.state.eventCapacity.toString()} name="eventCapacity" />
                     <CategoryPicker renderAs="dropdown" allowAll={false} handleInputChange={this.handleInputChange} filters={null} selectedCategory={this.state.category} />
-                </FormGroup>
-                <FormGroup validationState={this.getValidationState("createResult")}>
-                    <Button onClick={this.handleCreateEvent}>Create</Button>
-                    <HelpBlock>{this.state.createResultMessage}</HelpBlock>
-                </FormGroup>
-            </form>
+                    <input type="submit" value="Create Event" />
+                </form>
+            </div>
         )
     }
 }
