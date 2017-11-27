@@ -732,6 +732,14 @@ body > div.global-container > .home-container > .activity-sidebar > ul.list-opti
 	text-align: right;
 	vertical-align: middle;
 }
+
+.event-item-container .event-content-panel .event-info .event-misc i {
+	cursor: pointer;
+}
+
+.event-item-container .event-content-panel .event-info .event-misc i:hover {
+	font-weight: bold;
+}
   
 .event-item-container .event-content-panel .event-host {
 	display: block;
@@ -798,6 +806,7 @@ body > div.global-container > .home-container > .activity-sidebar > ul.list-opti
 }
 
 .event-item-container .event-content-panel .event-stats .event-reviews {
+	cursor: pointer;
 	text-align: right;
 }
 
@@ -807,6 +816,10 @@ body > div.global-container > .home-container > .activity-sidebar > ul.list-opti
 	margin-left: 5px;
 	min-width: 15px;
 	vertical-align: top;
+}
+
+.event-item-container .event-content-panel .event-stats .event-reviews i:hover {
+	font-weight: bold;
 }
 
 .event-item-container .event-content-panel .event-review-content .event-review-container {

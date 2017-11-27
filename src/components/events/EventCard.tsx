@@ -168,8 +168,8 @@ export class EventCard extends React.Component<EventCardProps, IEventCardState> 
                 <span className="separator" />
                 <div className="event-stats">
                     <span className="event-time">{this.props.time.format("dddd, MMM Do YYYY, h:mm A")}</span>
-                    <span className="event-reviews">Reviews 
-                        {this.state.reviewOpen ? <i className="fa fa-angle-right" onClick={this.renderReview}></i> : 
+                    <span className="event-reviews" onClick={this.renderReview}>Reviews 
+                        {this.state.reviewOpen ? <i className="fa fa-angle-right"></i> : 
                         <i className="fa fa-angle-down" onClick={this.renderReview}></i>}
                     </span>
                 </div>
