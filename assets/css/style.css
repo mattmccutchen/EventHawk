@@ -21,6 +21,10 @@ p {
 	margin: auto;
 }
 
+svg {
+	overflow: visible !important;
+}
+
 .separator {
 	background-color: #999;
 	display: block;
@@ -771,6 +775,7 @@ body > div.global-container > .home-container > .activity-sidebar > ul.list-opti
 }
 
 .event-item-container .event-content-panel .event-location-attend .event-user-attending {
+	cursor: pointer;
 	text-align: right;
 }
 
@@ -864,11 +869,11 @@ body > div.global-container > .home-container > .activity-sidebar > ul.list-opti
 
 .event-statistics .event-stat-group .event-stat-header {
 	display: block;
-	font-size: 20px;
-	font-weight: 500;
+	font-size: 19px;
+	font-weight: 300;
 }
 
-.event-statistics .separator {
+.event-statistics > .separator {
 	width: 550px;
 }
 
