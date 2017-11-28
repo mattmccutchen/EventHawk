@@ -63,7 +63,7 @@ export class EventListPresentation extends React.Component<Props, State> {
         EventService.getAllEventItems(props.filters).then(
             (events: EventItem[]) => {
                 const { sort } = this.props.filters;
-                if (sort.startsWith("interest_")) {
+                if (sort !== undefined && sort.startsWith("interest_")) {
                     events.sort((a: EventItem, b: EventItem) => {
                         if (sort === "interest_ascending") {
                             if (a.interestRating > b.interestRating) return 1;
