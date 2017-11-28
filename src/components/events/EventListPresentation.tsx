@@ -57,7 +57,9 @@ export class EventListPresentation extends React.Component<Props, State> {
 
     fetchEventList(props: Props) {
         this.setState({ feedLoading: true });
-        this.props.setFeedLoading(true);
+        if (this.props.setFeedLoading !== undefined) {
+            this.props.setFeedLoading(true);
+        }
         EventService.getAllEventItems(props.filters).then(
             (events: EventItem[]) => {
                 const { sort } = this.props.filters;
@@ -75,7 +77,9 @@ export class EventListPresentation extends React.Component<Props, State> {
                     });
                 }
                 this.setState({ eventList: events, loading: false, feedLoading: false });
-                this.props.setFeedLoading(false);
+                if (this.props.setFeedLoading !== undefined) {
+                    this.props.setFeedLoading(false);
+                }
             }
         )
     }

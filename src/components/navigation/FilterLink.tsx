@@ -35,9 +35,11 @@ export class FilterLink extends React.Component<FilterLinkProps, FilterState> {
     }
 
     mousedown(e: MouseEvent) {
-        if (document.getElementById("sidebar_filter_links").contains(e.toElement)) {
-            this.setState({ active: "" });
-            document.removeEventListener("mousedown", this.mousedown);
+        if (document.getElementById("sidebar_filter_links") !== null) {
+            if (document.getElementById("sidebar_filter_links").contains(e.toElement)) {
+                this.setState({ active: "" });
+                document.removeEventListener("mousedown", this.mousedown);
+            }
         }
     }
 
