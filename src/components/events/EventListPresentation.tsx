@@ -296,7 +296,7 @@ export class EventListPresentation extends React.Component<Props, State> {
 
     render() {
         var i: number = 0;
-        let loading: JSX.Element = (this.state.loading) ? <div><i className="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div> : null;
+        let loading: JSX.Element = (this.state.loading) ? <div className="event-feed-loading-status">Loading event feed...</div> : null;
 
         return (
             <div>

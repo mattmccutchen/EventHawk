@@ -109,6 +109,10 @@ nav.header > .options-container > .links .dropdown-container {
 	width: 100%;
 }
 
+.event-feed-loading-status {
+	margin-top: 10px;
+}
+
 .events-home-info {
 	display: table;
 	width: 100%;
