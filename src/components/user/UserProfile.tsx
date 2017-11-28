@@ -1,37 +1,55 @@
 import * as React from "react";
-import { FormGroup, ControlLabel, Button } from "react-bootstrap"
-import { EventList } from "../events/EventList"
-import { EventHawkAppState } from "../../reducers/EventHawkAppReducer";
 import { connect } from "react-redux";
+import { match } from "react-router";
+import { EventList } from "../events/EventList";
+import { UserService, UserItem } from "../../services/user";
+import { EventHawkAppState } from "../../reducers/EventHawkAppReducer";
 import { AuthenticationState } from "../../common/state/Auth";
 
-interface Props {
-    authState?: AuthenticationState
+interface IUserProfileProps {
+    authState?: AuthenticationState,
+    match: match<{ id: string }>;
 }
 
-export class UserProfilePresentation extends React.Component<Props, any> {
+interface IUserProfileState {
+    id: string,
+    user: UserItem
+}
 
-    constructor(props: any) {
+class UserProfilePresentation extends React.Component<IUserProfileProps, IUserProfileState> {
+
+    constructor(props: IUserProfileProps) {
         super(props);
+        this.state = {
+            id: "",
+            user: {
+                id: "",
+                firstName: "",
+                lastName: "",
+                email: ""
+            }
+        }
     }
 
-    getLoggedInUserId(): string {
-        return this.props.authState.loggedIn ? this.props.authState.user_id : ""
+    componentDidMount() {
+        const { id } = this.props.match.params;
+        this.setState({ id: id });
+        UserService.getUser(id).then(res => {
+            this.setState({ user: res });
+        });
     }
 
     render() {
         return (
             <div>
-                <h1>{this.props.authState.first_name}'s Profile</h1>
-
                 <div>
-                    <h2>Hosted Events</h2>
-                    <EventList showFilterButton={false} filters={{ hostUserId: this.getLoggedInUserId() }} />
+                    <h2>Hosted hosted by {this.state.user.firstName}</h2>
+                    {<EventList showFilterButton={false} filters={{ hostUserId: this.state.id }} />} 
                 </div>
                 <br/>
                 <div>
-                    <h2>Attended Events</h2>
-                    <EventList showFilterButton={false} filters={{ attendeeUserId: this.getLoggedInUserId() }} />
+                    <h2>Events attended by {this.state.user.firstName}</h2>
+                    <EventList showFilterButton={false} filters={{ attendeeUserId: this.state.id }} />
                 </div>
             </div>
         )

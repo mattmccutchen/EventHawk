@@ -7,6 +7,7 @@ import { Container } from "../components/Container";
 import { Login } from "../components/authentication/Login";
 import { Logout } from "../components/authentication/Logout";
 import { Register } from "../components/authentication/Register";
+import { UserProfile } from "../components/user/UserProfile";
 
 import { UserService } from "../services/user";
 import { Maintenance } from "../components/maintenance/Maintenance";
@@ -16,7 +17,6 @@ import { EventListFilterContainer } from "../components/events/EventListFilterCo
 import { HomeView } from "../views/HomeView";
 import { MyEventsView } from "../views/MyEventsView";
 import { CreateEventView } from "../views/CreateEventView";
-import { UserProfileView } from "../views/UserProfileView";
 import { EventStatistics } from "../views/EventStatistics";
 
 interface routerProps {
@@ -99,7 +99,7 @@ const router: routerProps[] = [
         sidebar: () => <Sidebar type="user" event={null} />,
         options: () => <Sidebar event={null} type="options" />,
         auth: 1,
-        main: () => <UserProfileView />
+        main: (props: any) => <UserProfile {...props} />
     },
     {
         path: "/user/logout",

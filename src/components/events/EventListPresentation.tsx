@@ -244,7 +244,7 @@ export class EventListPresentation extends React.Component<Props, State> {
                 eventid={eventItem.id}
                 title={eventItem.name}
                 description={eventItem.description}
-                host={this.getUserName(eventItem.host)}
+                host={eventItem.host}
                 interest={eventItem.interestRating}
                 time={eventItem.time}
                 category={EventCategoryName.get(eventItem.category)}

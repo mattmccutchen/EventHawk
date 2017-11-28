@@ -1,15 +1,16 @@
 import * as React from "react";
-import { EventCategory, EventCategoryName } from "../../services/events";
 import * as moment from "moment";
-import { Glyphicon, OverlayTrigger, Tooltip, Label } from "react-bootstrap";
-import { Dropdown, dropdownItem } from "../navigation/Dropdown";
 import { Link } from "react-router-dom";
+import { Glyphicon, OverlayTrigger, Tooltip, Label } from "react-bootstrap";
+import { UserItem } from "../../services/user";
+import { EventCategory, EventCategoryName } from "../../services/events";
+import { Dropdown, dropdownItem } from "../navigation/Dropdown";
 
 export interface EventCardProps {
     eventid: string,
     title: string,
     description: string,
-    host: string,
+    host: UserItem,
     interest: number,
     time: moment.Moment,
     category: string,
@@ -166,7 +167,9 @@ export class EventCard extends React.Component<EventCardProps, IEventCardState> 
                         <Dropdown className="" items={items}><i className="fa fa-angle-down"></i></Dropdown>
                     </div>
                 </div>
-                <div className="event-host">{this.props.host}</div>
+                <div className="event-host">
+                    <Link to={"/user/" + this.props.host.id}>{this.props.host.firstName} {this.props.host.lastName}</Link>
+                </div>
                 <div className="event-description">{this.props.description}</div>
                 <div className="event-location-attend">
                     <div className="event-location">Location: {this.props.location}</div>

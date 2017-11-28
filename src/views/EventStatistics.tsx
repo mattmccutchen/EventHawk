@@ -76,7 +76,7 @@ export class EventStatistics extends React.Component<IEventStatisticsProps, IEve
                     eventid={event.id}
                     title={event.name}
                     description={event.description}
-                    host={this.getUserName(event.host)}
+                    host={event.host}
                     interest={event.interestRating}
                     time={event.time}
                     category={EventCategoryName.get(event.category)}

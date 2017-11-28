@@ -837,6 +837,10 @@ body > div.global-container > .home-container > .activity-sidebar > ul.list-opti
 	width: 100%;
 }
 
+.event-item-container .event-content-panel .event-host a {
+	color: inherit;
+}
+
 .event-item-container .event-content-panel .event-location-attend .event-location,
 .event-item-container .event-content-panel .event-location-attend .event-user-attending {
 	display: table-cell;
