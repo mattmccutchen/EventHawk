@@ -724,6 +724,25 @@ body > div.global-container > .home-container > .activity-sidebar > ul.list-opti
 	text-align: center;
 }
 
+.event-item-container .event-options-panel span.event-upvote i, 
+.event-item-container .event-options-panel span.event-downvote i {
+	color: #555;
+	cursor: pointer;
+}
+
+.event-item-container .event-options-panel span.event-upvote i:hover, 
+.event-item-container .event-options-panel span.event-downvote i:hover {
+	color: #333;
+}
+
+.event-item-container .event-options-panel span.event-upvote i.fa.fa-arrow-up.voted {
+	color: #1C9E1C;
+}
+
+.event-item-container .event-options-panel span.event-downvote i.fa.fa-arrow-down.voted {
+	color: #CC210A;
+}
+
 .event-item-container .event-options-panel div.spots {
 	margin-top: 20px;
 	text-align: center;
@@ -740,6 +759,10 @@ body > div.global-container > .home-container > .activity-sidebar > ul.list-opti
 .event-item-container .event-options-panel div.spots span.num-spots-left {
 	font-size: 20px;
 	font-weight: 500;
+}
+
+.event-item-container .event-options-panel div.spots span.num-spots-left.warning {
+	color: #CC210A;
 }
 
 .event-item-container .event-content-panel {

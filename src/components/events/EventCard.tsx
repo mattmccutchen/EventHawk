@@ -62,7 +62,7 @@ export class EventCard extends React.Component<EventCardProps, IEventCardState> 
                 <div className="event-options-panel">
                     <span className="event-votes">{this.props.interest}</span>
                     <div className="spots">
-                        <span className="spots-left">{spotsLeft}</span>
+                        <span className={ "num-spots-left " + (spotsLeft <= 5 ? "warning" : "" )}>{spotsLeft}</span>
                         <span className="num-spots-label">Spots left</span>
                     </div>
                 </div>
@@ -71,11 +71,15 @@ export class EventCard extends React.Component<EventCardProps, IEventCardState> 
 
         return (
             <div className="event-options-panel">
-                <span className="event-upvote" style={this.props.vote == 1 ? { color: "green" } : null} onClick={this.props.handleUpvote}><i className="fa fa-arrow-up"></i></span>
+                <span className="event-upvote" onClick={this.props.handleUpvote}>
+                    <i className={ "fa fa-arrow-up " + (this.props.vote == 1 ? "voted" : "" )}></i>
+                </span>
                 <span className="event-votes">{this.props.interest}</span>
-                <span className="event-downvote" style={this.props.vote == -1 ? { color: "green" } : null} onClick={this.props.handleDownvote}><i className="fa fa-arrow-down"></i></span>
+                <span className="event-downvote" onClick={this.props.handleDownvote}>
+                    <i className={ "fa fa-arrow-down " + (this.props.vote == -1 ? "voted" : "" )}></i>
+                </span>
                 <div className="spots">
-                    <span className="num-spots-left">{spotsLeft}</span>
+                    <span className={ "num-spots-left " + (spotsLeft <= 5 ? "warning" : "" )}>{spotsLeft}</span>
                     <span className="num-spots-label">Spots left</span>
                 </div>
             </div>
