@@ -55,27 +55,15 @@ export class EventCard extends React.Component<EventCardProps, IEventCardState> 
 
     renderVoteButtons() {
         let spotsLeft: number = (this.props.capacity - this.props.currentCapacity);
-        // Event hosts cannot vote on their own events, so hide the voting buttons for events hosted
-        // by the logged in user
-        if (this.props.isHostedByCurrentUser) {
-            return (
-                <div className="event-options-panel">
-                    <span className="event-votes">{this.props.interest}</span>
-                    <div className="spots">
-                        <span className={ "num-spots-left " + (spotsLeft <= 5 ? "warning" : "" )}>{spotsLeft}</span>
-                        <span className="num-spots-label">Spots left</span>
-                    </div>
-                </div>
-            )
-        }
+        const { isHostedByCurrentUser } = this.props;
 
         return (
             <div className="event-options-panel">
-                <span className="event-upvote" onClick={this.props.handleUpvote}>
+                <span className={"event-upvote " + (isHostedByCurrentUser ? "hosted" : "" )} onClick={ this.props.isHostedByCurrentUser ? () => {} : this.props.handleUpvote }>
                     <i className={ "fa fa-arrow-up " + (this.props.vote == 1 ? "voted" : "" )}></i>
                 </span>
                 <span className="event-votes">{this.props.interest}</span>
-                <span className="event-downvote" onClick={this.props.handleDownvote}>
+                <span className={"event-downvote " + (isHostedByCurrentUser ? "hosted" : "" )} onClick={ this.props.isHostedByCurrentUser ? () => {} : this.props.handleDownvote }>
                     <i className={ "fa fa-arrow-down " + (this.props.vote == -1 ? "voted" : "" )}></i>
                 </span>
                 <div className="spots">
@@ -94,8 +82,8 @@ export class EventCard extends React.Component<EventCardProps, IEventCardState> 
         }
         if (this.props.isAttendedByCurrentUser) {
             return (
-                <span>
-                    <a className="event-user-attending attending" onClick={this.props.handleAttendingClick}>
+                <span className="event-user-attending">
+                    <a className="attending" onClick={this.props.handleAttendingClick}>
                         <i className="fa fa-check" style={{ color: "green" }}></i> I'm attending!
                     </a>
                     {this.renderRateButton()}
@@ -134,7 +122,7 @@ export class EventCard extends React.Component<EventCardProps, IEventCardState> 
         return (
             <div className="event-review-container">
                 <div className="event-review-stat">
-                    <span className="event-review-num">{this.props.reviewHostPrep}</span>
+                    <span className="event-review-num">{this.props.reviewHostPrep == null ? 0 : this.props.reviewHostPrep}</span>
                     <span className="event-review-label">
                         Host Preparedness
                         <OverlayTrigger placement="top" overlay={hostPrepTooltip}>
@@ -143,7 +131,7 @@ export class EventCard extends React.Component<EventCardProps, IEventCardState> 
                     </span>
                 </div>
                 <div className="event-review-stat">
-                    <span className="event-review-num">{this.props.reviewMatchedDesc}</span>
+                    <span className="event-review-num">{this.props.reviewMatchedDesc == null ? 0 : this.props.reviewMatchedDesc}</span>
                     <span className="event-review-label">
                         Matched Description
                         <OverlayTrigger placement="top" overlay={matchedDescTooltip}>
@@ -152,7 +140,7 @@ export class EventCard extends React.Component<EventCardProps, IEventCardState> 
                     </span>
                 </div>
                 <div className="event-review-stat">
-                    <span className="event-review-num">{this.props.reviewWouldReturn}</span>
+                    <span className="event-review-num">{this.props.reviewWouldReturn == null ? 0 : this.props.reviewWouldReturn}</span>
                     <span className="event-review-label">
                         Would Return
                         <OverlayTrigger placement="top" overlay={wouldReturnTooltip}>

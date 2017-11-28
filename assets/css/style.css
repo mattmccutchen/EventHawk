@@ -75,6 +75,7 @@ nav.header > .options-container > .links div.dropdown {
 }
 
 .dropdown-container {
+	min-width: 91px;
 	position: relative;
 }
 
@@ -743,6 +744,11 @@ body > div.global-container > .home-container > .activity-sidebar > ul.list-opti
 	color: #CC210A;
 }
 
+.event-item-container .event-options-panel span.event-upvote.hosted i.fa.fa-arrow-up, 
+.event-item-container .event-options-panel span.event-downvote.hosted i.fa.fa-arrow-down {
+	color: #ccc;
+}
+
 .event-item-container .event-options-panel div.spots {
 	margin-top: 20px;
 	text-align: center;
@@ -828,7 +834,7 @@ body > div.global-container > .home-container > .activity-sidebar > ul.list-opti
 	color: #337ab7;
 }
 
-.event-item-container .event-content-panel .event-location-attend .event-user-attending.attending {
+.event-item-container .event-content-panel .event-location-attend .event-user-attending .attending {
 	color: #03982c;
 }
 
@@ -836,7 +842,7 @@ body > div.global-container > .home-container > .activity-sidebar > ul.list-opti
 	color: #b70b13;
 }
 
-.event-item-container .event-content-panel .event-location-attend .event-user-attending:hover {
+.event-item-container .event-content-panel .event-location-attend a.event-user-attending:hover {
 	text-decoration: underline;
 }
 
