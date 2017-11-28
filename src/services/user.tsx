@@ -48,7 +48,7 @@ export class UserService {
             user: {
                 "first_name": firstName,
                 "last_name": lastName,
-                "email": email.toLowerCase(),
+                "email": email,
                 "password": password
             }
         });

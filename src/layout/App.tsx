@@ -35,7 +35,7 @@ const router: routerProps[] = [
         sidebar: () => <Sidebar event={null} />,
         options: () => <Sidebar event={null} type="options" />,
         auth: 0,
-        main: () => <HomeView />
+        main: () => <HomeView history={null} />
     },
     {
         path: "/login",

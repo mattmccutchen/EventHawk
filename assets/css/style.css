@@ -74,8 +74,17 @@ nav.header > .options-container > .links div.dropdown {
 	width: auto;
 }
 
-.dropdown-container {
+nav.header > .options-container > .links .dropdown-container {
 	min-width: 91px;
+}
+
+nav.header > .options-container > .links .dropdown-container .dropdown-label-text {
+	cursor: pointer;
+	display: block;
+	text-align: center;
+}
+
+.dropdown-container {
 	position: relative;
 }
 
@@ -313,6 +322,11 @@ body > div.global-container {
 	margin: 40px auto;
 	padding: 20px;
 	width: 450px;
+}
+
+.auth-form .auth-switch {
+	display: block;
+	text-align: center;
 }
 
 .event-form {

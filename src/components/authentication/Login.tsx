@@ -47,13 +47,14 @@ class LoginComponent extends React.Component<loginProps, loginState> {
             <h2>Sign In</h2>
             <form onSubmit={e => this.onSubmit(e)}>
                 <label> Email: 
-                    <input type="text" ref="login-email" placeholder="Email (first_last@student.uml.edu)" onChange={e => this.setState({email: e.target.value})} />
+                    <input type="text" ref="login-email" placeholder="Email (First_Last@student.uml.edu)" onChange={e => this.setState({email: e.target.value})} />
                 </label>
                 <label> Password:
                     <input type="password" className="login-pass" placeholder="Password" onChange={e => this.setState({password: e.target.value})} />
                 </label>
                 <input type="submit" value="Submit" />
             </form>
+            <span className="auth-switch">New to EventHawk? <Link to="/signup">Sign Up</Link></span>
         </div>
     }
 };

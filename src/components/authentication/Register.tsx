@@ -27,6 +27,7 @@ class RegisterComponent extends React.Component<registerProps, registerState> {
         UserService.performRegister(this.state.firstName, this.state.lastName, this.state.password).then((r_res) => {
             if (r_res.status == 201) {
                 UserService.performLogin(r_res.data.email, this.state.password).then((l_res) => {
+                    console.log(l_res);
                     if (l_res.status == 201) {
                         UserService.saveToken(l_res.data.jwt);
                         this.props.loginUser({ 
@@ -37,13 +38,13 @@ class RegisterComponent extends React.Component<registerProps, registerState> {
                             email: r_res.data.email
                         });
                     }
-                });
+                }).then(() => {
+                    this.props.history.push("/");
+                });;
             } else {
                 // TODO: Proper application-wide exception handling
             }
-        }).then(() => {
-            this.props.history.push("/");
-        });
+        })
     }
 
     render() {
@@ -58,6 +59,7 @@ class RegisterComponent extends React.Component<registerProps, registerState> {
                 <input type="password" className="register-pass" placeholder="Password" onChange={e => this.setState({password: e.target.value})} />
                 <input type="submit" value="Sign Up" />
             </form>
+            <span className="auth-switch">Already a member? <Link to="/login">Sign in</Link></span>
         </div>
     }
 }
