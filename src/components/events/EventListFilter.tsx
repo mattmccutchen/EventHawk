@@ -29,9 +29,9 @@ export class EventListFilter extends React.Component<Props, State> {
 
     handleFilterApplied() {
         let newFilter: EventListFilterSetting = {
-            category: this.state.category
+            category: this.state.category,
+            sort: this.props.filters.sort
         }
-
         this.props.onFilterApplied(newFilter);
 
         this.props.history.push("/");

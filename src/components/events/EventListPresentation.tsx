@@ -19,7 +19,8 @@ interface State {
     eventList: EventItem[],
     loading: boolean
     showRateEvent: boolean
-    currentlyRatingEvent: EventItem
+    currentlyRatingEvent: EventItem,
+    feedLoading: boolean
 }
 
 interface Props {
@@ -27,6 +28,7 @@ interface Props {
     filters?: EventListFilterSetting
     history?: { push(path: string): any }
     showFilterButton?: boolean
+    setFeedLoading: (loading: boolean) => {}
 }
 
 export class EventListPresentation extends React.Component<Props, State> {
@@ -38,7 +40,8 @@ export class EventListPresentation extends React.Component<Props, State> {
             eventList: [],
             loading: true,
             showRateEvent: false,
-            currentlyRatingEvent: null
+            currentlyRatingEvent: null,
+            feedLoading: true
         }
 
         this.handleSubmitRating = this.handleSubmitRating.bind(this);
@@ -53,10 +56,26 @@ export class EventListPresentation extends React.Component<Props, State> {
     }
 
     fetchEventList(props: Props) {
+        this.setState({ feedLoading: true });
+        this.props.setFeedLoading(true);
         EventService.getAllEventItems(props.filters).then(
             (events: EventItem[]) => {
-                this.setState({ eventList: events })
-                this.setState({ loading: false });
+                const { sort } = this.props.filters;
+                if (sort.startsWith("interest_")) {
+                    events.sort((a: EventItem, b: EventItem) => {
+                        if (sort === "interest_ascending") {
+                            if (a.interestRating > b.interestRating) return 1;
+                            else if (a.interestRating < b.interestRating) return -1;
+                            else return 0;
+                        } else {
+                            if (a.interestRating < b.interestRating) return 1;
+                            else if (a.interestRating > b.interestRating) return -1;
+                            else return 0;
+                        }
+                    });
+                }
+                this.setState({ eventList: events, loading: false, feedLoading: false });
+                this.props.setFeedLoading(false);
             }
         )
     }
@@ -75,8 +94,6 @@ export class EventListPresentation extends React.Component<Props, State> {
     }
 
     handleSubmitRating(hostPreparedness: number, matchedDescription: number, wouldReturn: boolean) {
-        console.log("Submitted rating: " + hostPreparedness + ", " + matchedDescription + ", " + wouldReturn);
-
         let review: UpdateReviewItem = { hostPrep: hostPreparedness, matchedDesc: matchedDescription, wouldReturn: wouldReturn };
         EventService.createOrChangeReview(this.state.currentlyRatingEvent, review).then(
             (event: EventItem) => {
@@ -276,10 +293,11 @@ export class EventListPresentation extends React.Component<Props, State> {
     render() {
         var i: number = 0;
         let loading: JSX.Element = (this.state.loading) ? <div><i className="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div> : null;
+
         return (
             <div>
                 {loading}
-                <div className="event-list">
+                <div className={"event-list " + (this.state.feedLoading ? "feed-loading" : "" )}>
                     {this.state.eventList.map((event) => (<div>{this.getListGroupItem((i++).toString(), event)}</div>))}
                 </div>
                 <Modal show={this.state.showRateEvent} onHide={() => this.closeRateEventModal()}>

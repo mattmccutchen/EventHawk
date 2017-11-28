@@ -78,14 +78,20 @@ nav.header > .options-container > .links .dropdown-container {
 	min-width: 91px;
 }
 
-nav.header > .options-container > .links .dropdown-container .dropdown-label-text {
+.dropdown-container {
+	position: relative;
+}
+
+.dropdown-container .dropdown-label-text {
 	cursor: pointer;
 	display: block;
 	text-align: center;
 }
 
-.dropdown-container {
-	position: relative;
+.dropdown-container .dropdown-label-text {
+	cursor: pointer;
+	display: block;
+	text-align: center;
 }
 
 .dropdown-container .dropdown-content {
@@ -103,6 +109,48 @@ nav.header > .options-container > .links .dropdown-container .dropdown-label-tex
 	width: 100%;
 }
 
+.events-home-info {
+	display: table;
+	width: 100%;
+}
+
+.events-home-info .events-dropdown-box {
+	display: table-cell;
+}
+
+.events-home-info .events-dropdown-box:nth-of-type(2) {
+	text-align: right;
+}
+
+.events-home-info .events-dropdown-box .events-home-sort {
+	width: 100px;
+}
+
+.events-home-info .events-dropdown-box .events-home-sort .dropdown-container {
+	border: 1px solid #999;
+	border-radius: 3px;
+}
+
+.events-home-info .events-dropdown-box .events-home-sort .dropdown-container .dropdown-content {
+	border-color: #999;
+	margin-left: -1px;
+	margin-top: 3px;
+	width: 217px;
+}
+
+.events-home-info .events-dropdown-box .events-home-sort .dropdown-container .dropdown-label .dropdown-label-text {
+	padding: 5px;
+}
+
+.events-home-info .events-dropdown-box .events-home-filter {
+	padding: 5px;
+}
+
+.events-home-info .events-dropdown-box .events-home-filter i.fa-spin {
+	font-size: 14px;
+	margin-right: 5px;
+}
+
 .event-item-container .dropdown-container .dropdown-content.open {
 	background-color: #e3e3e3;
 	left: auto;
@@ -116,6 +164,8 @@ nav.header > .options-container > .links .dropdown-container .dropdown-label-tex
 }
 
 .dropdown-container .dropdown-content .dropdown-item a {
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
 	color: #333;
 	display: block;
 	font-weight: 300;
@@ -247,6 +297,11 @@ body > div.global-container {
 	padding-top: 0;
 }
 
+.global-container .sidebar.right ul {
+	margin: 0;
+	padding: 0;
+}
+
 .global-container .sidebar ul span {
 	display: block;
 	font-size: 15px;
@@ -329,6 +384,16 @@ body > div.global-container {
 	text-align: center;
 }
 
+.auth-form .auth-status-pending {
+	display: block;
+	margin: 5px 0;
+	text-align: center;
+}
+
+.auth-form .auth-status-pending i {
+	font-size: 21px;
+}
+
 .event-form {
 	margin: auto;
 	padding: 0;
@@ -362,6 +427,11 @@ body > div.global-container {
 	outline: none;
 	padding: 10px;
 	width: 100%;
+}
+
+.auth-form form input[type="submit"]:disabled,
+.event-form form input[type="submit"]:disabled {
+	background-color: #50abff;
 }
 
 .event-form .create-event-date-location {
@@ -709,6 +779,10 @@ body > div.global-container > .home-container > .activity-sidebar > ul.list-opti
 
 .event-list {
 	width: auto;
+}
+
+.event-list.feed-loading {
+	opacity: 0.3;
 }
 
 .event-item-container {

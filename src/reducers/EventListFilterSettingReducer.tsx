@@ -6,13 +6,13 @@ export interface EventListFilterSettingReducerAction extends AnyAction {
     newSetting: EventListFilterSetting
 }
 
-const EventListFilterSettingReducer = (state: EventListFilterSetting = {}, action: EventListFilterSettingReducerAction) => {
+const EventListFilterSettingReducer = (state: EventListFilterSetting = { category: 0, sort: "interest_descending" }, action: EventListFilterSettingReducerAction) => {
     switch (action.type) {
         case "NEW":
-          return action.newSetting
+            return action.newSetting
         default:
-          return state
-      }
+            return state
+    }
 }
 
 export default EventListFilterSettingReducer

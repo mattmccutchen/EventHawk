@@ -65,7 +65,6 @@ export class StackedBarChart extends React.Component<IStackedBarChartProps, ISta
             return v;
         });
         data.sort((a: any, b: any) => b.total - a.total);
-        console.log(this.state);
         this.x.domain(data.map((d: any) => d.State));
         this.y.domain([0, d3.max(data, (d: any) => d.total)]).nice();
         this.z.domain(keys);

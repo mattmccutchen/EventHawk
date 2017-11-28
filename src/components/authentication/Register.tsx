@@ -27,7 +27,6 @@ class RegisterComponent extends React.Component<registerProps, registerState> {
         UserService.performRegister(this.state.firstName, this.state.lastName, this.state.password).then((r_res) => {
             if (r_res.status == 201) {
                 UserService.performLogin(r_res.data.email, this.state.password).then((l_res) => {
-                    console.log(l_res);
                     if (l_res.status == 201) {
                         UserService.saveToken(l_res.data.jwt);
                         this.props.loginUser({ 

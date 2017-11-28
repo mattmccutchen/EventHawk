@@ -1,9 +1,15 @@
 import * as React from "react";
+import { EventListFilterSetting } from "../events/EventListFilterSetting";
 import { Link } from "react-router-dom";
 
 export interface dropdownItem {
     label: string,
-    link: string
+    link: string,
+    extra?: {
+        order: string,
+        onFilterApplied(newFilter: EventListFilterSetting): any
+        filters: EventListFilterSetting
+    }
 }
 
 interface dropdownProps {
@@ -39,7 +45,13 @@ export class Dropdown extends React.Component<dropdownProps, dropdownState> {
         for (let i: number = 0; i < this.props.items.length; i++) {
             dropdownItems.push(
             <div className="dropdown-item">
-                <Link to={this.props.items[i].link}>{this.props.items[i].label}</Link>
+                <Link to={this.props.items[i].link} onClick={() => {
+                    let newFilter: EventListFilterSetting = {
+                        category: this.props.items[i].extra.filters.category,
+                        sort: this.props.items[i].extra.order
+                    }
+                    this.props.items[i].extra.onFilterApplied(newFilter);
+                }}>{this.props.items[i].label}</Link>
             </div>);
         }
         return dropdownItems;

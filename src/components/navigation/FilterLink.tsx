@@ -34,17 +34,21 @@ export class FilterLink extends React.Component<FilterLinkProps, FilterState> {
         }
     }
 
-    mousedown() {
-        this.setState({ active: "" });
-        document.removeEventListener("mousedown", this.mousedown);
+    mousedown(e: MouseEvent) {
+        if (document.getElementById("sidebar_filter_links").contains(e.toElement)) {
+            this.setState({ active: "" });
+            document.removeEventListener("mousedown", this.mousedown);
+        }
     }
 
     onclick(e: React.MouseEvent<HTMLAnchorElement>) {
         document.getElementById("app_context").classList.add("loading");
         let newFilter: EventListFilterSetting = {
-            category: this.props.filter
+            category: this.props.filter,
+            sort: this.props.filterSetting.sort
         }
         this.props.onFilterApplied(newFilter);
+
         this.setState({ active: "active" });
         document.addEventListener("mousedown", this.mousedown);
         document.getElementById("app_context").classList.remove("loading");

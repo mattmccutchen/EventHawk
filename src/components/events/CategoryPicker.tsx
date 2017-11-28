@@ -47,7 +47,7 @@ export default function CategoryPicker(props: CategoryPickerProps) {
             
         case "links":
             return (
-                <ul>
+                <ul id="sidebar_filter_links">
                     {
                         categories.map((category) => (
                             <li><FilterLink to="" filter={category} filterSetting={props.filters} onFilterApplied={props.handleInputChange}>{EventCategoryName.get(category)}</FilterLink></li>

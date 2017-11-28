@@ -182,11 +182,10 @@ export class EventService {
 
     public static async getAllEventItems(filters: EventListFilterSetting): Promise<EventItem[]> {
 
-        let response = await EventService.indexEvents(filters)
-        let eventIds: string[] = response.data
+        let response = await EventService.indexEvents(filters);
+        let eventIds: string[] = response.data;
 
-        let events: EventItem[] = []
-
+        let events: EventItem[] = [];
 
         events = await Promise.all(
             eventIds.map(
@@ -196,26 +195,26 @@ export class EventService {
             )
         );
 
-        return events
+        return events;
     }
 
     public static async upvote(event: EventItem): Promise<EventItem> {
-        return this.createOrChangeVote(event, 1)
+        return this.createOrChangeVote(event, 1);
     }
 
     public static async downvote(event: EventItem): Promise<EventItem> {
-        return this.createOrChangeVote(event, -1)
+        return this.createOrChangeVote(event, -1);
     }
 
     public static async novote(event: EventItem): Promise<EventItem> {
-        return this.createOrChangeVote(event, 0)
+        return this.createOrChangeVote(event, 0);
     }
 
     private static async createOrChangeVote(event: EventItem, value: number): Promise<EventItem> {
         // Create a shallow copy of the EventItem, so we don't modify the argument
         let newEvent: EventItem = Object.assign({}, event);
 
-        let oldValue = 0
+        let oldValue = 0;
 
         if (!event.vote) {
             // If the vote doesn't exist, we have to create it
@@ -224,7 +223,7 @@ export class EventService {
         } else {
             // The event already exists, so just update it
             oldValue = event.vote.value;
-            newEvent.vote = await VoteService.updateVote(event.vote.id, { eventId: event.id, value: value })
+            newEvent.vote = await VoteService.updateVote(event.vote.id, { eventId: event.id, value: value });
         }
         
         let deltaValue: number = oldValue - value;
@@ -235,7 +234,7 @@ export class EventService {
     }
 
     public static async requestCreateEvent(event: CreateEventItem): Promise<AxiosResponse> {
-        let url = configVals.apiRoot + configVals.events
+        let url = configVals.apiRoot + configVals.events;
 
         let body = {
             "event":
@@ -264,10 +263,10 @@ export class EventService {
                 // TODO: Handle specific exceptions
                 // TODO: Remove user facing error messages from service: They belong in the presentation layer
                 console.error(e);
-                let message = "Error!"
+                let message: string = "Error!";
 
                 if (e.response.status === 409) {
-                    message = "This event already exists! Change the title and try again."
+                    message = "This event already exists! Change the title and try again.";
                 }
 
                 return { succeeded: false, message: message }
