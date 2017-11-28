@@ -140,35 +140,41 @@ export class EventService {
                 }
             })
         }).then(() => {
-            return TicketService.getTicket(newEventItem.ticketId).then(res => {
-                newEventItem.ticket = res;
-            }).catch(ex => {
-                if (ex instanceof InvalidIdError) {
-                    console.error("Ignoring invalid ticketId when populating event list. ticketId was: " + ex.id)
-                } else {
-                    throw ex;
-                }
-            });
+            if (newEventItem.ticketId != null) {
+                return TicketService.getTicket(newEventItem.ticketId).then(res => {
+                    newEventItem.ticket = res;
+                }).catch(ex => {
+                    if (ex instanceof InvalidIdError) {
+                        console.error("Ignoring invalid ticketId when populating event list. ticketId was: " + ex.id)
+                    } else {
+                        throw ex;
+                    }
+                });
+            }
         }).then(() => {
-            return VoteService.getVote(newEventItem.voteId).then(res => {
-                newEventItem.vote = res;
-            }).catch(ex => {
-                if (ex instanceof InvalidIdError) {
-                    console.error("Ignoring invalid voteId when populating event list. voteId was: " + ex.id)
-                } else {
-                    throw ex;
-                }
-            });
+            if (newEventItem.voteId != null) {
+                return VoteService.getVote(newEventItem.voteId).then(res => {
+                    newEventItem.vote = res;
+                }).catch(ex => {
+                    if (ex instanceof InvalidIdError) {
+                        console.error("Ignoring invalid voteId when populating event list. voteId was: " + ex.id)
+                    } else {
+                        throw ex;
+                    }
+                });
+            }
         }).then(() => {
-            return ReviewService.getReview(newEventItem.reviewId).then(res => {
-                newEventItem.review = res;
-            }).catch(ex => {
-                if (ex instanceof InvalidIdError) {
-                    console.error("Ignoring invalid reviewId when populating event list. reviewId was: " + ex.id)
-                } else {
-                    throw ex;
-                }
-            });
+            if (newEventItem.reviewId != null) {
+                return ReviewService.getReview(newEventItem.reviewId).then(res => {
+                    newEventItem.review = res;
+                }).catch(ex => {
+                    if (ex instanceof InvalidIdError) {
+                        console.error("Ignoring invalid reviewId when populating event list. reviewId was: " + ex.id)
+                    } else {
+                        throw ex;
+                    }
+                });
+            }
         }).then(() => {
             return newEventItem;
         });

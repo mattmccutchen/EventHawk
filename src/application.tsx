@@ -16,7 +16,7 @@ if (localStorage.getItem("appState"))  {
     localState = {};
 }
 
-let store = createStore(EventHawkAppReducer, localState, applyMiddleware(logger));
+let store = createStore(EventHawkAppReducer, localState);
 
 store.subscribe(() => {
     localStorage.setItem("appState", JSON.stringify(store.getState()));
