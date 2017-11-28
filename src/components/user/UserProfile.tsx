@@ -25,14 +25,10 @@ export class UserProfilePresentation extends React.Component<Props, any> {
                 <h1>{this.props.authState.first_name}'s Profile</h1>
 
                 <div>
-                    <Button>Change password</Button>
-                </div>
-
-                <div>
                     <h2>Hosted Events</h2>
                     <EventList showFilterButton={false} filters={{ hostUserId: this.getLoggedInUserId() }} />
                 </div>
-
+                <br/>
                 <div>
                     <h2>Attended Events</h2>
                     <EventList showFilterButton={false} filters={{ attendeeUserId: this.getLoggedInUserId() }} />

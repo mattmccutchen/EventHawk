@@ -42,8 +42,6 @@ class HeaderComponent extends React.Component<headerProps, {}> {
             <Link to="/" className="navbar-brand header-logo">EventHawk</Link>
             <div className="options-container">
                 <div className="links">
-                    <input type="text" className="header-input search" placeholder="Search for events" />
-                    <input type="submit" className="header-search-submit" value="" />
                     {userArea}
                 </div>
             </div>
