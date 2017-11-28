@@ -136,7 +136,7 @@ class CreateEventPresentation extends React.Component<Props, State> {
             <div className="event-form">
                 <h2>New Event</h2>
                 <span>To create an event, enter the following information:</span>
-                <form onClick={e => this.handleCreateEvent(e)}>
+                <form onSubmit={e => this.handleCreateEvent(e)}>
                     <input type="text" placeholder="Title" onChange={this.handleInputChange} name="eventTitle" />
                     <input type="text" placeholder="Description" onChange={this.handleInputChange} name="eventDescription" />
                     <div className="create-event-date-location">
