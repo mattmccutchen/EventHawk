@@ -135,15 +135,30 @@ export class EventCard extends React.Component<EventCardProps, IEventCardState> 
             <div className="event-review-container">
                 <div className="event-review-stat">
                     <span className="event-review-num">{this.props.reviewHostPrep}</span>
-                    <span className="event-review-label">Host Preparedness</span>
+                    <span className="event-review-label">
+                        Host Preparedness
+                        <OverlayTrigger placement="top" overlay={hostPrepTooltip}>
+                            <i className="fa fa-question"></i>
+                        </OverlayTrigger>
+                    </span>
                 </div>
                 <div className="event-review-stat">
                     <span className="event-review-num">{this.props.reviewMatchedDesc}</span>
-                    <span className="event-review-label">Matched Description</span>
+                    <span className="event-review-label">
+                        Matched Description
+                        <OverlayTrigger placement="top" overlay={matchedDescTooltip}>
+                            <i className="fa fa-question"></i>
+                        </OverlayTrigger>
+                    </span>
                 </div>
                 <div className="event-review-stat">
                     <span className="event-review-num">{this.props.reviewWouldReturn}</span>
-                    <span className="event-review-label">Would Return</span>
+                    <span className="event-review-label">
+                        Would Return
+                        <OverlayTrigger placement="top" overlay={wouldReturnTooltip}>
+                            <i className="fa fa-question"></i>
+                        </OverlayTrigger>
+                    </span>
                 </div>
             </div>
         )
