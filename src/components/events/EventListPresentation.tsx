@@ -12,6 +12,7 @@ import { UserItem, UserService } from "../../services/user";
 import { AuthenticationState } from "../../common/state/Auth";
 import { VoteService } from "../../services/votes";
 import * as update from 'immutability-helper';
+import { ReviewService, UpdateReviewItem } from "../../services/reviews";
 
 interface State {
     expandedEventId: string,
@@ -75,6 +76,18 @@ export class EventListPresentation extends React.Component<Props, State> {
 
     handleSubmitRating(hostPreparedness: number, matchedDescription: number, wouldReturn: boolean) {
         console.log("Submitted rating: " + hostPreparedness + ", " + matchedDescription + ", " + wouldReturn);
+
+        let review: UpdateReviewItem = { hostPrep: hostPreparedness, matchedDesc: matchedDescription, wouldReturn: wouldReturn };
+        EventService.createOrChangeReview(this.state.currentlyRatingEvent, review).then(
+            (event: EventItem) => {
+                this.handleChangedEvent(event);
+            }
+        ).catch(
+            (ex) => {
+                console.error("Error reviewing event: " + ex)
+            }
+            )
+
         this.closeRateEventModal();
     }
 

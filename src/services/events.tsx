@@ -10,6 +10,7 @@ import { EventListFilterSetting } from "../components/events/EventListFilterSett
 import { TicketService } from "./tickets";
 import { VoteService, VoteItem } from "./votes";
 import * as moment from "moment";
+import { ReviewService, UpdateReviewItem } from "./reviews";
 
 // EventCategory keys will be converted to strings when making API calls to /events
 export enum EventCategory {
@@ -119,6 +120,7 @@ export class EventService {
                     hostId: res.data.host_id,
                     ticketId: res.data._my_ticket,
                     voteId: res.data._my_vote,
+                    reviewId: res.data._my_review,
                     reviewWouldReturn: res.data._review_would_ret,
                     reviewHostPrep: res.data._review_host_prep,
                     reviewMatchedDesc: res.data._review_matched_desc,
@@ -153,6 +155,16 @@ export class EventService {
             }).catch(ex => {
                 if (ex instanceof InvalidIdError) {
                     console.error("Ignoring invalid voteId when populating event list. voteId was: " + ex.id)
+                } else {
+                    throw ex;
+                }
+            });
+        }).then(() => {
+            return ReviewService.getReview(newEventItem.reviewId).then(res => {
+                newEventItem.review = res;
+            }).catch(ex => {
+                if (ex instanceof InvalidIdError) {
+                    console.error("Ignoring invalid reviewId when populating event list. reviewId was: " + ex.id)
                 } else {
                     throw ex;
                 }
@@ -284,6 +296,20 @@ export class EventService {
         newEvent.currentCapacity--;
 
         return newEvent;
+    }
+
+    public static async createOrChangeReview(event: EventItem, review: UpdateReviewItem): Promise<EventItem> {
+        if (!event.review) {
+            // If the review doesn't exist, we have to create it
+            await ReviewService.createReview({eventId: event.id, ...review});
+        } else {
+            // The event already exists, so just update it
+            await ReviewService.updateReview(event.reviewId, review);
+        }
+        
+        // Since reviews are calculated by the API, it's safer to retrieve the event from the API
+        // than to modify the cached event.
+        return EventService.getEventItem(event.id);
     }
 
 }
