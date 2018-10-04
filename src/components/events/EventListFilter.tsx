@@ -3,10 +3,10 @@ import { ButtonToolbar, Button, Label, FormGroup, ControlLabel, FormControl } fr
 import { EventListFilterSetting } from "./EventListFilterSetting";
 import { EventCategory, EventCategoryName } from "../../services/events"
 import CategoryPicker from "./CategoryPicker";
+import { RouteComponentProps } from "react-router";
 
-interface Props {
+interface Props extends RouteComponentProps<{}> {
     onFilterApplied(newFilter: EventListFilterSetting): any
-    history: { push(path: string): any }
     filters: EventListFilterSetting
 }
 

@@ -35,7 +35,7 @@ const router: routerProps[] = [
         sidebar: () => <Sidebar event={null} />,
         options: () => <Sidebar event={null} type="options" />,
         auth: 0,
-        main: () => <HomeView history={null} />
+        main: () => <HomeView />
     },
     {
         path: "/login",
@@ -43,7 +43,7 @@ const router: routerProps[] = [
         sidebar: null,
         options: null,
         auth: 2,
-        main: () => <Login history={null} />
+        main: () => <Login />
     },
     {
         path: "/signup",
@@ -51,7 +51,7 @@ const router: routerProps[] = [
         sidebar: null,
         options: null,
         auth: 2,
-        main: () => <Register history={null} />
+        main: () => <Register />
     },
     {
         path: "/myevents",
@@ -83,7 +83,7 @@ const router: routerProps[] = [
         sidebar: () => <Sidebar event={null} />,
         options: () => <Sidebar event={null} type="options" />,
         auth: 0,
-        main: () => <EventListFilterContainer history={null} />
+        main: () => <EventListFilterContainer />
     },
     {
         path: "/event/:id/statistics",
@@ -107,7 +107,7 @@ const router: routerProps[] = [
         sidebar: null,
         options: null,
         auth: 1,
-        main: () => <Logout history={null} />
+        main: () => <Logout />
     }
 ];
 

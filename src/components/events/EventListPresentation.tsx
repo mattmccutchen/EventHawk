@@ -11,7 +11,7 @@ import axios from "axios";
 import { UserItem, UserService } from "../../services/user";
 import { AuthenticationState } from "../../common/state/Auth";
 import { VoteService } from "../../services/votes";
-import * as update from 'immutability-helper';
+import update from 'immutability-helper';
 import { ReviewService, UpdateReviewItem } from "../../services/reviews";
 
 interface State {

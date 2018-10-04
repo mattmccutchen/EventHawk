@@ -1,10 +1,9 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 import { UserService } from "../../services/user";
 
-interface logoutProps {
-    history?: { push(path: string): any }
+interface logoutProps extends RouteComponentProps<{}> {
 }
 
 class LogoutComponent extends React.Component<logoutProps, {}> {

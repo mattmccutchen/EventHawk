@@ -1,5 +1,5 @@
 import * as React from "react";
-import { NavLink, withRouter } from "react-router-dom";
+import { NavLink, withRouter, RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
 import CategoryPicker from "../events/CategoryPicker";
 import { EventListFilterSetting } from "../events/EventListFilterSetting";
@@ -7,12 +7,11 @@ import { EventListFilterSettingActionNew } from "../../actions/EventListFilterSe
 import { EventHawkAppState } from "../../reducers/EventHawkAppReducer";
 import { AuthenticationState } from "../../common/state/Auth";
 
-export interface SidebarProps {
+export interface SidebarProps extends RouteComponentProps<{}> {
     onFilterApplied(newFilter: EventListFilterSetting): any,
     type?: string, 
     event: React.MouseEventHandler<HTMLElement>,
     authState: AuthenticationState
-    history?: { push(path: string): any },
     filters: EventListFilterSetting
 }
 

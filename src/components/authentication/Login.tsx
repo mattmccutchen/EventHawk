@@ -1,14 +1,13 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { withRouter } from "react-router";
+import { withRouter, RouteComponentProps } from "react-router";
 import { Link } from "react-router-dom";
 import { UserService } from "../../services/user";
 import { AuthenticationState } from "../../common/state/Auth";
 import { setUserState } from "../../actions/AuthenticationActions";
 
-interface loginProps {
+interface loginProps extends RouteComponentProps<{}> {
     loginUser(data: AuthenticationState): void
-    history: { push(path: string): void }
 }
 
 interface loginState { email: string, password: string, login_pending: boolean };

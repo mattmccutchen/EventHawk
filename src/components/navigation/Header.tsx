@@ -1,14 +1,13 @@
 import * as React from "react";
-import { Link, withRouter } from "react-router-dom";
+import { Link, withRouter, RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
 import { DropSidebar } from "./DropSidebar";
 import { Dropdown, dropdownItem } from "./Dropdown";
 import { EventHawkAppState } from "../../reducers/EventHawkAppReducer";
 import { AuthenticationState } from "../../common/state/Auth";
 
-interface headerProps {
+interface headerProps extends RouteComponentProps<{}> {
     authState?: AuthenticationState
-    history?: { push(path: string): any }
 }
 
 const mapStateToProps = (state: EventHawkAppState) => {
@@ -49,4 +48,4 @@ class HeaderComponent extends React.Component<headerProps, {}> {
     }
 }
 
-export const Header = withRouter(connect(mapStateToProps, null)(HeaderComponent));
+export const Header = connect(mapStateToProps, null)(withRouter(HeaderComponent));

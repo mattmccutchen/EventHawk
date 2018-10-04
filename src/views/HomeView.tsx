@@ -1,5 +1,5 @@
 import * as React from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
 import { EventList } from "../components/events/EventList";
 import { Dropdown, dropdownItem } from "../components/navigation/Dropdown";
@@ -10,10 +10,9 @@ import { EventCategoryName } from "../services/events";
 import { EventHawkAppState } from "../reducers/EventHawkAppReducer";
 import { AuthenticationState } from "../common/state/Auth";
 
-interface IHomeProps {
+interface IHomeProps extends RouteComponentProps<{}> {
     onFilterApplied(newFilter: EventListFilterSetting): any,
     authState: AuthenticationState,
-    history?: { push(path: string): any },
     filters: EventListFilterSetting
 }
 
