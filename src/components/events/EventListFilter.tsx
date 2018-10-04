@@ -44,7 +44,7 @@ export class EventListFilter extends React.Component<Props, State> {
 
         this.setState({
             [name]: value
-        });
+        } as any);
     }
 
     render() {

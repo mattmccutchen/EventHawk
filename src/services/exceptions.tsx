@@ -6,6 +6,7 @@ export class InvalidIdError extends Error {
     constructor(id: string, message = "Invalid ID specified", ...params: any[]) {
 
         // Pass remaining arguments (including vendor specific ones) to parent constructor
+        // @ts-ignore
         super(message = message, ...params);
 
         // Maintains proper stack trace for where our error was thrown (only available on V8)
@@ -25,6 +26,7 @@ export class InvalidPropertyError extends Error {
     constructor(propertyName: string, propertyValue: any, message = "Invalid value given for property: " + propertyName, ...params: any[]) {
 
         // Pass remaining arguments (including vendor specific ones) to parent constructor
+        // @ts-ignore
         super(message = message, ...params);
 
         // Maintains proper stack trace for where our error was thrown (only available on V8)

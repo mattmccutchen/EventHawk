@@ -61,7 +61,7 @@ class CreateEventPresentation extends React.Component<Props, State> {
         }
 
         if (validationState[fieldName]) {
-            this.setState({ [fieldName]: fieldValue });
+            this.setState({ [fieldName]: fieldValue } as any);
         }
 
         this.setState({

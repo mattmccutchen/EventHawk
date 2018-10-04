@@ -1,14 +1,17 @@
 import * as React from "react";
-import { withRouter, Route, RouteProps } from "react-router-dom";
+import { withRouter, Route, RouteProps, RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
 import { EventHawkAppState } from "../../reducers/EventHawkAppReducer";
 import { AuthenticationState } from "../../common/state/Auth";
 
-interface AppRouteProps extends RouteProps { 
+interface AppRouteProps extends
+    // Avoid conflict on `location` property.  `withRouter` would override any
+    // `location` property passed from the caller.
+    Pick<RouteProps, Exclude<keyof RouteProps, keyof RouteComponentProps<{}>>>,
+    RouteComponentProps<{}> { 
     key: number, 
     auth: number,
-    authState?: AuthenticationState,
-    history?: { push(path: string): any }
+    authState?: AuthenticationState
 }
 
 class AppRouteComponent extends React.Component<AppRouteProps, {}> {
